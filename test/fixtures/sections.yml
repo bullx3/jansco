@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  status: 1
+  rate: 1
+  games_count: 1
+  section_players_count: 1
+  group_id: 1
+  all_paid: false
+
+two:
+  status: 1
+  rate: 1
+  games_count: 1
+  section_players_count: 1
+  group_id: 1
+  all_paid: false

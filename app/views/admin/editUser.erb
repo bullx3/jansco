@@ -1,0 +1,24 @@
+<p>
+変更するユーザー名を選択してパスワードを入れて下さい<br>
+※使える文字<br>
+   パスワード  半角英数字4-12文字<br>
+</p>
+
+<%= form_tag action: :updateUser do %>
+	<div class='field'>
+		<%= label_tag :username, 'ユーザー名' %>
+		<%= collection_select(:select, :id, @users, :id, :username, {include_blank: '選択してください'}) %>	
+	</div>
+
+	<div class='field'>
+		<%= label_tag :password, 'パスワード' %>
+		<%= password_field_tag :password, '' , size: 20 %>
+	</div>
+
+	<%= submit_tag '変更' %>
+<% end %>
+
+
+<p>
+<%= link_to '管理用画面トップ', admin_path %>
+</p>

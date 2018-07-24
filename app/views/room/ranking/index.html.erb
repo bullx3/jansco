@@ -1,0 +1,44 @@
+<div class='ranking_top'>
+
+<h1>総合ランキング</h1>
+
+
+<table class='total_ranking'>
+	<tr>
+		<th rowspan='2'>順位</th>
+		<th colspan='2'>総合得点<br>(チップあり)</th>
+		<th colspan='2'>総対局数<br>(チップなし)</th>
+		<th colspan='2'>平均スコア<br>(チップなし)</th>
+		<th colspan='2'>最高スコア<br>(チップなし)</th>
+	</tr>
+	<tr>
+		<th>名前</th><th>スコア</th>
+		<th>名前</th><th>対局数</th>
+		<th>名前</th><th>スコア</th>
+		<th>名前</th><th>スコア</th>
+	</tr>
+
+	<% @ranking_count.times do |rank| %>
+		<tr>
+			<td><%= (rank+1) -%>位</td>
+			<td><%= @rank_totalscores[rank].name %></td>
+			<td><%= @rank_totalscores[rank].sum_total %></td>
+			<td><%= @rank_counts[rank].name %></td>
+			<td><%= @rank_counts[rank].count_score %></td>
+			<td><%= @rank_avgs[rank].name %></td>
+			<td><%= @rank_avgs[rank].avg_score.truncate(2) %></td>
+			<td><%= @max_scores[rank].name %></td>
+			<% url = room_playing_path(params[:g_idname], @max_scores[rank].section_id) %>
+			<td><%= link_to(@max_scores[rank].score, url) %></td>
+		</tr>
+	<% end %>
+
+
+</table>
+
+
+<h2>
+	<%= link_to 'ルームトップに戻る', room_path(params[:g_idname]) %>
+</h2>
+
+</div>

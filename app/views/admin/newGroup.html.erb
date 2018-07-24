@@ -1,0 +1,42 @@
+<p>
+追加するグループを入力して下さい<br>
+※同じグループID名グループ名は使えません<br>
+※プレイヤー名は選択したユーザーのプレイヤー名になります。<br>
+※ユーザーは別途作っておく必要があります<br>
+※使える文字<br>
+   グループID名 半角英数字と'_'で 4-12文字<br>
+   グループ名   制限なし4-20文字<br>
+   プレイヤー名   制限なし1-8文字<br>
+</p>
+
+<%= form_tag action: :createGroup do %>
+	<div class='field'>
+		<%= label_tag :username, 'ユーザー名' %>
+		<%= collection_select(:select, :username, @users, :id, :username, {include_blank: '選択してください'}) %>	
+
+	</div>
+	<div class='field'>
+		<%= label_tag :idname, 'グループID名' %>
+		<%= text_field_tag :idname, '' , size: 20 %>
+	</div>
+	<div class='field'>
+		<%= label_tag :name, 'グループ名' %>
+		<%= text_field_tag :name, '' , size: 20 %>
+	</div>
+	<div class='field'>
+		<%= label_tag :playername, 'プレイヤー名' %>
+		<%= text_field_tag :playername, '' , size: 20 %>
+	</div>
+
+	<%= submit_tag '追加' %>
+<% end %>
+
+
+<p>現在のグループ一覧</p>
+<% @groups.each do |group| %>
+	<p><%= group.idname -%> , <%= group.name -%></p>
+<% end %>
+
+<p>
+<%= link_to '管理用画面トップ', admin_path %>
+</p>

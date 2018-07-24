@@ -1,0 +1,120 @@
+
+<div id='showScore'>
+<table class='sectionTable' border="2px solid gray">
+	<%# プレイヤー名行  %>
+	<tr class='scoreLineNames'>
+		<th class='tableTitle'>種類</th>
+		<% @sectionPlayers.each do |splayer| %>
+		<th><%= splayer.player.name %></th>
+		<% end %>
+	</tr>
+	<%# スコア行  %>
+	<% @scoreTable.each do |gameHash| %>
+		<% gameNo = gameHash[:gameNo].to_s %>
+		<% trid = 'game_trid' + gameNo %>
+		<tr id='<%= trid %>'>
+			<td>
+				<% if @show_active %>
+					<%= form_tag({action: :edit},method: :get) do %>
+						<%= hidden_field_tag 'mode', 'update' %>
+						<%= hidden_field_tag 'gameNo', gameNo %>
+						<%= button_tag @gameKindString[gameHash[:kind].to_s], {class: 'kind_button'} %>
+					<% end %>
+				<% else %>
+					<%= @gameKindString[gameHash[:kind].to_s] %>
+				<% end %>
+			</td> 
+
+			<% gameHash[:scores].each do |score| %>
+				<% if score[:score] != nil	 %>	
+					<% if score[:score].to_i > 0 %>
+						<td><%= score[:score] %></td>
+					<% else %>
+						<td><span class='minus_number'><%= score[:score] %></span></td>
+					<% end %>
+				<% else %>
+					<td></td>
+			 	<% end %>
+
+			<% end %>
+
+
+		</tr>
+	<% end %>
+	<tr>
+		<% if @show_active %>
+			<td colspan="<%= (@sectionPlayers.length + 1)%>">
+			<%= form_tag({action: :edit},method: :get) do %>
+				<%= hidden_field_tag 'mode', 'add' %>
+				<%= button_tag 'スコア追加', {class: 'kind_button'} %>
+			<% end %>
+			</td>
+		<% end %>
+	</tr>
+
+	<%# 合計行  %>
+	<tr class='scoreLineTotals'>
+		<th>合計</th>
+		<% @sectionPlayers.each do |sPlayer| %>
+			<% unless sPlayer.total.nil? %>	
+				<% if sPlayer.total > 0 %>
+					<th><%= sPlayer.total %></th>
+				<% else %>
+					<th><span class='minus_number'><%= sPlayer.total %></span></th>
+				<% end %>
+			<% else %>
+				<th></th>
+			<% end %>
+		<% end%>
+	</tr>
+	<%# 通貨計算  %>
+	<tr class='currentLines'>
+		<th>ork計算</th>
+		<% if @section.rate.nil? %>
+			<th colspan='<%= @sectionPlayers.length -%>'>レート設定がありません</th> 
+		<% else %>
+			<% @sectionPlayers.each do |sPlayer| %>
+				<% unless sPlayer.total.nil? %>	
+					<% rateScore = sPlayer.total * @section.rate %>
+					<% rateScoreStr = number_to_currency(rateScore, unit:'', precision: 0, format: '%n %u') %>
+					<% if (rateScore > 0) %>
+						<th><%= rateScoreStr %></th>
+					<% else %>
+						<th><span class='minus_number'><%= rateScoreStr %></span></th>
+					<% end %>
+				<% else %>
+					<th></th>
+				<% end %>
+			<% end%>
+		<% end %>
+	</tr>
+	<%# 清算ボタン %>
+	<% unless @show_active %>
+		<%= form_tag action: :pay do %>
+		<tr>
+			<td>清算</td>
+			<% @sectionPlayers.each do |sPlayer| %>
+				<td>
+					<%if sPlayer.paid %>
+						<% paid_str = '済み' %>
+						<% clasname = 'paid_button' %>
+					<% else %>
+						<% paid_str = '未清算' %>
+						<% clasname = 'pay_button' %>
+					<% end %>
+					<%= button_tag paid_str , data: {disable_with: '送信中...' } , class: clasname, name: :player_id, value: sPlayer.player_id.to_s %>
+				</td>
+			<% end %>
+		</tr>
+		<% end %>
+
+	<% end %>
+
+</table>
+
+<%#= debug(@scoreTable) %>
+
+
+</div> <!-- showScore -->
+
+

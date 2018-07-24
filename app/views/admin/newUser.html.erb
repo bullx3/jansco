@@ -1,0 +1,30 @@
+<p>
+追加するユーザー名とパスワードを入れて下さい<br>
+※同じユーザーは作成できません<br>
+※使える文字<br>
+   ユーザー名 半角英数字と'_'で 3-12文字(数値のみは不可)<br>
+   パスワード  半角英数字4-12文字<br>
+</p>
+
+<%= form_tag action: :createUser do %>
+	<div class='field'>
+		<%= label_tag :userrname, 'ユーザー名' %>
+		<%= text_field_tag :username, '' , size: 20 %>
+	</div>
+	<div class='field'>
+		<%= label_tag :password, 'パスワード' %>
+		<%= password_field_tag :password, '' , size: 20 %>
+	</div>
+
+	<%= submit_tag '追加' %>
+<% end %>
+
+
+<p>現在のユーザー一覧</p>
+<% @users.each do |user| %>
+	<p><%= user.username -%></p>
+<% end %>
+
+<p>
+<%= link_to '管理用画面トップ', admin_path %>
+</p>

@@ -1,0 +1,42 @@
+// Place all the styles related to the room::ranking controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.ranking_top h1{
+	font-size: 6vmin;
+}
+
+
+table.total_ranking{
+	table-layout: fixed;
+	text-align: center;
+	border-collapse: collapse; /* 一重線 */
+	border: 2px solid gray;
+	width: 100%;
+}
+
+table.total_ranking tr{
+	border: 1px solid gray;
+}
+
+table.total_ranking th{
+	border: 1px solid gray;
+	background: #dcdcdc;
+	font-size: 3vmin;
+}
+
+table.total_ranking td{
+	font-size: 3vmin;
+	border: 1px solid gray;
+}
+
+table.total_ranking td:nth-child(2n) {
+	background-color: lightblue;
+}
+
+
+table.total_ranking td:nth-child(1) {
+	background-color: lightgreen;
+}
+

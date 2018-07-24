@@ -1,0 +1,52 @@
+<div class='room_top'>
+
+<h1><font color='red'><%= @group.name %></font>へようこそ</h1>
+<div class='new_game'>
+	<%= link_to  new_room_playing_path(@g_idname) do %>
+		<span>新しくゲームを始める</span>
+	<% end %>
+</div>
+
+<div>
+	<h2>対局中のゲーム</h2>
+	<% if @now_count > 0 %>
+		<%= render 'scoreTable', playing_sections: @playing_sections, player_cnt: @player_cnt %>
+	<% else %>
+		<p>現在対局中のゲームはありません</p>
+	<% end %>
+
+
+	<h2>未清算のある対局</h2>
+	<% if @past_count > 0 %>
+		<%= render 'scoreTable', playing_sections: @no_paid_sections, player_cnt: @no_paid_player_cnt %>
+	<% else %>
+		<p>未清算のゲームはありません</p>
+	<% end %>
+
+
+
+	<h2>最近終了した対局</h2>
+
+	<% if @past_count > 0 %>
+		<%= render 'scoreTable', playing_sections: @past_sections, player_cnt: @past_player_cnt %>
+	<% else %>
+		<p>最近終了したゲームはありません</p>
+	<% end %>
+
+</div>
+<br>
+<br>
+
+<h2>
+	<%= link_to 'ランキング', room_ranking_path(params[:g_idname]) %>
+</h2>
+
+<br>
+<br>
+
+
+<h2>
+	<%= link_to 'ルーム設定', config_room_path(params[:g_idname]) %>
+</h2>
+
+</div>

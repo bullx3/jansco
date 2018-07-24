@@ -1,0 +1,12 @@
+<p>こんにちは<font color='red' size='120%'><%= @user.username %></font>さん</p>
+
+<p>どのroomに入りますか？</p>
+
+<% @user.groups.each do |group| %>
+	<p><%#= link_to group.name, {controller: :room, id: group.idname ,action: :index} %></p>
+	<p><%= link_to group.name, room_path(group.idname) %></p>
+<% end %>
+
+<p>
+	<%= link_to 'ログアウト', {controller: :login, action: :logout} %>
+</p>

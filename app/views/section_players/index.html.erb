@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Section Players</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Section</th>
+      <th>Player</th>
+      <th>Total</th>
+      <th>Paid</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @section_players.each do |section_player| %>
+      <tr>
+        <td><%= section_player.section_id %></td>
+        <td><%= section_player.player_id %></td>
+        <td><%= section_player.total %></td>
+        <td><%= section_player.paid %></td>
+        <td><%= link_to 'Show', section_player %></td>
+        <td><%= link_to 'Edit', edit_section_player_path(section_player) %></td>
+        <td><%= link_to 'Destroy', section_player, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Section Player', new_section_player_path %>

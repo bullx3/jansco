@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Section:</strong>
+  <%= @section_player.section_id %>
+</p>
+
+<p>
+  <strong>Player:</strong>
+  <%= @section_player.player_id %>
+</p>
+
+<p>
+  <strong>Total:</strong>
+  <%= @section_player.total %>
+</p>
+
+<p>
+  <strong>Paid:</strong>
+  <%= @section_player.paid %>
+</p>
+
+<%= link_to 'Edit', edit_section_player_path(@section_player) %> |
+<%= link_to 'Back', section_players_path %>

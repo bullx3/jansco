@@ -1,0 +1,20 @@
+<p>
+追加するプレイヤー名を入れて下さい<br>
+※同じ名前は作成できません<br>
+※最大全角８文字
+</p>
+
+<%= form_tag action: :createPlayer do %>
+	<div class='field'>
+		<%= label_tag :playername, 'プレイヤー名' %>
+		<%= text_field_tag :playername, '' , size: 20 %>
+	</div>
+
+	<%= submit_tag '追加' %>
+<% end %>
+
+
+<p>現在のプレイヤー一覧</p>
+<% @players.each do |player| %>
+	<p><%= player.name -%></p>
+<% end %>

@@ -1,0 +1,45 @@
+<div>
+<table class='resultScore'>
+	<tr class='resultTitleLine'>
+		<th class='tableTime'>開始時刻</th>
+		<th class='tableNum'>対局数</th>
+		<th colspan="<%= player_cnt -%>">メンバー／得点</th>
+	</tr>
+	<% playing_sections.each do |section| %>
+		<tr class='resultTotalLine'>
+			<td rowspan="2">
+				<%= link_to room_playing_path(@g_idname, section.id) do %>
+					<%= section.created_at.strftime("%m/%d") %><br><%= section.created_at.strftime("%H:%M") %>
+				<% end %>
+			</td>
+			<td rowspan="2"><%= section.games_count -%></td>
+			<% section.section_players.each do |s_player| %>
+				<td><%= s_player.player.name -%></td>
+			<% end %>
+			<%# 最大のプレイヤー数より少ない対局は空白<td>を入れる  %>
+			<% remind = player_cnt - section.section_players.size %>
+			<% remind.times do %>
+				<td></td>
+			<% end %>
+		</tr>
+		<tr>
+			<% section.section_players.each do |s_player| %>
+				<td>
+					<% unless s_player.total.nil? %>
+						<% if s_player.total > 0 %>
+							<%= s_player.total -%>
+						<% else %>
+							<span class='minus_number'><%= s_player.total -%></span>
+						<% end %>
+					<% end %>
+				</td>
+			<% end %>
+			<%# 最大のプレイヤー数より少ない対局は空白<td>を入れる  %>
+			<% remind = player_cnt - section.section_players.size %>
+			<% remind.times do %>
+				<td></td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>
+</div>

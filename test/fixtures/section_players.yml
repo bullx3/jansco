@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  section_id: 1
+  player_id: 1
+  total: 1
+  paid: false
+
+two:
+  section_id: 1
+  player_id: 1
+  total: 1
+  paid: false

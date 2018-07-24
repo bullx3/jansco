@@ -1,0 +1,35 @@
+<p>
+追加するプレイヤー名を入れて下さい<br>
+※同じプレイヤー名は作成できません<br>
+※グループ選択は必須、ユーザー選択は任意です
+※使える文字<br>
+   プレイヤー名 半角英数字と'_'で 3-12文字(数値のみは不可)<br>
+</p>
+
+<%= form_tag action: :createPlayer do %>
+	<div class='field'>
+	<%= label_tag :username, 'グループ名' %>
+	<%= collection_select(:group, :id, @groups, :id, :idname, {include_blank: '選択してください'}) %>	
+	</div>
+
+	<div class='field'>
+		<%= label_tag :playername, 'プレイヤー名' %>
+		<%= text_field_tag :playername, '' , size: 20 %>
+	</div>
+
+	<div class='field'>
+	<%= collection_select(:user, :id, @users, :id, :username, {include_blank: '選択してください'}) %>	
+	</div>
+
+	<%= submit_tag '追加' %>
+<% end %>
+
+
+<p>現在のプレイヤー一覧</p>
+<% @players.each do |player| %>
+	<p><%= player.name -%></p>
+<% end %>
+
+<p>
+<%= link_to '管理用画面トップ', admin_path %>
+</p>

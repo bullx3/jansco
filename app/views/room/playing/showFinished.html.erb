@@ -1,0 +1,26 @@
+<div class='showScore'>
+
+<p>開始時刻  <%= @section.created_at.strftime("%Y/%m/%d %H:%M") %></p>
+<% rateStr = @section.rate.nil? ? 'なし' : @section.rate.to_s %>
+<p>現在のレート  <%= rateStr %> </p>
+
+
+<%= render 'scoreTable' %>
+
+<br>
+<br>
+<%= form_tag({action: :restart},method: :get) do %>
+	<%= button_tag 'スコアを修正可能にする', {class: "sqr_button" ,data: {confirm: "本当に修正可能にしますか"}} %>
+<% end %>
+<%= form_tag({action: :pay_all},method: :get) do %>
+	<%= button_tag 'すべての清算を完了にする', {class: "sqr_button"} %>
+<% end %>
+
+
+<br>
+
+<p>
+	<%= link_to 'ルームトップに戻る', room_path %>
+</p>
+
+</div>

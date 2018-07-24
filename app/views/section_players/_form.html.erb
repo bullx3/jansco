@@ -1,0 +1,37 @@
+<%= form_with(model: section_player, local: true) do |form| %>
+  <% if section_player.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(section_player.errors.count, "error") %> prohibited this section_player from being saved:</h2>
+
+      <ul>
+      <% section_player.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :section_id %>
+    <%= form.number_field :section_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :player_id %>
+    <%= form.number_field :player_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :total %>
+    <%= form.number_field :total %>
+  </div>
+
+  <div class="field">
+    <%= form.label :paid %>
+    <%= form.check_box :paid %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

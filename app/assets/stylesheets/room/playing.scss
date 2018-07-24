@@ -1,0 +1,311 @@
+// Place all the styles related to the room::playing controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.showScore p{
+	font-size: 4vmin;
+}
+
+table.sectionTable{
+	table-layout: fixed;
+	text-align: center;
+	width: 100%;
+	font-size: 2.0em;
+
+	border-collapse: collapse; /* 一重線 */
+	border: 2px solid gray;
+}
+
+.kind_button {
+	display: inline-block;
+	font-size: 5vmin;
+	padding: 10px 10px 10px 10px;
+	text-decoration: none;
+	background: #1e90ff;/*ボタン色*/
+	color: #FFF;
+	border-radius: 10px;
+}
+
+
+th.tableTitle {
+	width: 15%;
+}
+
+
+table.sectionTable tr {
+	border: 1px solid gray;
+}
+
+table.sectionTable th,td {
+	/*border: 1px solid gray;*/
+	height: 3em;	
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;	
+}
+
+
+table.sectionTable td:nth-child(2n) {
+	background-color: lightblue;
+}
+
+table.sectionTable caption {
+	caption-side: top;
+	font-size: x-large;
+	font-weight: bold;
+	text-align: left;
+}
+
+
+tr.scoreLineNames {
+	background: #dcdcdc;
+}
+
+tr.scoreLineTotals {
+	background: lightgreen;
+	border-bottom: 3px gray double;
+}
+
+
+.pay_button {
+	display: inline-block;
+	font-size: 4vmin;
+	padding: 5px 5px 5px 5px;
+	text-decoration: none;
+	background: #1e90ff;/*ボタン色*/
+	color: #FFF;
+	border-radius: 10px;
+}
+
+
+.paid_button {
+	display: inline-block;
+	font-size: 4vmin;
+	padding: 5px 15px 5px 15px;
+	text-decoration: none;
+	background: gray;/*ボタン色*/
+	color: white;
+	border-radius: 10px;
+}
+
+
+
+
+
+/*
+	スコア種類登録
+*/
+
+.selectKinds{
+	border: 5px double gray;
+	background: lavender; 
+	position:relative;
+	padding: 0px 30px 30px 40px;
+	margin: 30px 20px 20px 20px;
+
+}
+
+.selectKinds h2{
+	font-size: 7vmin;
+	margin-bottom: 0;
+}
+
+span.selectTitle {
+	font-size: 4vmin;
+	position: absolute;
+	top: -4vw;
+	left: 2vw;
+	background-color: white;
+}
+
+.selectKinds input[type="radio"]{
+	display: none;
+}
+
+.selectKinds label{
+	font-size: 7vmin;
+	width: 25%;
+	text-align: center;
+	color: #696969;
+	border: 1px solid royalblue;
+	background: snow;
+	border-radius: 20px;
+	display: inline-block;
+	margin: 30px 20px 20px 20px;
+}
+
+.selectKinds label:hover{
+	color: #888;
+}
+
+.selectKinds input[type="radio"]:checked + label{
+	color: #000;
+	border: 1px solid #000;
+	background-color: yellow;
+}
+
+
+/*
+	スコア入力
+*/
+
+.inputScores{
+	border: 5px double gray;
+	background: lavender; 
+	padding: 20px 30px 30px 40px;
+	margin: 30px 20px 20px 20px;
+}
+
+.inputScores h2{
+	font-size: 7vmin;
+}
+
+
+.inputScoreSpan {
+	display: inline-block;
+	width: 40%;
+	font-size: 5vmin;
+}
+
+.input_score {
+	display: block;
+	margin: 30px 0px 30px 30px;
+
+}
+
+.input_score input[type=number]{
+	display: inline-block;
+	width: 20%;
+	text-align: center;
+	font-size: 7vmin;
+	margin-right: 20px;
+
+}
+
+.input_score button {
+	display: inline-block;
+	font-size: 7vmin;
+	display: inline-block;
+	padding: 0 20px 0 20px;
+	text-decoration: none;
+	background: #1e90ff;/*ボタン色*/
+	color: #FFF;
+	border-bottom: solid 4px #627295;
+	border-radius: 20px;
+
+}
+
+.inputScoreSum{
+	font-size: 7vmin;
+	text-align: center;
+	border-bottom: 2px solid red
+
+}
+
+.inputScoreSum span {
+	font-size: 15vmin;
+	font-weight: bold;
+	margin-left: 7vmin;
+}
+
+/*
+	レート設定
+*/
+
+
+.rate_Settings{
+	border: 5px solid gray;
+	background-color: lavender;
+	border-radius: 20px;
+	padding: 0px 20px 20px 20px;
+	margin: 20px 20px 20px 20px;
+}
+
+.rate_Settings h2{
+	font-size: 4.5vmin;
+}
+
+.rateSetting{
+	display: inline-block;
+	margin-left: 4vmin;
+	margin-top: 2vmin;
+	margin-bottom: 2vmin;
+
+}
+
+.rate_Settings input[type=radio]{
+	display: none;
+}
+
+.rate_Settings label{
+	font-size: 7vmin;
+/*	display: block;
+	float: none;
+	width: 30%;*/
+	color: #696969;
+	border: 1px solid royalblue;
+	background: snow;
+	border-radius: 20px;
+	text-align: center;
+	padding: 10px 30px 10px 30px;
+
+}
+
+.rate_Settings label:hover{
+	color: red;
+	background: lightblue;
+}
+
+.rate_Settings input[type='radio']:checked + label {
+	color: black;
+	background: yellow;
+	border: 2px solid blue;
+}
+
+
+.rate_Settings input[type='number']{
+	height: 7vmin;
+	width: 50%;
+
+	font-size: 7vmin;
+	border: 1px solid green;
+}
+
+
+/*
+	プレイヤー選択
+*/
+
+
+
+.select_Players{
+	border: 5px solid gray;
+	background-color: lavender;
+	border-radius: 20px;
+	padding: 20px 20px 20px 20px;
+	margin: 20px 20px 20px 20px;
+
+}
+
+.select_Players h2{
+	font-size: 4.5vmin;
+}
+
+
+.selectPlayer{
+	margin-left: 4vmin;
+	margin-top: 3vmin;
+	margin-bottom: 3vmin;
+}
+
+.selectPlayer label{
+	font-size: 7vmin;
+}
+
+
+.selectPlayer input[type='checkbox'] {
+	transform: scale(4);
+	margin-right: 3vmin;
+	position: relative;
+	top: -1.5vmin;
+}

@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @section.status %>
+</p>
+
+<p>
+  <strong>Rate:</strong>
+  <%= @section.rate %>
+</p>
+
+<p>
+  <strong>Games count:</strong>
+  <%= @section.games_count %>
+</p>
+
+<p>
+  <strong>Section players count:</strong>
+  <%= @section.section_players_count %>
+</p>
+
+<p>
+  <strong>Group:</strong>
+  <%= @section.group_id %>
+</p>
+
+<p>
+  <strong>All paid:</strong>
+  <%= @section.all_paid %>
+</p>
+
+<%= link_to 'Edit', edit_section_path(@section) %> |
+<%= link_to 'Back', sections_path %>

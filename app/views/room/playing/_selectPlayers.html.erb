@@ -1,0 +1,40 @@
+<div class='rate_Settings'>
+<h2>レート設定</h2>
+
+<% reteDefs.each do |rate_s| %>
+	<div class='rateSetting'>
+		<%= radio_button_tag :rate, rate_s[:rate].to_s, rate_s[:checked], {onChange: 'radioRateChanged()'} %>
+		<%= label_tag 'rate_' + rate_s[:rate].to_s , rate_s[:name] %>
+		<% if rate_s[:rate] == 0 %>
+			<%= number_field_tag('inputRate', (custom_rate.nil? ? "" : custom_rate.to_s), {id: 'inputRateId', placeholder: '点5なら50'}) %>
+		<% end %>
+	</div>
+<% end %>
+
+</div>
+
+<div class='select_Players'>
+<h2>新しく始めるメンバーを選択して下さい</h2>
+
+<% players_all.each do |player| %>
+	<% checkbox_id = "playerId" + String(player.id) %>
+	<div class='selectPlayer'>
+		<% position = player_ids.index(player.id)  %>
+		<% if position.nil? %>
+			<%= check_box_tag 'players[]', player.id, false ,{id: checkbox_id} %>
+		<% else %>
+			<%# 既に選択されたプレイヤー %>
+			<% t_score = total_scores[position] %>
+			<% if t_score.nil? %>
+				<%= check_box_tag 'players[]', player.id, true ,{id: checkbox_id} %>
+
+			<% else %>
+				<%= hidden_field_tag 'players[]', player.id , {id: 'hiddenId'+player.id.to_s} %>
+				<%= check_box_tag 'players[]', player.id, true ,{id: checkbox_id, disabled: 'disabled'} %>
+				<%# disabled属性があるとフォームが送信されないので同valueのhiddenフィールド作る %>
+			<% end %>
+		<% end %>
+		<%= label_tag checkbox_id, player.name -%>
+	</div>
+<% end %>
+</div>

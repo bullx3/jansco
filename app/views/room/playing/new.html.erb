@@ -1,0 +1,30 @@
+<h1>新しいスコアテーブルを作成します</h1>
+
+<%= form_tag action: :create do %>
+	<%= render 'selectPlayers', reteDefs: @rateStrings, custom_rate: nil ,players_all: @players_all, player_ids: Array.new, total_scores: Array.new %>
+
+	<%= button_tag '開始' , data: {disable_with: '送信中...'} , class: 'sqr_button'%>
+
+<% end %>
+
+
+<script>
+
+var etc_radio = document.getElementById('rate_0')
+var input_rate = document.getElementById('inputRateId')
+
+input_rate.disabled = true;
+
+
+function radioRateChanged(){
+
+	if (etc_radio.checked){
+		console.log('rate_0 checkd')
+		input_rate.disabled = false; // ナンバー入力フィールドを有効にする
+	}else{
+		console.log('rate_0 uncheckd')
+		input_rate.disabled = true; // ナンバー入力フィールドを無効にする
+	}
+}
+
+</script>
