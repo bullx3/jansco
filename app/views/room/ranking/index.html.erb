@@ -21,15 +21,31 @@
 	<% @ranking_count.times do |rank| %>
 		<tr>
 			<td><%= (rank+1) -%>位</td>
-			<td><%= @rank_totalscores[rank].name %></td>
-			<td><%= @rank_totalscores[rank].sum_total %></td>
-			<td><%= @rank_counts[rank].name %></td>
-			<td><%= @rank_counts[rank].count_score %></td>
-			<td><%= @rank_avgs[rank].name %></td>
-			<td><%= @rank_avgs[rank].avg_score.truncate(2) %></td>
-			<td><%= @max_scores[rank].name %></td>
-			<% url = room_playing_path(params[:g_idname], @max_scores[rank].section_id) %>
-			<td><%= link_to(@max_scores[rank].score, url) %></td>
+			<% if @rank_totalscores[rank] != nil %>
+				<td><%= @rank_totalscores[rank].name %></td>
+				<td><%= @rank_totalscores[rank].sum_total %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+			<% if @rank_counts[rank] != nil %>
+				<td><%= @rank_counts[rank].name %></td>
+				<td><%= @rank_counts[rank].count_score %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+			<% if @rank_avgs[rank] != nil %>
+				<td><%= @rank_avgs[rank].name %></td>
+				<td><%= @rank_avgs[rank].avg_score.truncate(2) %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+			<% if @max_scores[rank] != nil %>
+				<td><%= @max_scores[rank].name %></td>
+				<% url = room_playing_path(params[:g_idname], @max_scores[rank].section_id) %>
+				<td><%= link_to(@max_scores[rank].score, url) %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
 		</tr>
 	<% end %>
 
