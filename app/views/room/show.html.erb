@@ -17,7 +17,7 @@
 
 
 	<h2>未清算のある対局</h2>
-	<% if @past_count > 0 %>
+	<% if @no_paic_count > 0 %>
 		<%= render 'scoreTable', playing_sections: @no_paid_sections, player_cnt: @no_paid_player_cnt %>
 	<% else %>
 		<p>未清算のゲームはありません</p>
