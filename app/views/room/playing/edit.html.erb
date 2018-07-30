@@ -1,3 +1,5 @@
+
+<div class='editScores'>
 <h1><%= @subtitle %></h1>
 
 <%#= debug(@gameKindString) %>
@@ -36,10 +38,9 @@
 
 
 	<% if @mode == 'add' %>
-		<%#= button_tag 'スコア追加' , data: {disable_with: '送信中...'} , class: 'sqr_button'%>
-		<%= button_tag 'スコア追加' , data: {disable_with: '送信中...' } ,  type: :button,onclick: 'onclick_submit()' , class: 'sqr_button' %>
+		<%= button_tag 'スコア追加' , data: {disable_with: '送信中...' } ,  type: :button,onclick: 'onclick_submit(this)' , class: 'sqr_button' %>
 	<% else %>
-		<%= button_tag 'スコア修正' , data: {disable_with: '送信中...' } , type: :button,onclick: 'onclick_submit()', class: 'sqr_button', name: :mode, value: :update  %>
+		<%= button_tag 'スコア修正' , data: {disable_with: '送信中...' } , type: :button,onclick: 'onclick_submit(this)', class: 'sqr_button', name: :mode, value: :update  %>
 
 		<%= button_tag 'スコア削除' , data: {disable_with: '送信中...', confirm: 'このスコアを削除してよろしいですか？'} , class: 'sqr_button', name: :mode, value: :delete , formaction: delete_room_playing_path %>
 
@@ -48,9 +49,10 @@
 <% end %>
 <br>
 <br>
-
+<p>
 <%= link_to '戻る', :back %>
-
+</p>
+</div>
 
 <script>
 const player_ids = <%= @player_ids.to_json %>;
@@ -81,7 +83,7 @@ calcInputScore()
 
 
 
-function onclick_submit(){
+function onclick_submit(btn){
 	console.log('click submit')
 
 	var radioNodeList = formElement.kind
@@ -114,6 +116,9 @@ function onclick_submit(){
 		alert('合計スコアを0にしてください')
 		return
 	}
+
+	btn.disabled = true
+	btn.innerHTML = '送信中'
 
 	formElement.submit()
 

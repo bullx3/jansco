@@ -1,3 +1,8 @@
+<noscript>
+	JavaScript設定が無効になっています。<br>
+	このサイトはJavaScriptが有効でないとと正しく動作しません
+</noscript>
+
 <div class='showScore'>
 
 <p>開始時刻  <%= @section.created_at.strftime("%Y/%m/%d %H:%M") %></p>
@@ -5,7 +10,7 @@
 <p>現在のレート  <%= rateStr %> </p>
 
 <p>
-<%= form_tag({action: :editPlayer},method: :get) do %>
+<%= form_tag({action: :editPlayer},method: :post) do %>
 	<%= button_tag 'メンバー or レート変更', {class: 'sqr_button'} %>
 <% end %>
 
@@ -13,7 +18,7 @@
 </p>
 <p>
 <%= form_tag({action: :finish},method: :get) do %>
-	<%= button_tag 'ゲーム終了', {class: 'sqr_button',data: {confirm: "本当に終了しますか"}} %>
+	<%= button_tag 'ゲーム終了', {class: 'sqr_button',data: {confirm: "本当に終了しますか？スコアが入力されていない場合はテーブル自体が削除されます"}} %>
 <% end %>
 </p>
 

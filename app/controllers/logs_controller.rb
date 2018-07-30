@@ -69,6 +69,6 @@ class LogsController < AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def log_params
-      params.require(:log).permit(:user_id, :log)
+      params.require(:log).permit(:user_id, :log, :section_id)
     end
 end

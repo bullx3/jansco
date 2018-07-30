@@ -7,11 +7,11 @@
 	font-size: 4vmin;
 }
 
-table.sectionTable{
+.sectionTable{
 	table-layout: fixed;
 	text-align: center;
 	width: 100%;
-	font-size: 2.0em;
+	font-size: 4vmin;
 
 	border-collapse: collapse; /* 一重線 */
 	border: 2px solid gray;
@@ -28,28 +28,27 @@ table.sectionTable{
 }
 
 
-th.tableTitle {
+.tableTitle th{
 	width: 15%;
 }
 
 
-table.sectionTable tr {
+.sectionTable tr {
 	border: 1px solid gray;
 }
 
-table.sectionTable th,td {
-	/*border: 1px solid gray;*/
+.sectionTable th,td {
 	height: 3em;	
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;	
 }
 
 
-table.sectionTable td:nth-child(2n) {
+.sectionTable td:nth-child(2n) {
 	background-color: lightblue;
 }
 
-table.sectionTable caption {
+.sectionTable caption {
 	caption-side: top;
 	font-size: x-large;
 	font-weight: bold;
@@ -89,8 +88,13 @@ tr.scoreLineTotals {
 }
 
 
+.editScores > h1 {
+	font-size: 8vmin;
+}
 
-
+.editScores > p {
+	font-size: 6vmin;
+}
 
 /*
 	スコア種類登録
@@ -173,18 +177,26 @@ span.selectTitle {
 
 }
 
+.input_score label{
+	display: inline-block;
+	width: 25%;
+	font-size: 7vmin;
+
+}
+
+
 .input_score input[type=number]{
 	display: inline-block;
 	width: 20%;
 	text-align: center;
 	font-size: 7vmin;
-	margin-right: 20px;
+	margin-right: 1vmin;
 
 }
 
 .input_score button {
 	display: inline-block;
-	font-size: 7vmin;
+	font-size: 6vmin;
 	display: inline-block;
 	padding: 0 20px 0 20px;
 	text-decoration: none;
@@ -268,7 +280,6 @@ span.selectTitle {
 	width: 50%;
 
 	font-size: 7vmin;
-	border: 1px solid green;
 }
 
 

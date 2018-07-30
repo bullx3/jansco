@@ -15,7 +15,7 @@
 		<tr id='<%= trid %>'>
 			<td>
 				<% if @show_active %>
-					<%= form_tag({action: :edit},method: :get) do %>
+					<%= form_tag({action: :edit},method: :post) do %>
 						<%= hidden_field_tag 'mode', 'update' %>
 						<%= hidden_field_tag 'gameNo', gameNo %>
 						<%= button_tag @gameKindString[gameHash[:kind].to_s], {class: 'kind_button'} %>
@@ -44,7 +44,7 @@
 	<tr>
 		<% if @show_active %>
 			<td colspan="<%= (@sectionPlayers.length + 1)%>">
-			<%= form_tag({action: :edit},method: :get) do %>
+			<%= form_tag({action: :edit},method: :post) do %>
 				<%= hidden_field_tag 'mode', 'add' %>
 				<%= button_tag 'スコア追加', {class: 'kind_button'} %>
 			<% end %>

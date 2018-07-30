@@ -38,11 +38,11 @@ Rails.application.routes.draw do
   get 'r/:g_idname/playing/new' => 'room/playing#new', as: :new_room_playing
   post 'r/:g_idname/playing/create' => 'room/playing#create', as: :create_room_playing
   get 'r/:g_idname/playing/:id' => 'room/playing#show', as: :room_playing
-  get 'r/:g_idname/playing/:id/edit' => 'room/playing#edit', as: :edit_room_playing
+  post 'r/:g_idname/playing/:id/edit' => 'room/playing#edit', as: :edit_room_playing
   post 'r/:g_idname/playing/:id/add' => 'room/playing#add', as: :add_room_playing
   post 'r/:g_idname/playing/:id/update' => 'room/playing#update', as: :update_room_playing
   post 'r/:g_idname/playing/:id/delete' => 'room/playing#delete', as: :delete_room_playing
-  get 'r/:g_idname/playing/:id/editPlayer' => 'room/playing#editPlayer'
+  post 'r/:g_idname/playing/:id/editPlayer' => 'room/playing#editPlayer'
   post 'r/:g_idname/playing/:id/changePlayer' => 'room/playing#changePlayer', as: :change_room_playing
   get 'r/:g_idname/playing/:id/finish' => 'room/playing#finish', as: :finish_room_playing
   get 'r/:g_idname/playing/:id/restart' => 'room/playing#restart', as: :restart_room_playing

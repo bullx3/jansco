@@ -1,3 +1,26 @@
 // Place all the styles related to the login controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.login div.field {
+	margin-top: 3vmin;
+	margin-bottom: 3vmin;
+
+}
+
+.login div.field label{
+	display: block;
+	font-size: 8vmin;
+}
+
+.login div.field input{
+	height: 8vmin;
+	width: 50%;
+
+	font-size: 8vmin;
+	margin-top: 0vmin;
+	margin-bottom: 2vmin; 
+}
+
+

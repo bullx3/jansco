@@ -113,7 +113,7 @@
   スコア一覧
 */
 
-table.resultScore {
+.resultScore {
 	table-layout: fixed;
 	text-align: center;
 	border-collapse: collapse; /* 一重線 */
@@ -122,24 +122,25 @@ table.resultScore {
 
 }
 
-table.resultScore tr{
+.resultScore tr{
 	border: 1px solid gray;
+  height: 12vmin;
 }
 
-table.resultScore th{
+.resultScore th{
 	border: 1px solid gray;
 	font-size: 4vmin;
 }
 
-table.resultScore td{
+.resultScore td{
 	border: 1px solid gray;
 }
 
-th.tableTime{
+.tableTime{
 	width: 15%;
 	font-size: 3vmin;
 }
-th.tableNum{
+.tableNum{
 	width: 8%;
 	font-size: 3vmin;
 }

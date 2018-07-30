@@ -386,6 +386,7 @@ class Room::PlayingController < RoomController
     if(section.games_count == 0)
       #対応するゲームを入力していない場合はsectionごと消す
       redirect_to action: :destroy
+      return
     end
 
 
@@ -434,14 +435,17 @@ class Room::PlayingController < RoomController
     section = Section.find(section_id)
 
     ActiveRecord::Base.transaction do
+      text = sprintf('destroy')
+      log = Log.newLog(section_id, session[:usr], text)
+      log.save!
+
       # ここでは関連づけたGames、Scoreテーブルの要素を削除する為にdestroy_allを使用する。
       # アソシエーションの関連づけに"dependent: :destroy"追加済み
       section.destroy
 
-      text = sprintf('destroy')
-      log = Log.newLog(section_id, session[:usr], text)
-      log.save!
     end # トランザクション終了
+
+    redirect_to room_path(params[:g_idname])
 
   end #destroy
 

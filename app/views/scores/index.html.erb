@@ -1,3 +1,4 @@
+<div class='myscaffold'>
 <p id="notice"><%= notice %></p>
 
 <h1>Scores</h1>
@@ -5,9 +6,10 @@
 <table>
   <thead>
     <tr>
-      <th>Section</th>
-      <th>Game</th>
-      <th>Player</th>
+      <th>Id</th>
+      <th>Section_id</th>
+      <th>Game_id</th>
+      <th>Player_id</th>
       <th>Score</th>
       <th colspan="3"></th>
     </tr>
@@ -16,6 +18,7 @@
   <tbody>
     <% @scores.each do |score| %>
       <tr>
+        <td><%= score.id %></td>
         <td><%= score.section_id %></td>
         <td><%= score.game_id %></td>
         <td><%= score.player_id %></td>
@@ -31,3 +34,4 @@
 <br>
 
 <%= link_to 'New Score', new_score_path %>
+</div>
