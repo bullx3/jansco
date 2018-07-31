@@ -1,0 +1,26 @@
+<p>コメント</p>
+<div class='showComments'>
+<%= form_tag({action: :addComment},method: :post) do %>
+	<% if @comments.length > 0 %>
+		<% @comments.each do |comment| %>
+			<div class='showComment'>
+				<div class='commentPlayer'>
+					<%= comment.player.created_at.strftime("%Y/%m/%d %H:%M:%S") %>
+					<% if comment.player.provisional %>
+						ゲストさん
+					<% else %>
+						<%= comment.player.name %>
+					<% end %>
+				</div>
+				<div class='commentText'>
+					<%= comment.comment %>
+				</div>
+			</div>
+		<% end %>
+	<% else %>
+		<p>コメントはありません</p>
+	<% end %>
+	<%= text_area_tag 'comment', '', maxlength: '200' %>
+	<%= button_tag 'コメント追加', {class: 'comment_button'} %>
+<% end %>
+</div>

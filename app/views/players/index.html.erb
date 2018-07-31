@@ -6,8 +6,9 @@
 <table>
   <thead>
     <tr>
-      <th>User</th>
-      <th>Group</th>
+      <th>Id</th>
+      <th>User_id</th>
+      <th>Group_id</th>
       <th>Name</th>
       <th>Permission</th>
       <th>Provisional</th>
@@ -18,6 +19,7 @@
   <tbody>
     <% @players.each do |player| %>
       <tr>
+        <td><%= player.id %></td>
         <td><%= player.user_id %></td>
         <td><%= player.group_id %></td>
         <td><%= player.name %></td>

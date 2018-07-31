@@ -78,7 +78,7 @@ class Room::PlayingController < RoomController
 
     @gameKindString = GameKindString
 
-    @comments = Comment.where(section_id: @section_id)
+    @comments = Comment.includes(:player).where(section_id: @section_id)
 
     @show_restart = false
     @show_destroy = false
@@ -87,7 +87,6 @@ class Room::PlayingController < RoomController
       @show_restart = true
       @show_destroy = true
     end
-
 
 
   	# 既に終了している場合は終了済みのスコアビューを表示
@@ -382,6 +381,25 @@ class Room::PlayingController < RoomController
     redirect_to action: :show
 
   end #changePlayer
+
+  def addComment
+    section_id = params[:id]
+    addComment = params[:comment]
+
+    player = Player.find_by(user_id: session[:usr], group_id: session[:grp])
+    logger.debug(player.name)
+    logger.debug(addComment)
+
+    ActiveRecord::Base.transaction do
+      comment = Comment.new
+      comment.section_id = section_id
+      comment.player_id = player.id
+      comment.comment = addComment
+      comment.save!
+    end # トランザクション終了
+
+    redirect_to action: :show
+  end
 
   def finish
     section_id = params[:id]

@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   get 'r/:g_idname/playing/:id/restart' => 'room/playing#restart', as: :restart_room_playing
   post 'r/:g_idname/playing/:id/pay' => 'room/playing#pay'
   get 'r/:g_idname/playing/:id/pay_all' => 'room/playing#pay_all'
+  post 'r/:g_idname/playing/:id/addComment' => 'room/playing#addComment'
 
   get 'r/:g_idname/ranking' => 'room/ranking#index', as: :room_ranking
 
