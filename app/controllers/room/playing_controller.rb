@@ -391,6 +391,12 @@ class Room::PlayingController < RoomController
     logger.debug(addComment)
 
     ActiveRecord::Base.transaction do
+
+      text = sprintf('addComment')
+      log = Log.newLog(section_id, session[:usr], text)
+      log.save!
+
+
       comment = Comment.new
       comment.section_id = section_id
       comment.player_id = player.id

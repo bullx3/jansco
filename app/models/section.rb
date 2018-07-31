@@ -1,8 +1,8 @@
 class Section < ApplicationRecord
 	has_many :games, dependent: :destroy
 	has_many :section_players, dependent: :destroy
-	has_many :comments, dependent: :destroy
-	has_many :logs, dependent: :destroy
+	has_many :comments
+	has_many :logs
 	belongs_to :group
 
 	#statusカラム値
