@@ -137,7 +137,6 @@ class Room::PlayingController < RoomController
   end
 
   def add
-    logger.debug("start hello#add")
 
     section_id = params[:id]
     kind = params[:kind].to_i
