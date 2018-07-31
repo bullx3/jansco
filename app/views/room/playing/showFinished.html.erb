@@ -9,15 +9,30 @@
 
 <br>
 <br>
-<%= form_tag({action: :restart},method: :get) do %>
-	<%= button_tag 'スコアを修正可能にする', {class: "sqr_button" ,data: {confirm: "本当に修正可能にしますか"}} %>
-<% end %>
+<p>
 <%= form_tag({action: :pay_all},method: :get) do %>
 	<%= button_tag 'すべての清算を完了にする', {class: "sqr_button"} %>
 <% end %>
-
-
+</p>
 <br>
+<br>
+<br>
+<p>
+<% if @show_restart %>
+	<%= form_tag({action: :restart},method: :get) do %>
+		<%= button_tag 'スコアを修正可能にする', {class: "sqr_button" ,data: {confirm: "本当に修正可能にしますか"}} %>
+	<% end %>
+<% end %>
+</p>
+<br>
+<p>
+<% if @show_destroy %>
+	<%= form_tag({action: :destroy},method: :get) do %>
+		<%= button_tag 'スコアテーブルを削除する', {class: "sqr_button" ,data: {confirm: "本当に修正可能にしますか？この操作は戻せません"}} %>
+	<% end %>
+<% end %>
+</p>
+
 
 <p>
 	<%= link_to 'ルームトップに戻る', room_path %>

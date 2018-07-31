@@ -28,10 +28,11 @@ class AdminController < ApplicationController
 		user = User.new
 		user.username = username
 		user.password = User.createPassword(username, password)
+		user.permission = User::Permission::NORMAL
 
-	    ActiveRecord::Base.transaction do
-	    	user.save!
-	    end # トランザクション終了
+		ActiveRecord::Base.transaction do
+			user.save!
+		end # トランザクション終了
 
 		redirect_to action: :notice, notice: sprintf('ユーザー%sを登録しました',username)
 	end
@@ -54,9 +55,9 @@ class AdminController < ApplicationController
 		end
 
 		newPassword = User.createPassword(user.username, password)
-	    ActiveRecord::Base.transaction do
-	    	user.update({password: newPassword})
-	    end # トランザクション終了
+		ActiveRecord::Base.transaction do
+			user.update({password: newPassword})
+		end # トランザクション終了
 
 		redirect_to action: :notice, notice: sprintf('ユーザー%sのパスワードを変更しました',user.username)
 
@@ -77,6 +78,8 @@ class AdminController < ApplicationController
 		group_idname = params[:idname]
 		group_name = params[:name]
 		player_name = params[:playername]
+		user_name = params[:guest_user_name]
+		user_paswd = params[:guest_user_pass]
 
 		if user_id.blank? || group_idname.blank? || group_name.blank? || player_name.blank?
   			redirect_to action: :notice, alert: '入力値がありません'
@@ -114,19 +117,51 @@ class AdminController < ApplicationController
   			return
 		end
 
+		alert = User.check_params(user_name, user_paswd)
+		if alert
+			redirect_to action: :notice, alert: alert
+			return
+		end
+
+		if User.exists?(username: user_name)
+			redirect_to action: :notice, alert: '同名のユーザーがいます'
+			return
+		end
+
+
+
 		# userとplayerをかならず関連づけさせる
-	    ActiveRecord::Base.transaction do
+		ActiveRecord::Base.transaction do
 			group = Group.new
 			group.idname = group_idname
 			group.name = group_name
-	    	group.save!
+			group.save!
 
-	    	player = Player.new
-	    	player.name = player_name
-	    	player.user_id = user_id.to_i
-	    	player.group_id = group.id
-	    	player.save!
-	    end # トランザクション終了
+			player = Player.new
+			player.name = player_name
+			player.user_id = user_id.to_i
+			player.group_id = group.id
+			player.permission = Player::Permission::ADMIN # 作成者は管理者権限を与える
+			player.provisional = false
+			player.save!
+
+			# ゲストユーザーとゲストプレイヤーを追加する
+			guest_user = User.new
+			guest_user.username = user_name
+			guest_user.password = user_paswd
+			guest_user.permission = User::Permission::GUEST
+			guest_user.save!
+
+			guest_player = Player.new
+			guest_player.user_id = guest_user.id
+			guest_player.group_id = group.id
+			guest_player.name = group_idname.slice(0,3) + 'guest'
+			guest_player.permission = Player::Permission::GUEST
+			guest_player.provisional = true #ここでフラグを立てておくとプレイヤー一覧に表示されない
+			guest_player.save!
+
+
+		end # トランザクション終了
 
 		redirect_to action: :notice, notice: sprintf('グループ%sを登録しました',group_idname)
 
@@ -167,14 +202,14 @@ class AdminController < ApplicationController
   			return
 		end
 
-	    ActiveRecord::Base.transaction do
+		ActiveRecord::Base.transaction do
 			player = Player.new
 			player.name = player_name
 			player.group_id = group_id.to_i
 			player.user_id = user_id.blank? ? nil : user_id.to_i
 
-	    	player.save!
-	    end # トランザクション終了
+			player.save!
+		end # トランザクション終了
 
 		redirect_to action: :notice, notice: sprintf('プレイヤー%sを登録しました',player_name)
 	end

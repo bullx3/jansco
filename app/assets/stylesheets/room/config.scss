@@ -1,3 +1,18 @@
 // Place all the styles related to the room::config controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.config_setting {
+	font-size: 5vmin;
+}
+
+
+.config_setting label{
+	font-size: 7vmin;
+	display:block;
+}
+
+.config_setting input[type=text]{
+	height: 7vmin;
+}

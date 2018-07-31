@@ -18,9 +18,20 @@
 </p>
 <p>
 <%= form_tag({action: :finish},method: :get) do %>
-	<%= button_tag 'ゲーム終了', {class: 'sqr_button',data: {confirm: "本当に終了しますか？スコアが入力されていない場合はテーブル自体が削除されます"}} %>
+	<p>ゲーム終了後(清算時)下のボタンを押して下さい</p>
+	<%= button_tag 'ゲーム終了', {class: 'sqr_button',data: {confirm: "本当に終了しますか？"}} %>
 <% end %>
 </p>
+<br>
+<br>
+<p>
+<% if @show_destroy %>
+	<%= form_tag({action: :destroy},method: :get) do %>
+		<%= button_tag 'スコアテーブルを削除する', {class: "sqr_button" ,data: {confirm: "本当に修正可能にしますか？この操作は戻せません"}} %>
+	<% end %>
+<% end %>
+</p>
+
 
 <br>
 <br>

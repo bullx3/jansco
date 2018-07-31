@@ -6,7 +6,7 @@ class Room::PlayingController < RoomController
 
 
   def new
-  	@players_all = Player.where(group_id: session[:grp])
+  	@players_all = Player.where(group_id: session[:grp], provisional: false)
 
   	@rateStrings = RateStrings
 
@@ -79,6 +79,16 @@ class Room::PlayingController < RoomController
     @gameKindString = GameKindString
 
     @comments = Comment.where(section_id: @section_id)
+
+    @show_restart = false
+    @show_destroy = false
+    if session[:grp_per] == Player::Permission::ADMIN
+      # ルームの権限が管理者の時のみ終了応対からもどせる。またsection削除も可能
+      @show_restart = true
+      @show_destroy = true
+    end
+
+
 
   	# 既に終了している場合は終了済みのスコアビューを表示
   	section = Section.find(@section_id)
@@ -266,7 +276,7 @@ class Room::PlayingController < RoomController
   def editPlayer
     section_id = params[:id].to_i
 
-    @players_all = Player.where(group_id: session[:grp])
+    @players_all = Player.where(group_id: session[:grp], provisional: false)
     @rateStrings = RateStrings.deep_dup
 
     stm = ScoreTableManager.new(section_id)

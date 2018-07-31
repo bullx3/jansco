@@ -1,18 +1,28 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>User:</strong>
+  <strong>User_id:</strong>
   <%= @player.user_id %>
 </p>
 
 <p>
-  <strong>Group:</strong>
+  <strong>Group_id:</strong>
   <%= @player.group_id %>
 </p>
 
 <p>
   <strong>Name:</strong>
   <%= @player.name %>
+</p>
+
+<p>
+  <strong>Permission:</strong>
+  <%= @player.permission %>
+</p>
+
+<p>
+  <strong>Provisional:</strong>
+  <%= @player.provisional %>
 </p>
 
 <%= link_to 'Edit', edit_player_path(@player) %> |

@@ -4,6 +4,13 @@ class User < ApplicationRecord
 	has_many :comments
 	has_many :logs
 
+	module Permission
+		GUEST  = 0
+		NORMAL = 1
+		ADMIN = 100
+	end
+
+
 	def self.authenticate(username, password)
 		usr = find_by(username: username)
 		if usr != nil && usr.password == createPassword(username, password)

@@ -4,7 +4,7 @@ class Room::ConfigController < RoomController
 	end #index
 
 	def newPlayer
-		@players = Player.where(group_id: session[:grp])
+		@players = Player.where(group_id: session[:grp], provisional: false)
 
 	end #newPlayer
 
@@ -30,6 +30,8 @@ class Room::ConfigController < RoomController
 		player.name = p_name
 		player.user_id = nil  #ユーザー
 		player.group_id = session[:grp]
+		player.permission = Player::Permission::GUEST
+		player.provisional = false
 
 	    ActiveRecord::Base.transaction do
 	    	player.save!

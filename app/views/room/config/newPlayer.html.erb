@@ -1,5 +1,6 @@
+<div class='config_setting'>
 <p>
-追加するプレイヤー名を入れて下さい<br>
+追加するプレイヤー名を入力して下さい<br>
 ※同じ名前は作成できません<br>
 ※最大全角８文字
 </p>
@@ -7,10 +8,9 @@
 <%= form_tag action: :createPlayer do %>
 	<div class='field'>
 		<%= label_tag :playername, 'プレイヤー名' %>
-		<%= text_field_tag :playername, '' , size: 20 %>
+		<%= text_field_tag :playername, '' , size: 100 %>
 	</div>
-
-	<%= submit_tag '追加' %>
+		<%= button_tag '追加', {class: "sqr_button"} %>
 <% end %>
 
 
@@ -18,3 +18,8 @@
 <% @players.each do |player| %>
 	<p><%= player.name -%></p>
 <% end %>
+</div>
+
+<p>
+	<%= link_to 'ルーム設定に戻る', config_room_path %>
+</p>

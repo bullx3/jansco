@@ -21,6 +21,7 @@ class LoginController < ApplicationController
 			logger.debug('ログイン成功')
 			reset_session
 			session[:usr] = usr.id
+			session[:usr_per] = usr.permission
 			redirect_to params[:reffer]
 		else
 			flash.now[:reffer] = params[:reffer]

@@ -26,6 +26,17 @@
     <%= form.text_field :name %>
   </div>
 
+  <div class="field">
+    <%= form.label :permission %>
+    <%= form.number_field :permission %>
+  </div>
+
+  <div class="field">
+    <%= form.label :Provisional %>
+    <%= form.check_box :provisional %>
+  </div>
+
+
   <div class="actions">
     <%= form.submit %>
   </div>

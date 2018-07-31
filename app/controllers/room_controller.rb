@@ -91,7 +91,11 @@ private
   	if @group && check_usr(@group)
   		# 今のユーザーが認められている
 	    logger.debug('ユーザー権あり	')
+      # ここに来た時点でGroupとUserが一致するプレイヤーは存在する為エラーにはならないはず
+      player = Player.find_by(user_id: session[:usr], group_id: @group.id)
+
 		  session[:grp] = @group.id
+      session[:grp_per] = player.permission
       @main_title = @group.name
   	else
   		session[:grp] = nil

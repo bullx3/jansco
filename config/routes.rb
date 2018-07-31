@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :section_players
   resources :sections
 
-  get 'login/index'
+  get 'login/index', as: :login
   post 'login/auth'
   get 'login/confirmLogout'
   get 'login/logout'
