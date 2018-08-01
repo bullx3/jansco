@@ -1,4 +1,4 @@
-<div class='room_top'>
+<div class='room'>
 
 <h1><font color='red'><%= @group.name %></font>へようこそ</h1>
 <div class='new_game'>
@@ -27,8 +27,9 @@
 
 	<h2>最近終了した対局</h2>
 
-	<% if @past_count > 0 %>
+	<% if @past_count > 0 	%>
 		<%= render 'scoreTable', playing_sections: @past_sections, player_cnt: @past_player_cnt %>
+		<%= link_to '終了した対局の続きを見る' ,action: :past %>
 	<% else %>
 		<p>最近終了したゲームはありません</p>
 	<% end %>

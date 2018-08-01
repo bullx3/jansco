@@ -29,16 +29,31 @@ class RoomController < ApplicationController
     end
 
     # 終了したセクションの取得
-    sections = Section.where(status: Section::Status::FINISHED,  group_id: @group.id).limit(3)
+    sections = Section.where(status: Section::Status::FINISHED,  group_id: @group.id).order(id: :desc).limit(3)
     @past_count = sections.size
     if @past_count > 0
-      max_sections = sections.select(:section_players_count).order(section_players_count: :desc).limit(1)
+      max_sections = sections.select(:section_players_count).reorder(section_players_count: :desc).limit(1)
 
       @past_player_cnt = max_sections[0].section_players_count
       @past_sections = sections.includes(section_players: [:player])
+      logger.debug('max_count')
+      logger.debug(@past_player_cnt)
     end
 
   	logger.debug('[FINISH] RoomController::index')
+  end
+
+  def past
+    @g_idname = params[:g_idname]
+
+    show_count = 10
+    sections = Section.where(status: Section::Status::FINISHED,  group_id: @group.id).order(id: :desc)
+    @past_count = sections.size
+    if @past_count > 0
+      @past_sections = sections.includes(section_players: [:player]).paginate(page: params[:page], per_page: show_count)
+      max_sections = @past_sections.select(:section_players_count).reorder(section_players_count: :desc).limit(1)
+      @past_player_cnt = max_sections[0].section_players_count
+    end
   end
 
   def notice

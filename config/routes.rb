@@ -29,6 +29,8 @@ Rails.application.routes.draw do
   post 'admin/createPlayer'
 
   get 'r/:g_idname' => 'room#show' , as: :room
+  get 'r/:g_idname/past' => 'room#past'
+
   get 'r/:g_idname/notice' => 'room#notice'
   get 'r/:g_idname/config/' => 'room/config#index', as: :config_room
   get 'r/:g_idname/config/notice' => 'room/config#notice'

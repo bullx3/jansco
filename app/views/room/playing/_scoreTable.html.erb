@@ -27,7 +27,7 @@
 
 			<% gameHash[:scores].each do |score| %>
 				<% if score[:score] != nil	 %>	
-					<% if score[:score].to_i > 0 %>
+					<% if score[:score].to_i >= 0 %>
 						<td><%= score[:score] %></td>
 					<% else %>
 						<td><span class='minus_number'><%= score[:score] %></span></td>
@@ -57,7 +57,7 @@
 		<th>合計</th>
 		<% @sectionPlayers.each do |sPlayer| %>
 			<% unless sPlayer.total.nil? %>	
-				<% if sPlayer.total > 0 %>
+				<% if sPlayer.total >= 0 %>
 					<th><%= sPlayer.total %></th>
 				<% else %>
 					<th><span class='minus_number'><%= sPlayer.total %></span></th>
@@ -77,7 +77,7 @@
 				<% unless sPlayer.total.nil? %>	
 					<% rateScore = sPlayer.total * @section.rate %>
 					<% rateScoreStr = number_to_currency(rateScore, unit:'', precision: 0, format: '%n %u') %>
-					<% if (rateScore > 0) %>
+					<% if (rateScore >= 0) %>
 						<th><%= rateScoreStr %></th>
 					<% else %>
 						<th><span class='minus_number'><%= rateScoreStr %></span></th>

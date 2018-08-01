@@ -1,0 +1,21 @@
+<div class='room'>
+
+	<h2>終了した対局</h2>
+
+	<% if @past_count > 0 %>
+		<%= render 'scoreTable', playing_sections: @past_sections, player_cnt: @past_player_cnt %>
+		<%= will_paginate @past_sections %>
+	<% else %>
+		<p>終了したゲームはありません</p>
+	<% end %>
+
+</div>
+<br>
+
+<h2>
+	<%= link_to 'ルームトップへ', room_path %>
+</h2>
+<br>
+<br>
+
+
