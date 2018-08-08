@@ -90,23 +90,23 @@
 	</tr>
 	<%# 清算ボタン %>
 	<% unless @show_active %>
-		<%= form_tag action: :pay do %>
 		<tr>
 			<td>清算</td>
 			<% @sectionPlayers.each do |sPlayer| %>
 				<td>
-					<%if sPlayer.paid %>
+					<% if sPlayer.paid %>
 						<% paid_str = '済み' %>
 						<% clasname = 'paid_button' %>
 					<% else %>
 						<% paid_str = '未清算' %>
 						<% clasname = 'pay_button' %>
 					<% end %>
-					<%= button_tag paid_str , data: {disable_with: '送信中...' } , class: clasname, name: :player_id, value: sPlayer.player_id.to_s %>
+					<%= form_tag action: :pay do %>
+						<%= button_tag paid_str , data: {disable_with: '送信中...' } , class: clasname, name: :player_id, value: sPlayer.player_id.to_s %>
+					<% end %>
 				</td>
 			<% end %>
 		</tr>
-		<% end %>
 
 	<% end %>
 
