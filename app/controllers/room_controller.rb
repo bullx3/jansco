@@ -31,10 +31,16 @@ class RoomController < ApplicationController
     # 終了したセクションの取得
     sections = Section.where(status: Section::Status::FINISHED,  group_id: @group.id).order(id: :desc).limit(3)
     @past_count = sections.size
-    if @past_count > 0
-      max_sections = sections.select(:section_players_count).reorder(section_players_count: :desc).limit(1)
 
-      @past_player_cnt = max_sections[0].section_players_count
+    if @past_count > 0
+
+      @past_player_cnt = 0
+      sections.each {|section|
+        if section.section_players_count > @past_player_cnt
+          @past_player_cnt = section.section_players_count
+        end
+      }
+
       @past_sections = sections.includes(section_players: [:player])
       logger.debug('max_count')
       logger.debug(@past_player_cnt)
