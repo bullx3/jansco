@@ -51,6 +51,39 @@
 
 
 </table>
+<br>
+
+<table class='total_ranking'>
+	<tr>
+		<th rowspan='2'>順位</th>
+		<th colspan='2'>チップ合計<br>(総チップ)</th>
+		<th colspan='2'>最高チップ<br>(１回集計内合計)</th>
+	</tr>
+	<tr>
+		<th>名前</th><th>スコア</th>
+		<th>名前</th><th>対局数</th>
+	</tr>
+	<% @ranking_count.times do |rank| %>
+		<tr>
+			<td><%= (rank+1) -%>位</td>
+			<% if @total_chips[rank] != nil %>
+				<td><%= @total_chips[rank].name %></td>
+				<td><%= @total_chips[rank].sum_chip %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+			<% if @max_chips[rank] != nil %>
+				<td><%= @max_chips[rank].name %></td>
+				<% url = room_playing_path(params[:g_idname], @max_chips[rank].section_id) %>
+				<td><%= link_to(@max_chips[rank].sum_chip, url) %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+		</tr>
+	<% end %>
+
+
+</table>
 
 
 <h2>
