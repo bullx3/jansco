@@ -66,6 +66,7 @@
 	</tr>
 	<% @ranking_count.times do |rank| %>
 		<tr>
+			<td><%= (rank+1) -%>位</td>
 			<% if @max_total_scores[rank] != nil %>
 				<td><%= @max_total_scores[rank].name %></td>
 				<% url = room_playing_path(params[:g_idname], @max_total_scores[rank].section_id) %>
@@ -73,7 +74,6 @@
 			<% else %>
 				<td></td><td></td>
 			<% end %>
-			<td><%= (rank+1) -%>位</td>
 			<% if @total_chips[rank] != nil %>
 				<td><%= @total_chips[rank].name %></td>
 				<td><%= @total_chips[rank].sum_chip %></td>
