@@ -56,8 +56,9 @@
 <table class='total_ranking'>
 	<tr>
 		<th rowspan='2'>順位</th>
+		<th colspan='2'>最高スコア<br>(集計内合計)</th>
 		<th colspan='2'>チップ合計<br>(総チップ)</th>
-		<th colspan='2'>最高チップ<br>(１回集計内合計)</th>
+		<th colspan='2'>最高チップ<br>(集計内合計)</th>
 	</tr>
 	<tr>
 		<th>名前</th><th>スコア</th>
@@ -65,6 +66,13 @@
 	</tr>
 	<% @ranking_count.times do |rank| %>
 		<tr>
+			<% if @max_total_scores[rank] != nil %>
+				<td><%= @max_total_scores[rank].name %></td>
+				<% url = room_playing_path(params[:g_idname], @max_total_scores[rank].section_id) %>
+				<td><%= link_to(@max_total_scores[rank].sum_score, url) %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
 			<td><%= (rank+1) -%>位</td>
 			<% if @total_chips[rank] != nil %>
 				<td><%= @total_chips[rank].name %></td>

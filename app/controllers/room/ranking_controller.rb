@@ -45,6 +45,13 @@ class Room::RankingController < RoomController
 #		logger.debug(sprintf("player_id=%d name=%s score=%d",game.player_id, game.name, game.score))
 #	}
 
+	# 最高スコア(集計あたりの合計)
+	@max_total_scores = games.select('SUM(score) as sum_score').group(:section_id, :player_id).order('sum_score desc').limit(@ranking_count)
+#	@max_total_scores.each{ |game|
+#		logger.debug(sprintf("player_id=%d name=%s total=%d",game.player_id, game.name, game.sum_score))
+#	}
+
+
 	chip_games = games.where(kind: 2)
 
 	#チップ合計
