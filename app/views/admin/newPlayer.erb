@@ -18,7 +18,8 @@
 	</div>
 
 	<div class='field'>
-	<%= collection_select(:user, :id, @users, :id, :username, {include_blank: '選択してください'}) %>	
+		<%= label_tag :user_id, 'ユーザー名' %>
+		<%= collection_select(:user, :id, @users, :id, :username, {include_blank: '選択してください'}) %>	
 	</div>
 
 	<%= submit_tag '追加' %>

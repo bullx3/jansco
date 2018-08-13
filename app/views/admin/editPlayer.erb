@@ -1,0 +1,32 @@
+<p>
+修正するプレイヤー名を選択してください<br>
+※同じプレイヤー名は作成できません<br>
+※プレイヤー選択は必須、ユーザー選択は任意です<br>
+※プレイヤー名が入力されていない場合は変更なしとします
+※使える文字<br>
+   プレイヤー名 省略<br>
+</p>
+
+<%= form_tag action: :updatePlayer do %>
+	<div class='field'>
+		<%= label_tag :player_id, 'プレイヤー名' %>
+		<%= grouped_collection_select(:player, :id, @groups, :players, :name, :id, :name, {include_blank: '選択してください'}) %>	
+	</div>
+
+	<div class='field'>
+		<%= label_tag :playername, 'プレイヤー名' %>
+		<%= text_field_tag :playername, '' , size: 20 %>
+	</div>
+
+	<div class='field'>
+		<%= label_tag :user_id, '括り付けるユーザー名' %>
+		<%= collection_select(:user, :id, @users, :id, :username, {include_blank: '選択してください'}) %>	
+	</div>
+
+	<%= submit_tag '更新' %>
+<% end %>
+
+
+<p>
+<%= link_to '管理用画面トップ', admin_path %>
+</p>

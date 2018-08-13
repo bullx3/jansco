@@ -27,6 +27,8 @@ Rails.application.routes.draw do
   post 'admin/createGroup'
   get 'admin/newPlayer'
   post 'admin/createPlayer'
+  get 'admin/editPlayer'
+  post 'admin/updatePlayer'
 
   get 'r/:g_idname' => 'room#show' , as: :room
   get 'r/:g_idname/past' => 'room#past'

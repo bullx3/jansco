@@ -197,8 +197,9 @@ class AdminController < ApplicationController
   			return
 		end
 
-		if player_name.length < 1 || player_name.length > 8
-  			redirect_to action: :notice, alert: '不正なプレイヤー名入力値です'
+		alert = Player.check_params(player_name)
+		if  alert != nil
+  			redirect_to action: :notice, alert: alert
   			return
 		end
 
@@ -215,11 +216,47 @@ class AdminController < ApplicationController
 	end
 
 	def editPlayer
-		#group指定は必須。userは任意だが引き継ぎ
+		@groups = Group.includes(:players).all
+		@users = User.all
 	end
 
 	def updatePlayer
-		#group指定は必須。userは任意だが引き継ぎ
+		player_id = params[:player][:id]
+		player_name = params[:playername]
+		user_id = params[:user][:id]
+
+		#プレイヤー指定は必須。プレイヤー名は指定がなければ継続。useridはなければ引き継ぎ
+		if player_id.blank?
+  			redirect_to action: :notice, alert: 'プレイヤーが指定されていません'
+  			return
+		end
+
+		unless player_name.blank?
+			alert = Player.check_params(player_name)
+			if  alert != nil
+	  			redirect_to action: :notice, alert: alert
+	  			return
+			end
+		end
+
+		ActiveRecord::Base.transaction do
+			player = Player.find(player_id.to_i)
+
+			updateParams = {}
+
+			unless player_name.blank?
+				updateParams[:name] = player_name
+			end
+
+			unless user_id.blank?
+				updateParams[:user_id] = user_id.to_i
+			end
+
+			player.update(updateParams)
+		end # トランザクション終了
+
+		redirect_to action: :notice, notice: sprintf('プレイヤー%sを更新しました',player_name)
+
 	end
 
 	def destroyPlayer

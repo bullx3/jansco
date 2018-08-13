@@ -34,7 +34,7 @@ class User < ApplicationRecord
   			return '入力値がありません'
 		end
 
-		u_pattern = '^[a-zA-Z0-9_]{3,12}$'
+		u_pattern = '^[a-zA-Z0-9_.]{3,12}$'
 		p_pattern = '^[a-zA-Z0-9]{4,12}$'
 
 		if username.match(u_pattern).nil?
