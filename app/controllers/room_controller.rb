@@ -21,8 +21,8 @@ class RoomController < ApplicationController
 
     # 未清算のセクションの取得
     sections = Section.where(status: Section::Status::FINISHED,  group_id: @group.id, all_paid: false)
-    @no_paic_count = sections.size
-    if @no_paic_count > 0
+    @no_paid_count = sections.size
+    if @no_paid_count > 0
       max_sections = sections.select(:section_players_count).order(section_players_count: :desc).limit(1)
       @no_paid_player_cnt = max_sections[0].section_players_count
       @no_paid_sections = sections.includes(section_players: [:player])
