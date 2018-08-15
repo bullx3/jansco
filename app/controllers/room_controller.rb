@@ -57,8 +57,13 @@ class RoomController < ApplicationController
     @past_count = sections.size
     if @past_count > 0
       @past_sections = sections.includes(section_players: [:player]).paginate(page: params[:page], per_page: show_count)
-      max_sections = @past_sections.select(:section_players_count).reorder(section_players_count: :desc).limit(1)
-      @past_player_cnt = max_sections[0].section_players_count
+
+      @past_player_cnt = 0
+      @past_sections.each {|section|
+        if section.section_players_count > @past_player_cnt
+          @past_player_cnt = section.section_players_count
+        end
+      }
     end
   end
 
