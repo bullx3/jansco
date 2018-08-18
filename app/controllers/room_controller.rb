@@ -51,6 +51,7 @@ class RoomController < ApplicationController
 
   def past
     @g_idname = params[:g_idname]
+    @group = Group.find_by(idname: @g_idname)
 
     show_count = 10
     sections = Section.where(status: Section::Status::FINISHED,  group_id: @group.id).order(id: :desc)

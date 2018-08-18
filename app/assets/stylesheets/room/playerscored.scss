@@ -1,0 +1,141 @@
+// Place all the styles related to the Room::playerscored controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.playersocred{
+	font-size: 4vmin;
+}
+
+
+.playersocred h1{
+	font-size: 8vmin;
+}
+
+.playersocred label{
+	margin-left: 0.5em ;
+}
+
+.playersocred select{
+	margin-left: 1em ;
+	font-size: 4vmin;
+	width: 50%;
+	height: 1.5em;
+}
+
+.scoredTable1 {
+	text-align: center;
+	border-collapse: collapse; /* 一重線 */
+	border: 2px solid gray;
+}
+
+.scoredTable1 tr{
+	border: 1px solid gray;
+	height: 6vmin;
+}
+
+.scoredTable1 th{
+	width: 4em;
+	border: 1px solid gray;
+	background-color: lightblue;
+}
+
+
+.scoredTable1 td{
+	width: 4em;
+	border: 1px solid gray;
+}
+
+.scoredTable1 td:nth-child(1) {
+	background-color: lightgreen;
+}
+
+.scoredTable2 {
+	table-layout: fixed;
+	text-align: center;
+	border-collapse: collapse; /* 一重線 */
+	border: 2px solid gray;
+}
+
+.scoredTable2 tr{
+	border: 1px solid gray;
+	height: 6vmin;
+}
+
+.scoredTable2 th{
+	width: 4em;
+	border: 1px solid gray;
+	background-color: lightblue;
+}
+
+
+.scoredTable2 td{
+	font-size: 3vmin;
+	width: 4em;
+	border: 1px solid gray;
+}
+
+.scoredTable2 td:nth-child(1) {
+	width: 4em;
+}
+
+
+.scoredTable2 td:nth-child(2n) {
+	background-color: #dcdcdc;
+	font-size: 3vmin;
+}
+
+
+.scoredvsTable1 {
+	text-align: center;
+	border-collapse: collapse; /* 一重線 */
+	border: 2px solid gray;
+}
+
+.scoredvsTable1 tr{
+	border: 1px solid gray;
+	height: 6vmin;
+}
+
+.scoredvsTable1 th{
+	width: 3.5em;
+	border: 1px solid gray;
+	background-color: lightblue;
+}
+
+
+.scoredvsTable1 td{
+	width: 3.5em;
+	border: 1px solid gray;
+}
+
+.scoredvsTable1 td:nth-child(1) {
+	width: 7em;
+	background-color: lightgray;
+}
+
+
+.scoredvsTable1 td:nth-child(2) {
+	background-color: lightgreen;
+}
+
+
+
+
+
+
+.scored_set_player0{
+	background-color: lightyellow;
+}
+
+.scored_set_player1{
+	background-color: lightpink;
+}
+
+
+.scored_set_player2{
+	background-color: springgreen;
+}
+
+.scored_set_player3{
+	background-color: gold;
+}

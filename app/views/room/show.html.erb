@@ -8,6 +8,7 @@
 </div>
 
 <div>
+	<hr>
 	<h2>対局中のゲーム</h2>
 	<% if @now_count > 0 %>
 		<%= render 'scoreTable', playing_sections: @playing_sections, player_cnt: @player_cnt %>
@@ -16,6 +17,7 @@
 	<% end %>
 
 
+	<hr>
 	<h2>未清算のある対局</h2>
 	<% if @no_paid_count > 0 %>
 		<%= render 'scoreTable', playing_sections: @no_paid_sections, player_cnt: @no_paid_player_cnt %>
@@ -25,6 +27,7 @@
 
 
 
+	<hr>
 	<h2>最近終了した対局</h2>
 
 	<% if @past_count > 0 	%>
@@ -37,15 +40,22 @@
 </div>
 <br>
 
+<hr>
+
 <h2>
 	<%= link_to 'ランキング', room_ranking_path(params[:g_idname]) %>
 </h2>
 
-<br>
+<h2>
+	<%= link_to 'プレイヤー個人成績', room_playerscored_path(params[:g_idname]) %>
+</h2>
+
 <h2>
 	<%= link_to 'ルーム設定', config_room_path(params[:g_idname]) %>
 </h2>
 <br>
+
+<hr>
 <h2>
 	<%= link_to 'ユーザートップへ', top_path %>
 </h2>

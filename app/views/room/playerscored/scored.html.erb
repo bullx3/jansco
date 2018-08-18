@@ -1,0 +1,138 @@
+<div class='playersocred'>
+
+<h1>プレイヤー個人成績</h1>
+
+<%= form_tag({action: :scored}, method: :get, id: 'form_select_player') do %>
+<p>
+	<%= label_tag :player_id, 'プレイヤー選択' %>
+	<%= collection_select(:player, :id, @players, :id, :name, {include_blank: '選択してください', selected: @player_id}, onchange: 'changeSelectPlayer(this)') %>
+</p>
+
+<% end %>
+
+<hr>
+
+
+<% unless @player_id.nil? %>
+
+<h3><%= @player_name %>成績</h3>
+
+<table class='scoredTable1'>
+	<captain>合計スコア</captain>
+	<tr>
+		<th>合計</th>
+		<th>四麻</th>
+		<th>三麻</th>
+		<th>チップ</th>
+	</tr>
+	<tr>
+		<% if @total_score >= 0  %>
+			<td><%= @total_score %></td>
+		<% else %>
+			<td><span class='minus_number' ><%= @total_score %></span></td>
+		<% end %>
+		<% if @m4_score >= 0  %>
+			<td><%= @m4_score %></td>
+		<% else %>
+			<td><span class='minus_number' ><%= @m4_score %></span></td>
+		<% end %>
+		<% if @m3_score >= 0  %>
+			<td><%= @m3_score %></td>
+		<% else %>
+			<td><span class='minus_number' ><%= @m3_score %></span></td>
+		<% end %>
+		<% if @chip_score >= 0  %>
+			<td><%= @chip_score %></td>
+		<% else %>
+			<td><span class='minus_number' ><%= @chip_score %></span></td>
+		<% end %>
+	</tr>
+</table>
+
+<br>
+
+<table class='scoredTable1'>
+	<captain>四麻の順位数</captain>
+	<tr>
+		<th>対局数</th>
+		<th>１位</th>
+		<th>２位</th>
+		<th>３位</th>
+		<th>４位</th>
+	</tr>
+	<tr>
+		<td><%= @m4_games.length %></td>
+		<% @m4_ranks.each do |count| %>
+			<td><%= count %></td>
+		<% end %>
+	</tr>
+
+</table>
+
+<br>
+
+
+<table class='scoredTable1'>
+	<captain>三麻の順位数</captain>
+	<tr>
+		<th>対局数</th>
+		<th>１位</th>
+		<th>２位</th>
+		<th>３位</th>
+	</tr>
+	<tr>
+		<td><%= @m3_games.length %></td>
+		<% @m3_ranks.each do |count| %>
+			<td><%= count %></td>
+		<% end %>
+	</tr>
+
+</table>
+
+<br>
+
+
+<hr>
+
+<h4>四麻の戦績</h4>
+<% if @m4_games.length > 0 %>
+	<%= render 'scoredTable' , rank_count: 4, games: @m4_games , player_ids: [@player_id] %>
+
+<% else %>
+	四麻の戦績はありません
+<% end %>
+
+<hr>
+
+<h4>三麻の戦績</h4>
+<% if @m3_games.length > 0 %>
+	<%= render 'scoredTable' , rank_count: 3, games: @m3_games , player_ids: [@player_id] %>
+<% else %>
+	三麻の戦績はありません
+<% end %>
+
+
+<hr>
+
+<% end %>
+
+
+
+
+
+<h2>
+	<%= link_to '個人成績トップに戻る', action: :index %>
+</h2>
+
+</div>
+
+<script>
+	formElement = document.getElementById('form_select_player')
+
+	function changeSelectPlayer(obj){
+		var idx = obj.selectedIndex;
+		var value = obj.options[idx].value;
+		console.log(value);
+		formElement.submit()
+	}
+</script>

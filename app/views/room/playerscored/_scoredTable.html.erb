@@ -1,0 +1,32 @@
+
+<table class='scoredTable2'>
+	<tr>
+		<th>日時</th>
+		<% rank_count.times do |rank| %>
+			<th colspan=2><%= (rank+1).to_s %>位</th>
+		<% end %>
+	</tr>
+	<% games.each do |game|%>
+		<tr>
+			<td>
+				<%= link_to room_playing_path(@g_idname, game.section_id) do %>
+					<%= game.created_at.strftime("%m/%d") %><br><%= game.created_at.strftime("%H:%M") %>
+				<% end %>
+			</td>
+			<% game.scores.each do |score| %>
+				<% setting_class = '' %>
+				<% player_ids.length.times do |p_num| %>
+					<% setting_class = score.player_id == player_ids[p_num] ? "scored_set_player#{p_num}" : setting_class %>
+				<% end %>
+				<td class=<%= setting_class %>><%= score.player.name %></td>
+				<td class=<%= setting_class %>>
+					<% if score.score >= 0  %>
+						<%= score.score %>
+					<% else %>
+						<span class='minus_number'><%= score.score %></span>
+					<% end %>
+				</td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>

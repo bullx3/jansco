@@ -95,22 +95,29 @@ function onclick_submit(btn){
 		return
 	}
 
-	var flag = false
 	var invalid = false
+	var input_count = 0
 	inputElements.forEach(function(element){
 		if (element.value != ''){
-			flag = true
-			return
+			input_count++
 		}
-
 	})
 
 
-	if(!flag) {
+	if(input_count == 0) {
 		alert('スコアを入力して下さい')
 		return
 	}
 
+	if((value == 0) && (input_count != 4)) {
+		alert('４人分のスコアを入力してください')
+		return
+	}
+
+	if((value == 1) && (input_count != 3)) {
+		alert('３人分のスコアを入力してください')
+		return
+	}
 
 	if(inScoreSumElement.textContent != '0'){
 		alert('合計スコアを0にしてください')

@@ -53,13 +53,15 @@ Rails.application.routes.draw do
   post 'r/:g_idname/playing/:id/pay' => 'room/playing#pay'
   get 'r/:g_idname/playing/:id/pay_all' => 'room/playing#pay_all'
   post 'r/:g_idname/playing/:id/addComment' => 'room/playing#addComment'
+  get 'r/:g_idname/playing/:id/notice' => 'room/playing#notice', as: :notice_room_playing
+  get 'r/:g_idname/playing/:id/destroy' => 'room/playing#destroy', as: :destroy_room_playing
 
   get 'r/:g_idname/ranking' => 'room/ranking#index', as: :room_ranking
 
+  get 'r/:g_idname/playerscored' => 'room/playerscored#index', as: :room_playerscored
+  get 'r/:g_idname/playerscored/scored' => 'room/playerscored#scored'
+  get 'r/:g_idname/playerscored/scoredvs' => 'room/playerscored#scoredvs'
 
-
-  get 'r/:g_idname/playing/:id/notice' => 'room/playing#notice', as: :notice_room_playing
-  get 'r/:g_idname/playing/:id/destroy' => 'room/playing#destroy', as: :destroy_room_playing
 
 
   get 'main/index'
