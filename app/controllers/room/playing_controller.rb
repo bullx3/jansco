@@ -426,7 +426,8 @@ class Room::PlayingController < RoomController
 
     ActiveRecord::Base.transaction do
       # 状態を終了状態に変更
-      section.update!({status: Section::Status::FINISHED})
+      finished_at = Time.current
+      section.update!({status: Section::Status::FINISHED , finished_at: finished_at})
       # totalスコアがnil(つまり名前だけ作ってスコアを入れていない場合はプレイヤーリストから消す)
       SectionPlayer.where('section_id = ? AND total is ?', section_id, nil).destroy_all
 

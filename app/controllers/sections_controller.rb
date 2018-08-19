@@ -69,6 +69,6 @@ class SectionsController < AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def section_params
-      params.require(:section).permit(:status, :rate, :games_count, :section_players_count, :group_id, :all_paid)
+      params.require(:section).permit(:status, :rate, :games_count, :section_players_count, :group_id, :all_paid, :finished_at)
     end
 end
