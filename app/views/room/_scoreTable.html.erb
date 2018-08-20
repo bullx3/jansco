@@ -1,7 +1,11 @@
 <div>
 <table class='resultScore'>
 	<tr class='resultTitleLine'>
-		<th class='tableTime'>開始時刻</th>
+		<% if time_kind == 'created' %>
+			<th class='tableTime'>開始時刻</th>
+		<% else %>
+			<th class='tableTime'>終了時刻</th>
+		<% end %>
 		<th class='tableNum'>対局数</th>
 		<th colspan="<%= player_cnt -%>">メンバー／得点</th>
 	</tr>
@@ -9,7 +13,11 @@
 		<tr class='resultTotalLine'>
 			<td rowspan="2">
 				<%= link_to room_playing_path(@g_idname, section.id) do %>
-					<%= section.created_at.strftime("%m/%d") %><br><%= section.created_at.strftime("%H:%M") %>
+					<% if time_kind == 'created' %>
+						<%= section.created_at.strftime("%m/%d") %><br><%= section.created_at.strftime("%H:%M") %>
+					<% else %>
+						<%= section.finished_at.strftime("%m/%d") %><br><%= section.finished_at.strftime("%H:%M") %>
+					<% end %>
 				<% end %>
 			</td>
 			<td rowspan="2"><%= section.games_count -%></td>
