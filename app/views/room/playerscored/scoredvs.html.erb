@@ -9,9 +9,26 @@
 			<%= collection_select(:player, "id#{p_num}", @players, :id, :name, {include_blank: '指定なし', selected: @player_results[p_num][:id]}, onchange: 'changeSelectPlayer(this)') %>
 			</p>
 		<% end %>
-<% end %>
+<p>
+	<%= label_tag :date_check_start, '集計開始日時' %>
+	<%= check_box :date_check, :start, {checked: @checkedStart, id: :date_check_start ,onchange: "onchangeCheckbox(this,'start')"} %>
+	<%= date_field(:date, :start, {disabled: !(@checkedStart), value: @date_start,onblur: "changeDate(this, 'start')"})  %>
+</p>
+<p>
+	<%= label_tag :date_check_end, '集計終了日時' %>
+	<%= check_box :date_check, :end, {checked: @checkedEnd, id: :date_check_end ,onchange: "onchangeCheckbox(this,'end')"} %>
+	<%= date_field(:date, :end, {disabled: !(@checkedEnd), value: @date_end, onblur: "changeDate(this, 'end')"})  %>
+</p>
 
-※ 複数のプレイヤーを選択すると、同時にプレイした対局のみ表示・集計されます
+<div class='comments'>
+※ 複数のプレイヤーを選択すると、同時にプレイした対局のみ表示・集計されます<br>
+※ 集計開始日時は指定した日付の12:00(正午)から、集計終了日時は指定した日付の次の日の11:59までに'ゲーム終了'を行ったゲームのみを集計します。
+(半荘のデータを入力していても'ゲーム終了'を行っていない限り集計されません)
+<br>
+例) 開始を2018/8/1、 終了を8/31にした場合、8/1 12:00 ～ 9/1 11:59を集計します
+</div>
+
+<% end %>
 
 <hr>
 
@@ -145,12 +162,87 @@
 </div>
 
 <script>
-	formElement = document.getElementById('form_select_player')
+	var formElement = document.getElementById('form_select_player')
+	var selectPlayerElement = document.getElementById('player_id')
+	var checkStartElement = document.getElementById('date_check_start')
+	var checkEndElement = document.getElementById('date_check_end')
+	var dateStartElement = document.getElementById('date_start')
+	var dateEndElement = document.getElementById('date_end')
+
+	var bak_date_start = dateStartElement.value
+	var bak_date_end = dateEndElement.value
 
 	function changeSelectPlayer(obj){
 		var idx = obj.selectedIndex;
 		var value = obj.options[idx].value;
 		console.log(value);
+		changeDateSubmit()
+	}
+
+
+
+	function onchangeCheckbox(obj, kind){
+		console.log(kind);
+		console.log(obj.checked);
+		if(kind == 'start'){
+			if(obj.checked){
+				dateStartElement.disabled = false
+			}else{
+				dateStartElement.disabled = true
+				startDate = dateStartElement.value
+				if (startDate){
+					// チェック状態が外れた時間が入力されていたら解除ということでsubmitする
+					changeDateSubmit()
+				}
+			}
+		}else if(kind == 'end'){
+			if(obj.checked){
+				dateEndElement.disabled = false
+			}else{
+				dateEndElement.disabled = true
+				endDate = dateEndElement.value
+				if (endDate){
+					// チェック状態が外れた時間が入力されていたら解除ということでsubmitする
+					changeDateSubmit()
+				}
+			}
+		}
+	}
+
+	function changeDate(obj, kind){
+		console.log(kind);
+		console.log(obj.value);
+
+		if (kind == 'start'){
+			if (bak_date_start == obj.value){
+				return
+			}
+			bak_date_start = obj.value
+
+		}else{
+			if (bak_date_start == obj.value){
+				return
+			}
+			bak_date_end = obj.value
+		}
+
+
+		changeDateSubmit()
+	}
+
+	function changeDateSubmit(){
+		startDate = dateStartElement.value
+		endDate = dateEndElement.value
+
+		if (checkStartElement.checked && startDate
+			&& checkEndElement.checked && endDate){
+				if (startDate > endDate){
+					alert('集計終了日時は集計開始日時より遅くしてください')
+					return
+				}
+		}
+		console.log('submitします');
 		formElement.submit()
+
 	}
 </script>

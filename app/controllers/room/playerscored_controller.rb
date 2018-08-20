@@ -6,10 +6,30 @@ class Room::PlayerscoredController < ApplicationController
 	def scored
 		@players = Player.where(group_id: session[:grp], provisional: false)
 		@player_id = nil
+		@checkedStart = false
+		@checkedEnd = false
+		@date_start = nil
+		@date_end = nil
 		@g_idname = params[:g_idname]
 
 		unless params.has_key?(:player)
 			return
+		end
+
+		if params[:date_check][:start] == "1"
+			@checkedStart = true
+		end
+
+		if params.has_key?(:date) && params[:date].has_key?(:start)
+			@date_start = params[:date][:start]
+		end
+
+		if params[:date_check][:end] == "1"
+			@checkedEnd = true
+		end
+
+		if params.has_key?(:date) && params[:date].has_key?(:end)
+			@date_end = params[:date][:end]
 		end
 
 		p_id = params[:player][:id]
@@ -25,6 +45,18 @@ class Room::PlayerscoredController < ApplicationController
 #		sections = Section.includes(games: [scores: [:player]]).where(status: Section::Status::FINISHED,  group_id: session[:grp].to_i)
 		sections = Section.includes(games: [:scores]).where(status: Section::Status::FINISHED,  group_id: session[:grp].to_i)
 		sections = sections.where(games:  {scores: {player_id: @player_id}})
+
+		if @checkedStart && !(@date_start.nil?)
+			start_time_widh_zone = @date_start.in_time_zone
+			start_time_widh_zone += 12.hours
+			sections = sections.where('finished_at >= ?', start_time_widh_zone)
+		end
+
+		if @checkedEnd && !(@date_end.nil?)
+			end_time_widh_zone = @date_end.in_time_zone
+			end_time_widh_zone += 36.hours
+			sections = sections.where('finished_at < ?', end_time_widh_zone)
+		end
 
 
 #		sections.each {|section|
@@ -82,10 +114,30 @@ class Room::PlayerscoredController < ApplicationController
 	def scoredvs
 		@players = Player.where(group_id: session[:grp], provisional: false)
 		@player_results = [{id: nil}, {id: nil},{id: nil},{id: nil}]
+		@checkedStart = false
+		@checkedEnd = false
+		@date_start = nil
+		@date_end = nil
 		@g_idname = params[:g_idname]
 
 		unless params.has_key?(:player)
 			return
+		end
+
+		if params[:date_check][:start] == "1"
+			@checkedStart = true
+		end
+
+		if params.has_key?(:date) && params[:date].has_key?(:start)
+			@date_start = params[:date][:start]
+		end
+
+		if params[:date_check][:end] == "1"
+			@checkedEnd = true
+		end
+
+		if params.has_key?(:date) && params[:date].has_key?(:end)
+			@date_end = params[:date][:end]
 		end
 
 		@player_results.length.times {|player_no|
@@ -117,6 +169,19 @@ class Room::PlayerscoredController < ApplicationController
 
 			sections = Section.includes(games: [:scores]).where(status: Section::Status::FINISHED,  group_id: session[:grp].to_i)
 			sections = sections.where(games:  {scores: {player_id: p_result[:id]}})
+
+			if @checkedStart && !(@date_start.nil?)
+				start_time_widh_zone = @date_start.in_time_zone
+				start_time_widh_zone += 12.hours
+				sections = sections.where('finished_at >= ?', start_time_widh_zone)
+			end
+
+			if @checkedEnd && !(@date_end.nil?)
+				end_time_widh_zone = @date_end.in_time_zone
+				end_time_widh_zone += 36.hours
+				sections = sections.where('finished_at < ?', end_time_widh_zone)
+			end
+
 			p_result[:game_ids] = sections.pluck("games.id")
 			p_result[:m4_game_ids] = sections.where(games: {kind: Game::Kind::M4}).pluck("games.id")
 			p_result[:m3_game_ids] = sections.where(games: {kind: Game::Kind::M3}).pluck("games.id")

@@ -22,6 +22,25 @@
 	height: 1.5em;
 }
 
+.playersocred input[type=checkbox]{
+	transform: scale(2.5);
+	margin-left: 2vmin;
+	margin-right: 3vmin;
+	position: relative;
+	top: -1.0vmin;
+
+}
+
+.playersocred input[type=date]{
+	font-size: 4vmin;
+}
+
+.playersocred .comments{
+	font-size: 2vmin;
+
+}
+
+
 .scoredTable1 {
 	text-align: center;
 	border-collapse: collapse; /* 一重線 */
