@@ -1,6 +1,13 @@
 class Room::RankingController < RoomController
   def index
-    @ranking_count = 5 # 表示するカウント
+
+	# 表示するカウント
+    if session[:grp_per] == Player::Permission::ADMIN
+		# ルームの管理者は全員の集計が見える
+	    @ranking_count = Player.where(group_id: session[:grp], provisional: false).count
+    else
+	    @ranking_count = 5
+	end
   	#該当するセクション（ 実際にはここで日付も意識する)
   	section_ids = Section.where(status: Section::Status::FINISHED, group_id: session[:grp].to_i).pluck(:id)
   	logger.debug(section_ids)
