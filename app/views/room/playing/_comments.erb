@@ -5,7 +5,7 @@
 		<% @comments.each do |comment| %>
 			<div class='showComment'>
 				<div class='commentPlayer'>
-					<%= comment.player.created_at.strftime("%Y/%m/%d %H:%M:%S") %>
+					<%= comment.created_at.strftime("%Y/%m/%d %H:%M:%S") %>
 					<% if comment.player.provisional %>
 						ゲストさん
 					<% else %>
