@@ -4,6 +4,7 @@
 <p>終了時刻  <%= @section.finished_at.strftime("%Y/%m/%d %H:%M") %></p>
 <% rateStr = @section.rate.nil? ? 'なし' : @section.rate.to_s %>
 <p>現在のレート  <%= rateStr %> </p>
+<p>ゲームの種類： <%= Section::GameKindString[@section.gamekind] %> </p>
 
 
 <%= render 'scoreTable' %>

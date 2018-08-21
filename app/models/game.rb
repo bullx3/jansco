@@ -8,4 +8,9 @@ class Game < ApplicationRecord
 		CHIP = 2 # チップ
 	end
 
+	module Scorekind
+		GAME = 0 # 半荘・東風戦
+		CHIP = 1 # チップ
+	end
+
 end

@@ -2,7 +2,7 @@ class Room::PlayingController < RoomController
   RateStrings = [{name: "点５",  rate: 50 , checked: false},
  	      		     {name: "点ピン", rate: 100, checked: false},
   		        	 {name: "手動", rate: 0  , checked: false}]
-  GameKindString = {"0" => "四麻", "1" => "三麻", "2" =>"ﾁｯﾌﾟ"}
+  ScoreKindString = {Game::Scorekind::GAME.to_s => "半荘", Game::Scorekind::CHIP.to_s => "ﾁｯﾌﾟ"}
 
 
   def new
@@ -21,11 +21,19 @@ class Room::PlayingController < RoomController
       return
     end
 
+    unless params.has_key?(:gamekind)
+      redirect_to action: :notice, alert: '種類が選択されていません'
+      return
+    end
+
+    gamekind = params[:gamekind]
+
     # セクションを追加
     section = Section.new
     section.status = Section::Status::PLAYING
     section.group_id = session[:grp].to_i
     section.all_paid = false
+    section.gamekind = gamekind
 
     if params[:rate] != nil
       rate = params[:rate].to_i
@@ -65,6 +73,7 @@ class Room::PlayingController < RoomController
   	@section_id = params[:id].to_i
     @show_active = true  # false: 終了済み true:実行中
 
+
   	if !(Section.exists?(id: @section_id))
 		  redirect_to action: :notice, alert: 'そのゲームはありません'
   	  return
@@ -76,7 +85,7 @@ class Room::PlayingController < RoomController
 
     @section = stm.getSection
 
-    @gameKindString = GameKindString
+    @scoreKindString = ScoreKindString
 
     @comments = Comment.includes(:player).where(section_id: @section_id)
 
@@ -91,6 +100,7 @@ class Room::PlayingController < RoomController
 
   	# 既に終了している場合は終了済みのスコアビューを表示
   	section = Section.find(@section_id)
+
   	if section.status == Section::Status::FINISHED
       @show_active = false
   		render 'showFinished'
@@ -101,18 +111,20 @@ class Room::PlayingController < RoomController
 
   def edit
     section_id = params[:id]
-    @gameKindString = GameKindString
+    @scoreKindString = ScoreKindString
     @mode = params[:mode]
     @gameHash = {}
 
 
     stm = ScoreTableManager.new(section_id)
+    @gamekind = stm.getSection.gamekind
+
     if @mode == 'add'
       sectionPlayers = stm.getSectionPlayersWithPlayerName
 
       @gameHash[:id] = nil
       @gameHash[:gameNo] = -1
-      @gameHash[:kind] = nil
+      @gameHash[:scorekind] = nil
       @gameHash[:scores] = Array.new
       sectionPlayers.each {|sPlayer|
         scoreHash = {p_id: sPlayer.player_id,
@@ -136,7 +148,6 @@ class Room::PlayingController < RoomController
       logger.debug(@gameHash)
       @subtitle = 'スコア編集'
 
-
     else
       raise 'edit mode argument error'
     end
@@ -148,7 +159,7 @@ class Room::PlayingController < RoomController
   def add
 
     section_id = params[:id]
-    kind = params[:kind].to_i
+    scorekind = params[:scorekind].to_i
 
     # game_noを決める為game_noの大きい順で取り出し
     games = Game.where(section_id: section_id).order(game_no: :desc).limit(1)
@@ -168,7 +179,7 @@ class Room::PlayingController < RoomController
       game = Game.new
       game.section_id = section_id
       game.game_no = game_no
-      game.kind = kind
+      game.scorekind = scorekind
       game.save!
 
       game_id = game.id  # Gameテーブルに追加した後しかidを取得できない
@@ -189,7 +200,7 @@ class Room::PlayingController < RoomController
       stm = ScoreTableManager.new(section_id)
       stm.updateTotalScores  #この処理内でupdate済み
 
-      text = sprintf('add game:%d kind:%d score:%s', game_no, kind, params[:input].to_json)
+      text = sprintf('add game:%d scorekind:%d score:%s', game_no, scorekind, params[:input].to_json)
       log = Log.newLog(section_id, session[:usr], text)
       log.save!
 
@@ -202,7 +213,7 @@ class Room::PlayingController < RoomController
   def update
     section_id = params[:id].to_i
     updateGameNo = params[:gameNo].to_i
-    selectKind = params[:kind].to_i
+    selectKind = params[:scorekind].to_i
 
     #トランザクション開始
     ActiveRecord::Base.transaction do
@@ -213,8 +224,8 @@ class Room::PlayingController < RoomController
 
       logger.debug('game_id=' + updateGame.id.to_s)
 
-      if updateGame.kind != selectKind
-        updateParams = {kind: selectKind}
+      if updateGame.scorekind != selectKind
+        updateParams = {scorekind: selectKind}
         updateGame.update(updateParams)
       end
 
@@ -237,7 +248,7 @@ class Room::PlayingController < RoomController
       stm = ScoreTableManager.new(section_id)
       stm.updateTotalScores  #この処理内でupdate済み
 
-      text = sprintf('update game:%d kind:%d score:%s', updateGameNo, selectKind, params[:input].to_json)
+      text = sprintf('update game:%d scorekind:%d score:%s', updateGameNo, selectKind, params[:input].to_json)
       log = Log.newLog(section_id, session[:usr], text)
       log.save!
 
@@ -583,7 +594,7 @@ private
       gameHash = {}
       gameHash[:id] = game.id
       gameHash[:gameNo] = game.game_no
-      gameHash[:kind] = game.kind
+      gameHash[:scorekind] = game.scorekind
       gameHash[:scores] = Array.new
       @splayers.each {|sPlayer|
         scores_score = nil

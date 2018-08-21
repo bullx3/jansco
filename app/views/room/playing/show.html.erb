@@ -5,9 +5,10 @@
 
 <div class='showScore'>
 
-<p>開始時刻  <%= @section.created_at.strftime("%Y/%m/%d %H:%M") %></p>
+<p>開始時刻： <%= @section.created_at.strftime("%Y/%m/%d %H:%M") %></p>
 <% rateStr = @section.rate.nil? ? 'なし' : @section.rate.to_s %>
-<p>現在のレート  <%= rateStr %> </p>
+<p>現在のレート： <%= rateStr %> </p>
+<p>ゲームの種類： <%= Section::GameKindString[@section.gamekind] %> </p>
 
 <p>
 <%= form_tag({action: :editPlayer},method: :post) do %>

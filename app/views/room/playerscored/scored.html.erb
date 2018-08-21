@@ -35,33 +35,27 @@
 <h3><%= @player_name %>成績</h3>
 
 <table class='scoredTable1'>
-	<captain>合計スコア</captain>
+	<captain>四麻の合計スコア</captain>
 	<tr>
 		<th>合計</th>
 		<th>四麻</th>
-		<th>三麻</th>
 		<th>チップ</th>
 	</tr>
 	<tr>
-		<% if @total_score >= 0  %>
-			<td><%= @total_score %></td>
+		<% if @m4_total >= 0  %>
+			<td><%= @m4_total %></td>
 		<% else %>
-			<td><span class='minus_number' ><%= @total_score %></span></td>
+			<td><span class='minus_number' ><%= @m4_total %></span></td>
 		<% end %>
 		<% if @m4_score >= 0  %>
 			<td><%= @m4_score %></td>
 		<% else %>
 			<td><span class='minus_number' ><%= @m4_score %></span></td>
 		<% end %>
-		<% if @m3_score >= 0  %>
-			<td><%= @m3_score %></td>
+		<% if @m4_chip_score >= 0  %>
+			<td><%= @m4_chip_score %></td>
 		<% else %>
-			<td><span class='minus_number' ><%= @m3_score %></span></td>
-		<% end %>
-		<% if @chip_score >= 0  %>
-			<td><%= @chip_score %></td>
-		<% else %>
-			<td><span class='minus_number' ><%= @chip_score %></span></td>
+			<td><span class='minus_number' ><%= @m4_chip_score %></span></td>
 		<% end %>
 	</tr>
 </table>
@@ -84,6 +78,34 @@
 		<% end %>
 	</tr>
 
+</table>
+
+<br>
+
+<table class='scoredTable1'>
+	<captain>三麻の合計スコア</captain>
+	<tr>
+		<th>合計</th>
+		<th>三麻</th>
+		<th>チップ</th>
+	</tr>
+	<tr>
+		<% if @m3_total >= 0  %>
+			<td><%= @m3_total %></td>
+		<% else %>
+			<td><span class='minus_number' ><%= @m3_total %></span></td>
+		<% end %>
+		<% if @m3_score >= 0  %>
+			<td><%= @m3_score %></td>
+		<% else %>
+			<td><span class='minus_number' ><%= @m3_score %></span></td>
+		<% end %>
+		<% if @m3_chip_score >= 0  %>
+			<td><%= @m3_chip_score %></td>
+		<% else %>
+			<td><span class='minus_number' ><%= @m3_chip_score %></span></td>
+		<% end %>
+	</tr>
 </table>
 
 <br>

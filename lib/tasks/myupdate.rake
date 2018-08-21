@@ -4,7 +4,7 @@ namespace :myupdate do
 		sections = Section.all
 		puts "before"
 		sections.each {|section|
-			puts "id:#{section.id} finished_at:#{section.finished_at} updated_at:#{section.updated_at} "
+			puts "id:#{section.id} finished_at:#{section.finished_at} updated_at:#{section.uscorepdated_at} "
 		}
 
 		sections.where(status: Section::Status::FINISHED, finished_at: nil).update_all('finished_at = updated_at')
@@ -20,4 +20,89 @@ namespace :myupdate do
 		}
 
 	end
+
+
+	desc "migration convert kind"
+	task :convertkind => :environment do
+		puts "precheck starting ..."
+		sections = Section.includes(games: [:scores]).all
+		error = false
+		m4_section_ids = []
+		m3_section_ids = []
+
+		sections.each {|section|
+#			puts "id:#{section.id} gamekind:#{section.gamekind}"
+			kind4m = false
+			kind3m = false
+			section.games.each {|game|
+				if game.kind == 0
+					kind4m = true
+					if game.scores.length != 4
+						puts "section_id:#{section.id} game_id:#{game.id} 四麻のスコア数が４以外です(#{game.scores.length})"
+						error = true
+					end
+				end
+				if game.kind == 1
+					kind3m = true
+					if game.scores.length != 3
+						puts "section_id:#{section.id} game_id:#{game.id} 三麻のスコア数が3以外です(#{game.scores.length})"
+						error = true
+					end
+				end
+			}
+			if kind4m && kind3m
+				puts "section_id:#{section.id} 四麻と三麻が混在してます"
+				error = true
+			end
+
+			if kind4m
+				m4_section_ids.push(section.id)
+			end
+
+			if kind3m
+				m3_section_ids.push(section.id)
+			end
+		}
+
+		if error
+			puts 'precheckでエラーが発生した為更新処理処理を中断します'
+		else
+			puts 'precheck OK'
+			puts '四麻'
+			puts m4_section_ids.join(' ')
+			puts '三麻'
+			puts m3_section_ids.join(' ')
+		end
+
+		Rails.logger.debug('cbefor')
+		sections.each {|section|
+			Rails.logger.debug("section_id:#{section.id} gamekind:#{section.gamekind}")
+			section.games.each {|game|
+				Rails.logger.debug("   game_id:#{game.id} kind:#{game.kind} scorekind:#{game.scorekind}")
+			}
+		}
+
+		puts "converting ...."
+
+		ActiveRecord::Base.transaction do
+			Section.where(id: m4_section_ids).update_all({gamekind: 0})
+			Section.where(id: m3_section_ids).update_all({gamekind: 1})
+
+			Game.where('kind = 0 OR kind = 1').update_all({scorekind: 0})
+			Game.where('kind = 2').update_all({scorekind: 1})
+		end
+
+		sections = Section.includes(games: [:scores]).all
+
+		Rails.logger.debug('convert')
+		sections.each {|section|
+			Rails.logger.debug("section_id:#{section.id} gamekind:#{section.gamekind}")
+			section.games.each {|game|
+				Rails.logger.debug("   game_id:#{game.id} kind:#{game.kind} scorekind:#{game.scorekind}")
+			}
+		}
+
+
+	end
+
 end

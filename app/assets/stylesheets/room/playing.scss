@@ -38,12 +38,14 @@
 }
 
 .sectionTable th {
+	border: 1px solid gray;
 	height: 3em;	
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;	
 }
 
 .sectionTable td {
+	border: 1px solid gray;
 	height: 3em;	
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;	
@@ -108,11 +110,10 @@ tr.scoreLineTotals {
 
 .selectKinds{
 	border: 5px double gray;
-	background: lavender; 
+	background: lavender;
 	position:relative;
 	padding: 0px 30px 30px 40px;
 	margin: 30px 20px 20px 20px;
-
 }
 
 .selectKinds h2{
@@ -134,7 +135,7 @@ span.selectTitle {
 
 .selectKinds label{
 	font-size: 7vmin;
-	width: 25%;
+	width: 40%;
 	text-align: center;
 	color: #696969;
 	border: 1px solid royalblue;
@@ -225,6 +226,52 @@ span.selectTitle {
 	font-weight: bold;
 	margin-left: 7vmin;
 }
+
+/*
+	ゲームの種類入力
+
+*/
+.selectGameKinds{
+	border: 5px solid gray;
+	background-color: lavender;
+	border-radius: 20px;
+	padding: 0px 20px 20px 20px;
+	margin: 20px 20px 20px 20px;
+}
+
+.selectGameKinds h2{
+	font-size: 4.5vmin;
+	margin-bottom: 0;
+}
+
+
+.selectGameKinds input[type="radio"]{
+	display: none;
+}
+
+.selectGameKinds label{
+	font-size: 7vmin;
+	width: 40%;
+	text-align: center;
+	color: #696969;
+	border: 1px solid royalblue;
+	background: snow;
+	border-radius: 20px;
+	display: inline-block;
+	margin: 30px 20px 20px 20px;
+}
+
+.selectGameKinds label:hover{
+	color: #888;
+}
+
+.selectGameKinds input[type="radio"]:checked + label{
+	color: #000;
+	border: 1px solid #000;
+	background-color: yellow;
+}
+
+
 
 /*
 	レート設定

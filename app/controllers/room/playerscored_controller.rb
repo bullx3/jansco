@@ -70,19 +70,28 @@ class Room::PlayerscoredController < ApplicationController
 #		}
 
 		game_ids = sections.pluck("games.id")
-		m4_game_ids = sections.where(games: {kind: Game::Kind::M4}).pluck("games.id")
-		m3_game_ids = sections.where(games: {kind: Game::Kind::M3}).pluck("games.id")
-		chip_game_ids = sections.where(games: {kind: Game::Kind::CHIP}).pluck("games.id")
+		m4_games = sections.where(gamekind: Section::Gamekind::M4)
+		m4_game_ids = m4_games.where(games: {scorekind: Game::Scorekind::GAME}).pluck("games.id")
+		m4_chip_ids = m4_games.where(games: {scorekind: Game::Scorekind::CHIP}).pluck("games.id")
+
+		m3_games = sections.where(gamekind: Section::Gamekind::M3)
+		m3_game_ids = m3_games.where(games: {scorekind: Game::Scorekind::GAME}).pluck("games.id")
+		m3_chip_ids = m3_games.where(games: {scorekind: Game::Scorekind::CHIP}).pluck("games.id")
+
 		logger.debug(game_ids)
 		logger.debug(m4_game_ids)
+		logger.debug(m4_chip_ids)
 		logger.debug(m3_game_ids)
-		logger.debug(chip_game_ids)
+		logger.debug(m3_chip_ids)
 
 
-		@total_score = Score.where(game_id: game_ids, player_id: @player_id).sum(:score)
 		@m4_score = Score.where(game_id: m4_game_ids, player_id: @player_id).sum(:score)
 		@m3_score = Score.where(game_id: m3_game_ids, player_id: @player_id).sum(:score)
-		@chip_score = Score.where(game_id: chip_game_ids, player_id: @player_id).sum(:score)
+		@m4_chip_score = Score.where(game_id: m4_chip_ids, player_id: @player_id).sum(:score)
+		@m3_chip_score = Score.where(game_id: m3_chip_ids, player_id: @player_id).sum(:score)
+		@m4_total = @m4_score + @m4_chip_score
+		@m3_total = @m3_score + @m3_chip_score
+
 
 		@m4_games = Game.includes(scores: [:player]).where(id: m4_game_ids).order(created_at: :desc).order("scores.score desc")
 #		@m4_games.each { |game|
@@ -183,13 +192,16 @@ class Room::PlayerscoredController < ApplicationController
 			end
 
 			p_result[:game_ids] = sections.pluck("games.id")
-			p_result[:m4_game_ids] = sections.where(games: {kind: Game::Kind::M4}).pluck("games.id")
-			p_result[:m3_game_ids] = sections.where(games: {kind: Game::Kind::M3}).pluck("games.id")
-			p_result[:chip_game_ids] = sections.where(games: {kind: Game::Kind::CHIP}).pluck("games.id")
+			p_result[:m4_game_ids] = sections.where(gamekind: Section::Gamekind::M4, games: {scorekind: Game::Scorekind::GAME}).pluck("games.id")
+			p_result[:m4_chip_ids] = sections.where(gamekind: Section::Gamekind::M4, games: {scorekind: Game::Scorekind::CHIP}).pluck("games.id")
+			p_result[:m3_game_ids] = sections.where(gamekind: Section::Gamekind::M3, games: {scorekind: Game::Scorekind::GAME}).pluck("games.id")
+			p_result[:m3_chip_ids] = sections.where(gamekind: Section::Gamekind::M3, games: {scorekind: Game::Scorekind::CHIP}).pluck("games.id")
+
 			logger.debug(p_result[:game_ids])
 			logger.debug(p_result[:m4_game_ids])
+			logger.debug(p_result[:m4_chip_ids])
 			logger.debug(p_result[:m3_game_ids])
-			logger.debug(p_result[:chip_game_ids])
+			logger.debug(p_result[:m3_chip_ids])
 
 		}
 
@@ -198,6 +210,8 @@ class Room::PlayerscoredController < ApplicationController
 		game_ids = []
 		m4_game_ids = []
 		m3_game_ids = []
+		m4_chip_ids = []
+		m3_chip_ids = []
 		chip_game_ids  = []
 
 		@player_results.each {|p_result| 
@@ -210,29 +224,34 @@ class Room::PlayerscoredController < ApplicationController
 				game_ids = p_result[:game_ids].deep_dup
 				m4_game_ids = p_result[:m4_game_ids].deep_dup
 				m3_game_ids = p_result[:m3_game_ids].deep_dup
-				chip_game_ids = p_result[:chip_game_ids].deep_dup
+				m4_chip_ids = p_result[:m4_chip_ids].deep_dup
+				m3_chip_ids = p_result[:m3_chip_ids].deep_dup
 				initflag = false
 			else
 				game_ids &= p_result[:game_ids]
 				m4_game_ids &= p_result[:m4_game_ids]
 				m3_game_ids &= p_result[:m3_game_ids]
-				chip_game_ids &= p_result[:chip_game_ids]
+				m4_chip_ids &= p_result[:m4_chip_ids]
+				m3_chip_ids &= p_result[:m3_chip_ids]
 			end
 		}
 		logger.debug(game_ids)
 		logger.debug(m4_game_ids)
 		logger.debug(m3_game_ids)
-		logger.debug(chip_game_ids)
+		logger.debug(m4_chip_ids)
+		logger.debug(m3_chip_ids)
 
 		@player_results.each {|p_result| 
 			if p_result[:id].nil?
 				next
 			end
 
-			p_result[:total_score] = Score.where(game_id: game_ids, player_id: p_result[:id]).sum(:score)
 			p_result[:m4_score] = Score.where(game_id: m4_game_ids, player_id: p_result[:id]).sum(:score)
 			p_result[:m3_score] = Score.where(game_id: m3_game_ids, player_id: p_result[:id]).sum(:score)
-			p_result[:chip_score] = Score.where(game_id: chip_game_ids, player_id: p_result[:id]).sum(:score)
+			p_result[:m4_chip_score] = Score.where(game_id: m4_chip_ids, player_id: p_result[:id]).sum(:score)
+			p_result[:m3_chip_score] = Score.where(game_id: m3_chip_ids, player_id: p_result[:id]).sum(:score)
+			p_result[:m4_total] = p_result[:m4_score] + p_result[:m4_chip_score]
+			p_result[:m3_total] = p_result[:m3_score] + p_result[:m3_chip_score]
 		}
 
 

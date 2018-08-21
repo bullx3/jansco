@@ -2,23 +2,20 @@
 <div class='editScores'>
 <h1><%= @subtitle %></h1>
 
-<%#= debug(@gameKindString) %>
-<%#= debug(@gameHash) %>
-
 <% form_url = (@mode == 'add') ?  {action: :add} : {action: :update} %>
 <%= form_tag form_url , id: 'form_edit' do %>
 	<%= hidden_field_tag 'gameNo', @gameHash[:gameNo] %>
 
 	<div class='selectKinds'>
 	   	<h2>種類を選択して下さい</h2>
-		<% @gameKindString.each do |key, value| %>
-			<% if @gameHash[:kind] != nil && @gameHash[:kind] == key.to_i %>
+		<% @scoreKindString.each do |key, value| %>
+			<% if @gameHash[:scorekind] != nil && @gameHash[:scorekind] == key.to_i %>
 				<% checked = true %>
 			<% else %>
 				<% checked = false %>
 			<% end %>
-			<%= radio_button_tag :kind, key, checked %>
-			<%= label_tag 'kind_' + key, value %>
+			<%= radio_button_tag :scorekind, key, checked %>
+			<%= label_tag 'scorekind_' + key, value %>
 		<% end %>
 	</div>
 
@@ -86,7 +83,9 @@ calcInputScore()
 function onclick_submit(btn){
 	console.log('click submit')
 
-	var radioNodeList = formElement.kind
+	var gamekind = <%= @gamekind %>;
+
+	var radioNodeList = formElement.scorekind
 	var value = radioNodeList.value
 
 	if(value == ''){
@@ -109,15 +108,17 @@ function onclick_submit(btn){
 		return
 	}
 
-	if((value == 0) && (input_count != 4)) {
-		alert('４人分のスコアを入力してください')
-		return
+	if(value == 0) {
+		// 半荘の場合人数確認
+		if(gamekind == 0 && input_count != 4){
+			alert('四麻の場合４人分のスコアを入力してください')
+			return
+		}else if (gamekind == 1 && input_count != 3){
+			alert('三麻の場合３人分のスコアを入力してください')
+			return
+		}
 	}
 
-	if((value == 1) && (input_count != 3)) {
-		alert('３人分のスコアを入力してください')
-		return
-	}
 
 	if(inScoreSumElement.textContent != '0'){
 		alert('合計スコアを0にしてください')

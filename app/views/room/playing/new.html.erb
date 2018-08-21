@@ -1,6 +1,15 @@
 <h2>スコアテーブルを作成</h2>
 
 <%= form_tag action: :create do %>
+
+	<div class='selectGameKinds'>
+		<h2>種類を選択して下さい</h2>
+		<%= radio_button_tag :gamekind, Section::Gamekind::M4, true %>
+		<%= label_tag 'gamekind_0', Section::GameKindString[Section::Gamekind::M4] %>
+		<%= radio_button_tag :gamekind, Section::Gamekind::M3 %>
+		<%= label_tag 'gamekind_1', Section::GameKindString[Section::Gamekind::M3] %>
+	</div>
+
 	<%= render 'selectPlayers', reteDefs: @rateStrings, custom_rate: nil ,players_all: @players_all, player_ids: Array.new, total_scores: Array.new %>
 
 	<%= button_tag '開始' , data: {disable_with: '送信中...'} , class: 'sqr_button'%>

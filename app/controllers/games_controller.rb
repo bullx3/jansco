@@ -69,6 +69,6 @@ class GamesController < AdminController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def game_params
-      params.require(:game).permit(:section_id, :game_no, :kind)
+      params.require(:game).permit(:section_id, :game_no, :kind, :scorekind)
     end
 end

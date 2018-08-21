@@ -35,37 +35,31 @@
 <% if @select_flag %>
 
 <table class='scoredvsTable1'>
-	<captain>合計スコア</captain>
+	<captain>四麻合計スコア</captain>
 	<tr>
 		<th>プレイヤー</th>
 		<th>合計</th>
 		<th>四麻</th>
-		<th>三麻</th>
 		<th>チップ</th>
 	</tr>
 	<% @player_results.each do |p_result| %>
 		<% unless p_result[:id].nil? %>
 			<tr>
 				<td><%= p_result[:name] %></td>
-				<% if p_result[:total_score] >= 0  %>
-					<td><%= p_result[:total_score] %></td>
+				<% if p_result[:m4_total] >= 0  %>
+					<td><%= p_result[:m4_total] %></td>
 				<% else %>
-					<td><span class='minus_number' ><%= p_result[:total_score] %></span></td>
+					<td><span class='minus_number' ><%= p_result[:m4_total] %></span></td>
 				<% end %>
 				<% if p_result[:m4_score] >= 0  %>
 					<td><%= p_result[:m4_score] %></td>
 				<% else %>
 					<td><span class='minus_number' ><%= p_result[:m4_score] %></span></td>
 				<% end %>
-				<% if p_result[:m3_score] >= 0  %>
-					<td><%= p_result[:m3_score] %></td>
+				<% if p_result[:m4_chip_score] >= 0  %>
+					<td><%= p_result[:m4_chip_score] %></td>
 				<% else %>
-					<td><span class='minus_number' ><%= p_result[:m3_score] %></span></td>
-				<% end %>
-				<% if p_result[:chip_score] >= 0  %>
-					<td><%= p_result[:chip_score] %></td>
-				<% else %>
-					<td><span class='minus_number' ><%= p_result[:chip_score] %></span></td>
+					<td><span class='minus_number' ><%= p_result[:m4_chip_score] %></span></td>
 				<% end %>
 			</tr>
 		<% end %>
@@ -98,6 +92,40 @@
 		<% end %>
 	<% end %>
 
+</table>
+
+<br>
+
+<table class='scoredvsTable1'>
+	<captain>三麻合計スコア</captain>
+	<tr>
+		<th>プレイヤー</th>
+		<th>合計</th>
+		<th>三麻</th>
+		<th>チップ</th>
+	</tr>
+	<% @player_results.each do |p_result| %>
+		<% unless p_result[:id].nil? %>
+			<tr>
+				<td><%= p_result[:name] %></td>
+				<% if p_result[:m3_total] >= 0  %>
+					<td><%= p_result[:m3_total] %></td>
+				<% else %>
+					<td><span class='minus_number' ><%= p_result[:m3_total] %></span></td>
+				<% end %>
+				<% if p_result[:m3_score] >= 0  %>
+					<td><%= p_result[:m3_score] %></td>
+				<% else %>
+					<td><span class='minus_number' ><%= p_result[:m3_score] %></span></td>
+				<% end %>
+				<% if p_result[:m3_chip_score] >= 0  %>
+					<td><%= p_result[:m3_chip_score] %></td>
+				<% else %>
+					<td><span class='minus_number' ><%= p_result[:m3_chip_score] %></span></td>
+				<% end %>
+			</tr>
+		<% end %>
+	<% end %>
 </table>
 
 <br>

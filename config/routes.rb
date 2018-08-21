@@ -41,6 +41,7 @@ Rails.application.routes.draw do
 
   get 'r/:g_idname/playing/new' => 'room/playing#new', as: :new_room_playing
   post 'r/:g_idname/playing/create' => 'room/playing#create', as: :create_room_playing
+  get 'r/:g_idname/playing/notice' => 'room/playing#notice'
   get 'r/:g_idname/playing/:id' => 'room/playing#show', as: :room_playing
   post 'r/:g_idname/playing/:id/edit' => 'room/playing#edit', as: :edit_room_playing
   post 'r/:g_idname/playing/:id/add' => 'room/playing#add', as: :add_room_playing
