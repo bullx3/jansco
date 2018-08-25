@@ -148,7 +148,7 @@ class AdminController < ApplicationController
 			# ゲストユーザーとゲストプレイヤーを追加する
 			guest_user = User.new
 			guest_user.username = user_name
-			guest_user.password = User.createPassword(username, password)
+			guest_user.password = User.createPassword(user_name, user_paswd)
 			guest_user.permission = User::Permission::GUEST
 			guest_user.save!
 

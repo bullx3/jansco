@@ -1,0 +1,19 @@
+<div class='userTop'>
+<p>こんにちは<span class='userTopName'><%= @user.username %></span>さん</p>
+
+<p>どのルームに入りますか？</p>
+<ul>
+<% @user.groups.each do |group| %>
+	<li><%= link_to group.name, room_path(group.idname) %></li>
+<% end %>
+</ul>
+
+<p>
+	<%= link_to '集計', action: :profit %>
+</p>
+
+<hr>
+<p>
+	<%= link_to 'ログアウト', {controller: :login, action: :confirmLogout} %>
+</p>
+</div>

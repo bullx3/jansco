@@ -64,6 +64,8 @@ Rails.application.routes.draw do
   get 'r/:g_idname/playerscored/scoredvs' => 'room/playerscored#scoredvs'
 
 
+  get 'p/index' => 'personal#index', as: :user_top
+  get 'p/profit' => 'personal#profit'
 
   get 'main/index'
   root to: 'main#index', as: :top

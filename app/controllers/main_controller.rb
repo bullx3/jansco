@@ -1,6 +1,6 @@
 class MainController < ApplicationController
   def index
-  	user_id = session[:usr]
-  	@user = User.find(user_id)
+  	redirect_to controller: :personal, action: :index
+  	return
   end
 end

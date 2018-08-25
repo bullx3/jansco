@@ -1,0 +1,132 @@
+<div class='user_profit' >
+<h1><%= @user.username %>さんの集計結果</h1>
+<div class='commnts'>
+※ 所属するすべてのルームの合計が表示されます
+</div>
+
+<h3>全合計</h3>
+<table>
+	<tr>
+		<th>スコア合計</th>
+		<th>レート換算</th>
+		<th>対局数</th>
+	</tr>
+	<tr>
+		<% if @profit_total[0].sum_score >= 0 %>
+			<td><%= @profit_total[0].sum_score %></td>
+		<% else %>
+			<td><span class='minus_number'><%= @profit_total[0].sum_score %></span></td>
+		<% end %>
+		<% profit = number_to_currency(@profit_total[0].sum_profit, unit:'', precision: 0, format: '%n %u') %>
+		<% if @profit_total[0].sum_profit >= 0 %>
+			<td><%= profit %></td>
+		<% else %>
+			<td><span class='minus_number'><%= profit %></span></td>
+		<% end %>
+		<td><%= @profit_total[0].count_game %></td>
+	</tr>
+</table>
+<% if @no_rate_sections.length > 0 %>
+	注意！レート設定されていないゲームがあります<a href='#no_rate'>(Link)</a><br>
+	この結果にレート設定のないゲームは含まれていません
+<% end %>
+
+<hr>
+
+
+<h3>月毎の集計</h3>
+<table>
+	<tr>
+		<th>年/月</th>
+		<th>スコア合計</th>
+		<th>レート換算</th>
+		<th>対局数</th>
+	</tr>
+	<% @profit_months.each do |profit_month| %>
+		<tr>
+			<td><%= profit_month.monthly %></td>
+			<% if profit_month.sum_score >= 0 %>
+				<td><%= profit_month.sum_score %></td>
+			<% else %>
+				<td><span class='minus_number'><%= profit_month.sum_score %></span></td>
+			<% end %>
+			<% profit = number_to_currency(profit_month.sum_profit, unit:'', precision: 0, format: '%n %u') %>
+			<% if profit_month.sum_profit >= 0 %>
+				<td><%= profit %></td>
+			<% else %>
+				<td><span class='minus_number'><%= profit %></span></td>
+			<% end %>
+			<td><%= profit_month.count_game %></td>
+		</tr>
+	<% end %>
+</table>
+
+
+<hr>
+
+<h3>日付毎の集計(今月のみ)</h3>
+<table>
+	<tr>
+		<th>終了日</th>
+		<th>スコア合計</th>
+		<th>レート換算</th>
+		<th>対局数</th>
+	</tr>
+	<% @profit_dailys.each do |profit_daily| %>
+		<tr>
+			<td><%= profit_daily.daily %></td>
+			<% if profit_daily.sum_score >= 0 %>
+				<td><%= profit_daily.sum_score %></td>
+			<% else %>
+				<td><span class='minus_number'><%= profit_daily.sum_score %></span></td>
+			<% end %>
+
+			<% profit = number_to_currency(profit_daily.sum_profit, unit:'', precision: 0, format: '%n %u') %>
+			<% if profit_daily.sum_profit >= 0 %>
+				<td><%= profit %></td>
+			<% else %>
+				<td><span class='minus_number'><%= profit %></span></td>
+			<% end %>
+			<td><%= profit_daily.count_game %></td>
+		</tr>
+	<% end %>
+</table>
+
+<hr>
+<h3 id="no_rate">レート指定の無いゲーム</h3>
+<% if @no_rate_sections.length > 0 %>
+<table>
+	<tr>
+		<th>ゲーム終了日</th>
+		<th>ルーム</th>
+		<th>スコア</th>
+		<th>対局数</th>
+	</tr>
+	<% @no_rate_sections.each do |section| %>
+		<tr>
+			<td>
+				<%= link_to room_playing_path(section.idname, section.section_id) do %>
+					<%= section.finished_at.strftime("%Y/%m/%d") %>
+				<% end %>
+			</td>
+			<td><%= section.name %></td>
+			<% if section.sum_score >= 0 %>
+				<td><%= section.sum_score %></td>
+			<% else %>
+				<td><span class='minus_number'><%= section.sum_score %></span></td>
+			<% end %>
+			<td><%= section.count_game %></td>
+		</tr>
+	<% end %>
+</table>
+<% else %>
+	ありません
+<% end %>
+
+<hr>
+<h4>
+<%= link_to 'ユーザートップへ', user_top_path %>
+</h4>
+
+</div>
+

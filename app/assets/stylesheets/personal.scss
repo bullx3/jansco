@@ -1,0 +1,31 @@
+// Place all the styles related to the personal controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.user_profit {
+	font-size: 4vmin;
+}
+
+
+.user_profit table{
+	text-align: center;
+	border-collapse: collapse; /* 一重線 */
+	border: 2px solid gray;
+}
+
+.user_profit th{
+	border: 2px solid gray;
+	background-color: lightblue;
+	padding: 10px;
+
+}
+
+.user_profit td{
+	border: 2px solid gray;
+	padding: 5px;
+}
+
+.user_profit .comments{
+	font-size: 2vmin;
+
+}
