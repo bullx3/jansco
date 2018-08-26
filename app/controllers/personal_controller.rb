@@ -24,10 +24,15 @@ class PersonalController < ApplicationController
 	profits = profits.where.not(rate: nil)
 
 	@profit_total = profits
+	logger.debug("@profit_total.length:#{@profit_total.length}")
+	logger.debug("count_game:#{@profit_total[0].count_game}")
+	logger.debug("sum_score:#{@profit_total[0].sum_score}")
+	logger.debug("sum_profit:#{@profit_total[0].sum_profit}")
 
 	# 月ごとの集計 実際は 12時間後(例 2018/8分は 8/1 12:00 ～ 9/1 11:59までに終了した対局)
 	# JST での時間で集計する為 +9Hで判定する（MySQLはUTCで保存）
 	@profit_months = profits.select("DATE_FORMAT((finished_at - INTERVAL 12 HOUR + INTERVAL 9 HOUR), '%Y/%m') as monthly").group("monthly")
+	logger.debug("@profit_months.length:#{@profit_months.length}")
 
 	@profit_dailys = profits.select("DATE_FORMAT((finished_at - INTERVAL 12 HOUR + INTERVAL 9 HOUR), '%Y/%m/%d') as daily").group("daily")
 
@@ -37,6 +42,7 @@ class PersonalController < ApplicationController
 	logger.debug("month:#{month}")
 
 	@profit_dailys = @profit_dailys.select("DATE_FORMAT((finished_at - INTERVAL 12 HOUR + INTERVAL 9 HOUR), '%Y/%m') as month").having("month = ?", month)
+	logger.debug("@profit_dailys.length:#{@profit_dailys.length}")
 
 #	no_rates = Section.joins(:section_players).select("sections.*, section_players.*")
 #	no_rates = no_rates.joins(:group).select("groups.*")

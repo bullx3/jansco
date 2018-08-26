@@ -5,6 +5,9 @@
 </div>
 
 <h3>全合計</h3>
+
+<% if @profit_total[0].count_game > 0 %>
+
 <table>
 	<tr>
 		<th>スコア合計</th>
@@ -30,11 +33,17 @@
 	注意！レート設定されていないゲームがあります<a href='#no_rate'>(Link)</a><br>
 	この結果にレート設定のないゲームは含まれていません
 <% end %>
+<% else %>
+	スコアはありません
+<% end %>
 
 <hr>
 
 
 <h3>月毎の集計</h3>
+
+<% if @profit_months.length > 0 %>
+
 <table>
 	<tr>
 		<th>年/月</th>
@@ -60,11 +69,16 @@
 		</tr>
 	<% end %>
 </table>
+<% else %>
+	スコアはありません
+<% end %>
 
 
 <hr>
 
 <h3>日付毎の集計(今月のみ)</h3>
+
+<% if @profit_dailys.length > 0 %>
 <table>
 	<tr>
 		<th>終了日</th>
@@ -91,6 +105,9 @@
 		</tr>
 	<% end %>
 </table>
+<% else %>
+	スコアはありません
+<% end %>
 
 <hr>
 <h3 id="no_rate">レート指定の無いゲーム</h3>

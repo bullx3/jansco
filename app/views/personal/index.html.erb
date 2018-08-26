@@ -8,10 +8,11 @@
 <% end %>
 </ul>
 
+<% if session[:usr_per] != User::Permission::GUEST  %>
 <p>
-	<%= link_to '集計', action: :profit %>
+	<%= link_to '全ルーム集計', action: :profit %>
 </p>
-
+<% end %>
 <hr>
 <p>
 	<%= link_to 'ログアウト', {controller: :login, action: :confirmLogout} %>
