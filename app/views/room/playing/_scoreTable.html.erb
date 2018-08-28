@@ -26,12 +26,8 @@
 			</td> 
 
 			<% gameHash[:scores].each do |score| %>
-				<% if score[:score] != nil	 %>	
-					<% if score[:score].to_i >= 0 %>
-						<td><%= score[:score] %></td>
-					<% else %>
-						<td><span class='minus_number'><%= score[:score] %></span></td>
-					<% end %>
+				<% if score[:score] != nil	 %>
+					<td><%= render 'layouts/number', number: score[:score].to_i, type: nil %></td>
 				<% else %>
 					<td></td>
 			 	<% end %>
@@ -57,11 +53,7 @@
 		<th>合計</th>
 		<% @sectionPlayers.each do |sPlayer| %>
 			<% unless sPlayer.total.nil? %>	
-				<% if sPlayer.total >= 0 %>
-					<th><%= sPlayer.total %></th>
-				<% else %>
-					<th><span class='minus_number'><%= sPlayer.total %></span></th>
-				<% end %>
+				<th><%= render 'layouts/number', number: sPlayer.total, type: nil %></th>
 			<% else %>
 				<th></th>
 			<% end %>
@@ -76,12 +68,7 @@
 			<% @sectionPlayers.each do |sPlayer| %>
 				<% unless sPlayer.total.nil? %>	
 					<% rateScore = sPlayer.total * @section.rate %>
-					<% rateScoreStr = number_to_currency(rateScore, unit:'', precision: 0, format: '%n %u') %>
-					<% if (rateScore >= 0) %>
-						<th><%= rateScoreStr %></th>
-					<% else %>
-						<th><span class='minus_number'><%= rateScoreStr %></span></th>
-					<% end %>
+					<th><%= render 'layouts/number', number: rateScore, type: 'currency' %></th>
 				<% else %>
 					<th></th>
 				<% end %>

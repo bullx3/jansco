@@ -46,21 +46,9 @@
 		<% unless p_result[:id].nil? %>
 			<tr>
 				<td><%= p_result[:name] %></td>
-				<% if p_result[:m4_total] >= 0  %>
-					<td><%= p_result[:m4_total] %></td>
-				<% else %>
-					<td><span class='minus_number' ><%= p_result[:m4_total] %></span></td>
-				<% end %>
-				<% if p_result[:m4_score] >= 0  %>
-					<td><%= p_result[:m4_score] %></td>
-				<% else %>
-					<td><span class='minus_number' ><%= p_result[:m4_score] %></span></td>
-				<% end %>
-				<% if p_result[:m4_chip_score] >= 0  %>
-					<td><%= p_result[:m4_chip_score] %></td>
-				<% else %>
-					<td><span class='minus_number' ><%= p_result[:m4_chip_score] %></span></td>
-				<% end %>
+				<td><%= render 'layouts/number', number: p_result[:m4_total], type: nil %></td>
+				<td><%= render 'layouts/number', number: p_result[:m4_score], type: nil %></td>
+				<td><%= render 'layouts/number', number: p_result[:m4_chip_score], type: nil %></td>
 			</tr>
 		<% end %>
 	<% end %>
@@ -108,21 +96,9 @@
 		<% unless p_result[:id].nil? %>
 			<tr>
 				<td><%= p_result[:name] %></td>
-				<% if p_result[:m3_total] >= 0  %>
-					<td><%= p_result[:m3_total] %></td>
-				<% else %>
-					<td><span class='minus_number' ><%= p_result[:m3_total] %></span></td>
-				<% end %>
-				<% if p_result[:m3_score] >= 0  %>
-					<td><%= p_result[:m3_score] %></td>
-				<% else %>
-					<td><span class='minus_number' ><%= p_result[:m3_score] %></span></td>
-				<% end %>
-				<% if p_result[:m3_chip_score] >= 0  %>
-					<td><%= p_result[:m3_chip_score] %></td>
-				<% else %>
-					<td><span class='minus_number' ><%= p_result[:m3_chip_score] %></span></td>
-				<% end %>
+				<td><%= render 'layouts/number', number: p_result[:m3_total], type: nil %></td>
+				<td><%= render 'layouts/number', number: p_result[:m3_score], type: nil %></td>
+				<td><%= render 'layouts/number', number: p_result[:m3_chip_score], type: nil %></td>
 			</tr>
 		<% end %>
 	<% end %>

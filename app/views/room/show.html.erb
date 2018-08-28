@@ -50,6 +50,13 @@
 	<%= link_to 'プレイヤー個人成績', room_playerscored_path(params[:g_idname]) %>
 </h2>
 
+<% if session[:usr_per] != User::Permission::GUEST  %>
+<h2>
+	<%= link_to 'あなたの集計結果', {controller: :personal,action: :profit} %>
+</h2>
+<% end %>
+
+
 <h2>
 	<%= link_to 'ルーム設定', config_room_path(params[:g_idname]) %>
 </h2>

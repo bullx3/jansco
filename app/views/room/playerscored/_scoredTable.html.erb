@@ -20,11 +20,7 @@
 				<% end %>
 				<td class=<%= setting_class %>><%= score.player.name %></td>
 				<td class=<%= setting_class %>>
-					<% if score.score >= 0  %>
-						<%= score.score %>
-					<% else %>
-						<span class='minus_number'><%= score.score %></span>
-					<% end %>
+					<%= render 'layouts/number', number: score.score, type: nil %>
 				</td>
 			<% end %>
 		</tr>

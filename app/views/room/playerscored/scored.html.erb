@@ -42,21 +42,9 @@
 		<th>チップ</th>
 	</tr>
 	<tr>
-		<% if @m4_total >= 0  %>
-			<td><%= @m4_total %></td>
-		<% else %>
-			<td><span class='minus_number' ><%= @m4_total %></span></td>
-		<% end %>
-		<% if @m4_score >= 0  %>
-			<td><%= @m4_score %></td>
-		<% else %>
-			<td><span class='minus_number' ><%= @m4_score %></span></td>
-		<% end %>
-		<% if @m4_chip_score >= 0  %>
-			<td><%= @m4_chip_score %></td>
-		<% else %>
-			<td><span class='minus_number' ><%= @m4_chip_score %></span></td>
-		<% end %>
+		<td><%= render 'layouts/number', number: @m4_total, type: nil %></td>
+		<td><%= render 'layouts/number', number: @m4_score, type: nil %></td>
+		<td><%= render 'layouts/number', number: @m4_chip_score, type: nil %></td>
 	</tr>
 </table>
 
@@ -90,21 +78,9 @@
 		<th>チップ</th>
 	</tr>
 	<tr>
-		<% if @m3_total >= 0  %>
-			<td><%= @m3_total %></td>
-		<% else %>
-			<td><span class='minus_number' ><%= @m3_total %></span></td>
-		<% end %>
-		<% if @m3_score >= 0  %>
-			<td><%= @m3_score %></td>
-		<% else %>
-			<td><span class='minus_number' ><%= @m3_score %></span></td>
-		<% end %>
-		<% if @m3_chip_score >= 0  %>
-			<td><%= @m3_chip_score %></td>
-		<% else %>
-			<td><span class='minus_number' ><%= @m3_chip_score %></span></td>
-		<% end %>
+		<td><%= render 'layouts/number', number: @m3_total, type: nil %></td>
+		<td><%= render 'layouts/number', number: @m3_score, type: nil %></td>
+		<td><%= render 'layouts/number', number: @m3_chip_score, type: nil %></td>
 	</tr>
 </table>
 
