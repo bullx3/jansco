@@ -1,0 +1,52 @@
+<table class='total_ranking'>
+	<tr>
+		<th rowspan='2'>順位</th>
+		<th colspan='2'>麻雀王<br>(総得点<br>チップあり)</th>
+		<th colspan='2'>得点王<br>(総得点<br>チップなし)</th>
+		<th colspan='2'>チップ王<br>(総チップ)</th>
+		<th colspan='2'>麻雀大好き<br>(総対局数)</th>
+	</tr>
+	<tr>
+		<th>名前</th><th>スコア</th>
+		<th>名前</th><th>スコア</th>
+		<th>名前</th><th>スコア</th>
+		<th>名前</th><th>対局数</th>
+	</tr>
+
+	<% ranking_count.times do |rank| %>
+		<tr>
+			<td>
+				<% imagePath = rank == 0 ? 'crown/crown_gold.png' : '' %>
+				<% imagePath = rank == 1 ? 'crown/crown_silver.png' : imagePath %>
+				<% imagePath = rank == 2 ? 'crown/crown_bronze.png' : imagePath %>
+				<%= image_tag imagePath , size: '46x32'%>
+					
+			</td>
+			<% if ranking[:rank_totalscores][rank] != nil %>
+				<td>
+					<%= ranking[:rank_totalscores][rank].name %></td>
+				<td><%= ranking[:rank_totalscores][rank].sum_total %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+			<% if ranking[:rank_no_chip_scores][rank] != nil %>
+				<td><%= ranking[:rank_no_chip_scores][rank].name %></td>
+				<td><%= ranking[:rank_no_chip_scores][rank].sum_total %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+			<% if ranking[:total_chips][rank] != nil %>
+				<td><%= ranking[:total_chips][rank].name %></td>
+				<td><%= ranking[:total_chips][rank].sum_chip %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+			<% if ranking[:rank_counts][rank] != nil %>
+				<td><%= ranking[:rank_counts][rank].name %></td>
+				<td><%= ranking[:rank_counts][rank].count_score %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>

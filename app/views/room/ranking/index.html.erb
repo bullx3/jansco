@@ -1,112 +1,40 @@
 <div class='ranking_top'>
 
-<h1>総合ランキング</h1>
+<h1>ランキング</h1>
 
-<% @rankings.each do |ranking| %>
-
-<%= ranking[:title] %>の成績1
-
-<table class='total_ranking'>
-	<tr>
-		<th rowspan='2'>順位</th>
-		<th colspan='2'>総合得点<br>(チップあり)</th>
-		<th colspan='2'>総合得点<br>(チップなし)</th>
-		<th colspan='2'>総対局数<br>(チップなし)</th>
-		<th colspan='2'>平均スコア<br>(チップなし)</th>
-	</tr>
-	<tr>
-		<th>名前</th><th>スコア</th>
-		<th>名前</th><th>スコア</th>
-		<th>名前</th><th>対局数</th>
-		<th>名前</th><th>スコア</th>
-	</tr>
-
-	<% @ranking_count.times do |rank| %>
-		<tr>
-			<td><%= (rank+1) -%>位</td>
-			<% if ranking[:rank_totalscores][rank] != nil %>
-				<td><%= ranking[:rank_totalscores][rank].name %></td>
-				<td><%= ranking[:rank_totalscores][rank].sum_total %></td>
-			<% else %>
-				<td></td><td></td>
-			<% end %>
-			<% if ranking[:rank_no_chip_scores][rank] != nil %>
-				<td><%= ranking[:rank_no_chip_scores][rank].name %></td>
-				<td><%= ranking[:rank_no_chip_scores][rank].sum_total %></td>
-			<% else %>
-				<td></td><td></td>
-			<% end %>
-			<% if ranking[:rank_counts][rank] != nil %>
-				<td><%= ranking[:rank_counts][rank].name %></td>
-				<td><%= ranking[:rank_counts][rank].count_score %></td>
-			<% else %>
-				<td></td><td></td>
-			<% end %>
-			<% if ranking[:rank_avgs][rank] != nil %>
-				<td><%= ranking[:rank_avgs][rank].name %></td>
-				<td><%= ranking[:rank_avgs][rank].avg_score.truncate(2) %></td>
-			<% else %>
-				<td></td><td></td>
-			<% end %>
-		</tr>
-	<% end %>
-
-
-</table>
-<br>
-
-<%= ranking[:title] %>の成績2
-<table class='total_ranking'>
-	<tr>
-		<th rowspan='2'>順位</th>
-		<th colspan='2'>最高スコア<br>(チップなし)</th>
-		<th colspan='2'>最高スコア<br>(集計内合計)</th>
-		<th colspan='2'>チップ合計<br>(総チップ)</th>
-		<th colspan='2'>最高チップ<br>(集計内合計)</th>
-	</tr>
-	<tr>
-		<th>名前</th><th>スコア</th>
-		<th>名前</th><th>スコア</th>
-		<th>名前</th><th>スコア</th>
-		<th>名前</th><th>スコア</th>
-	</tr>
-	<% @ranking_count.times do |rank| %>
-		<tr>
-			<td><%= (rank+1) -%>位</td>
-			<% if ranking[:max_scores][rank] != nil %>
-				<td><%= ranking[:max_scores][rank].name %></td>
-				<% url = room_playing_path(params[:g_idname], ranking[:max_scores][rank].section_id) %>
-				<td><%= link_to(ranking[:max_scores][rank].score, url) %></td>
-			<% else %>
-				<td></td><td></td>
-			<% end %>
-			<% if ranking[:max_total_scores][rank] != nil %>
-				<td><%= ranking[:max_total_scores][rank].name %></td>
-				<% url = room_playing_path(params[:g_idname], ranking[:max_total_scores][rank].section_id) %>
-				<td><%= link_to(ranking[:max_total_scores][rank].sum_score, url) %></td>
-			<% else %>
-				<td></td><td></td>
-			<% end %>
-			<% if ranking[:total_chips][rank] != nil %>
-				<td><%= ranking[:total_chips][rank].name %></td>
-				<td><%= ranking[:total_chips][rank].sum_chip %></td>
-			<% else %>
-				<td></td><td></td>
-			<% end %>
-			<% if ranking[:max_chips][rank] != nil %>
-				<td><%= ranking[:max_chips][rank].name %></td>
-				<% url = room_playing_path(params[:g_idname], ranking[:max_chips][rank].section_id) %>
-				<td><%= link_to(ranking[:max_chips][rank].sum_chip, url) %></td>
-			<% else %>
-				<td></td><td></td>
-			<% end %>
-		</tr>
-	<% end %>
-
-
-</table>
 <hr>
-<% end %><%# @rankings.each %>
+<h2>総合ランキング</h2>
+<%= render 'simpleRankingTable', ranking: @total_rankings[0], ranking_count: @simple_ranking_count %>
+
+<div>
+<%= link_to '総合ランキングの続きを見る', action: :total %>
+</div>
+
+<hr>
+
+<h2>今月(<%= @this_month %>)のランキング（暫定）</h2>
+<%= render 'simpleRankingTable', ranking: @this_rankings[0], ranking_count: @simple_ranking_count %>
+
+<div>
+<%= link_to '今月のランキングの続きを見る', action: :thisMonth %>
+</div>
+
+<hr>
+
+<h2>先月(<%= @last_month %>)のランキング</h2>
+<%= render 'simpleRankingTable', ranking: @last_rankings[0], ranking_count: @simple_ranking_count %>
+
+<div>
+<%= link_to '先月のランキングの続きを見る', action: :lastMonth %>
+</div>
+
+<hr>
+<h2>過去のランキング</h2>
+<div>
+<%= link_to '過去のランキングを見る', action: :past %>
+</div>
+
+<hr>
 
 
 <h2>

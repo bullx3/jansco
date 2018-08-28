@@ -58,6 +58,10 @@ Rails.application.routes.draw do
   get 'r/:g_idname/playing/:id/destroy' => 'room/playing#destroy', as: :destroy_room_playing
 
   get 'r/:g_idname/ranking' => 'room/ranking#index', as: :room_ranking
+  get 'r/:g_idname/ranking/total' => 'room/ranking#total'
+  get 'r/:g_idname/ranking/past' => 'room/ranking#past', as: :room_ranking_past
+  get 'r/:g_idname/ranking/thisMonth' => 'room/ranking#thisMonth'
+  get 'r/:g_idname/ranking/lastMonth' => 'room/ranking#lastMonth'
 
   get 'r/:g_idname/playerscored' => 'room/playerscored#index', as: :room_playerscored
   get 'r/:g_idname/playerscored/scored' => 'room/playerscored#scored'

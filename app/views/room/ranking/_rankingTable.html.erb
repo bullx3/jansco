@@ -1,0 +1,105 @@
+<% rankings.each do |ranking| %>
+
+<h3><%= ranking[:title] %>の成績１</h3>
+
+<table class='total_ranking'>
+	<tr>
+		<th rowspan='2'>順位</th>
+		<th colspan='2'>総合得点<br>(チップあり)</th>
+		<th colspan='2'>総合得点<br>(チップなし)</th>
+		<th colspan='2'>チップ合計<br>(総チップ)</th>
+		<th colspan='2'>総対局数<br>(チップなし)</th>
+	</tr>
+	<tr>
+		<th>名前</th><th>スコア</th>
+		<th>名前</th><th>スコア</th>
+		<th>名前</th><th>スコア</th>
+		<th>名前</th><th>対局数</th>
+	</tr>
+
+	<% ranking_count.times do |rank| %>
+		<tr>
+			<td><%= (rank+1) -%>位</td>
+			<% if ranking[:rank_totalscores][rank] != nil %>
+				<td><%= ranking[:rank_totalscores][rank].name %></td>
+				<td><%= ranking[:rank_totalscores][rank].sum_total %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+			<% if ranking[:rank_no_chip_scores][rank] != nil %>
+				<td><%= ranking[:rank_no_chip_scores][rank].name %></td>
+				<td><%= ranking[:rank_no_chip_scores][rank].sum_total %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+			<% if ranking[:total_chips][rank] != nil %>
+				<td><%= ranking[:total_chips][rank].name %></td>
+				<td><%= ranking[:total_chips][rank].sum_chip %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+			<% if ranking[:rank_counts][rank] != nil %>
+				<td><%= ranking[:rank_counts][rank].name %></td>
+				<td><%= ranking[:rank_counts][rank].count_score %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+		</tr>
+	<% end %>
+
+
+</table>
+<br>
+
+<h3><%= ranking[:title] %>の成績２<h3>
+<table class='total_ranking'>
+	<tr>
+		<th rowspan='2'>順位</th>
+		<th colspan='2'>最高スコア<br>(チップなし)</th>
+		<th colspan='2'>最高スコア<br>(集計内合計)</th>
+		<th colspan='2'>平均スコア<br>(チップなし)</th>
+		<th colspan='2'>最高チップ<br>(集計内合計)</th>
+	</tr>
+	<tr>
+		<th>名前</th><th>スコア</th>
+		<th>名前</th><th>スコア</th>
+		<th>名前</th><th>スコア</th>
+		<th>名前</th><th>スコア</th>
+	</tr>
+	<% ranking_count.times do |rank| %>
+		<tr>
+			<td><%= (rank+1) -%>位</td>
+			<% if ranking[:max_scores][rank] != nil %>
+				<td><%= ranking[:max_scores][rank].name %></td>
+				<% url = room_playing_path(params[:g_idname], ranking[:max_scores][rank].section_id) %>
+				<td><%= link_to(ranking[:max_scores][rank].score, url) %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+			<% if ranking[:max_total_scores][rank] != nil %>
+				<td><%= ranking[:max_total_scores][rank].name %></td>
+				<% url = room_playing_path(params[:g_idname], ranking[:max_total_scores][rank].section_id) %>
+				<td><%= link_to(ranking[:max_total_scores][rank].sum_score, url) %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+			<% if ranking[:rank_avgs][rank] != nil %>
+				<td><%= ranking[:rank_avgs][rank].name %></td>
+				<td><%= ranking[:rank_avgs][rank].avg_score.truncate(2) %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+			<% if ranking[:max_chips][rank] != nil %>
+				<td><%= ranking[:max_chips][rank].name %></td>
+				<% url = room_playing_path(params[:g_idname], ranking[:max_chips][rank].section_id) %>
+				<td><%= link_to(ranking[:max_chips][rank].sum_chip, url) %></td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+		</tr>
+	<% end %>
+
+
+</table>
+<hr>
+<% end %><%# rankings.each %>

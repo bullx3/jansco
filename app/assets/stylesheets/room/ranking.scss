@@ -4,9 +4,16 @@
 
 
 .ranking_top h1{
+	font-size: 8vmin;
+}
+
+.ranking_top h2{
 	font-size: 6vmin;
 }
 
+.ranking_top h3{
+	font-size: 5vmin;
+}
 
 table.total_ranking{
 	table-layout: fixed;
@@ -40,3 +47,10 @@ table.total_ranking td:nth-child(1) {
 	background-color: lightgreen;
 }
 
+.ranking_date_select{
+	margin-left: 1em ;
+	font-size: 4vmin;
+	width: 30%;
+	height: 1.5em;
+
+}

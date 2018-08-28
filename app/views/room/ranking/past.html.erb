@@ -1,0 +1,31 @@
+<div class='ranking_top'>
+
+<h1>過去ランキング</h1>
+
+<%= form_tag({action: :past}, method: :get, id: 'form_date_select') do %>
+	<%= date_select :past, :date, {discard_day: true, use_month_numbers: true, start_year: 2018, default:@time_jst, date_separator: '/'} , {class: "ranking_date_select" , onchange: "onchangeSelect()"} %>
+
+<% end %>
+
+<hr>
+
+<% unless @time_jst.nil? %>
+<h2><%= @time_jst.strftime("%Y年%m月") %>のランキング</h2>
+
+	<%= render 'rankingTable', rankings: @rankings, ranking_count: @ranking_count %>
+<% end %>
+
+<h2>
+	<%= link_to 'ランキングに戻る', room_ranking_path(params[:g_idname]) %>
+</h2>
+
+</div>
+
+<script>
+	formElement = document.getElementById('form_date_select')
+
+	function onchangeSelect(){
+		console.log('onchangeSelect')
+		formElement.submit()
+	}
+</script>
