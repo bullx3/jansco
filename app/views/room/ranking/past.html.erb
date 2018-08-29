@@ -7,17 +7,12 @@
 
 <% end %>
 
-<hr>
 
 <% unless @time_jst.nil? %>
 <h2><%= @time_jst.strftime("%Y年%m月") %>のランキング</h2>
 
 	<%= render 'rankingTable', rankings: @rankings, ranking_count: @ranking_count %>
 <% end %>
-
-<h2>
-	<%= link_to 'ランキングに戻る', room_ranking_path(params[:g_idname]) %>
-</h2>
 
 </div>
 

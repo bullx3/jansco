@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= @main_title.blank? ? Jansco : @main_title %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <%= yield %>
+    <hr>
+
+    <div class="room_footer">
+      <div>
+        <%= link_to '[戻る]', :back %>
+        <%= link_to_unless_current '[ルームトップへ]', room_path %>
+      </div>
+      <div>
+      <%= link_to '[ルームアウト]', top_path %>
+      </div>
+    </div>
+  </body>
+</html>

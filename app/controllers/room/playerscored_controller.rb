@@ -1,4 +1,4 @@
-class Room::PlayerscoredController < ApplicationController
+class Room::PlayerscoredController < RoomController
 
 	def index
 	end
