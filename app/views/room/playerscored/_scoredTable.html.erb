@@ -20,7 +20,8 @@
 				<% end %>
 				<td class=<%= setting_class %>><%= score.player.name %></td>
 				<td class=<%= setting_class %>>
-					<%= render 'layouts/number', number: score.score, type: nil %>
+					<%= minus_number_tag(score.score, nil)  %>
+
 				</td>
 			<% end %>
 		</tr>

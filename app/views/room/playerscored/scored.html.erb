@@ -42,9 +42,9 @@
 		<th>チップ</th>
 	</tr>
 	<tr>
-		<td><%= render 'layouts/number', number: @m4_total, type: nil %></td>
-		<td><%= render 'layouts/number', number: @m4_score, type: nil %></td>
-		<td><%= render 'layouts/number', number: @m4_chip_score, type: nil %></td>
+		<td><%= minus_number_tag(@m4_total, nil)  %></td>
+		<td><%= minus_number_tag(@m4_score, nil)  %></td>
+		<td><%= minus_number_tag(@m4_chip_score, nil)  %></td>
 	</tr>
 </table>
 
@@ -78,9 +78,9 @@
 		<th>チップ</th>
 	</tr>
 	<tr>
-		<td><%= render 'layouts/number', number: @m3_total, type: nil %></td>
-		<td><%= render 'layouts/number', number: @m3_score, type: nil %></td>
-		<td><%= render 'layouts/number', number: @m3_chip_score, type: nil %></td>
+		<td><%= minus_number_tag(@m3_total, nil)  %></td>
+		<td><%= minus_number_tag(@m3_score, nil)  %></td>
+		<td><%= minus_number_tag(@m3_chip_score, nil)  %></td>
 	</tr>
 </table>
 

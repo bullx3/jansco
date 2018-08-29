@@ -18,8 +18,8 @@
 	<% @profit_totals.each do |profit_total| %>
 	<tr>
 		<td><%= profit_total.group.name %></td>
-		<td><%= render 'layouts/number', number: profit_total.sum_score, type: nil %></td>
-		<td><%= render 'layouts/number', number: profit_total.sum_profit , type: 'currency' %></td>
+		<td><%= minus_number_tag(profit_total.sum_score, nil)  %></td>
+		<td><%= minus_number_tag(profit_total.sum_profit, 'currency') %></td>
 		<td><%= profit_total.count_game %></td>
 	</tr>
 	<% end %>
@@ -52,8 +52,8 @@
 		<tr>
 			<td><%= profit_month.monthly %></td>
 			<td><%= profit_month.group.name %></td>
-			<td><%= render 'layouts/number', number: profit_month.sum_score, type: nil %></td>
-			<td><%= render 'layouts/number', number: profit_month.sum_profit , type: 'currency' %></td>
+			<td><%= minus_number_tag(profit_month.sum_score, nil)  %></td>
+			<td><%= minus_number_tag(profit_month.sum_profit, 'currency') %></td>
 			<td><%= profit_month.count_game %></td>
 		</tr>
 	<% end %>
@@ -80,8 +80,8 @@
 		<tr>
 			<td><%= profit_daily.daily %></td>
 			<td><%= profit_daily.group.name %></td>
-			<td><%= render 'layouts/number', number: profit_daily.sum_score, type: nil %></td>
-			<td><%= render 'layouts/number', number: profit_daily.sum_profit , type: 'currency' %></td>
+			<td><%= minus_number_tag(profit_daily.sum_score, nil)  %></td>
+			<td><%= minus_number_tag(profit_daily.sum_profit, 'currency') %></td>
 			<td><%= profit_daily.count_game %></td>
 		</tr>
 	<% end %>
@@ -108,7 +108,7 @@
 				<% end %>
 			</td>
 			<td><%= section.group.name %></td>
-			<td><%= render 'layouts/number', number: section.sum_score, type: nil %></td>
+			<td><%= minus_number_tag(section.sum_score, nil) %></td>
 			<td><%= section.count_game %></td>
 		</tr>
 	<% end %>

@@ -23,14 +23,14 @@
 				<% else %>
 					<%= @scoreKindString[gameHash[:scorekind].to_s] %>
 				<% end %>
-			</td> 
+			</td>
 
 			<% gameHash[:scores].each do |score| %>
 				<% if score[:score] != nil	 %>
-					<td><%= render 'layouts/number', number: score[:score].to_i, type: nil %></td>
+					<td><%= minus_number_tag(score[:score].to_i, nil) %></td>
 				<% else %>
 					<td></td>
-			 	<% end %>
+				<% end %>
 
 			<% end %>
 
@@ -52,8 +52,8 @@
 	<tr class='scoreLineTotals'>
 		<th>合計</th>
 		<% @sectionPlayers.each do |sPlayer| %>
-			<% unless sPlayer.total.nil? %>	
-				<th><%= render 'layouts/number', number: sPlayer.total, type: nil %></th>
+			<% unless sPlayer.total.nil? %>
+				<th><%= minus_number_tag(sPlayer.total, nil) %></th>
 			<% else %>
 				<th></th>
 			<% end %>
@@ -63,12 +63,12 @@
 	<tr class='currentLines'>
 		<th>ork計算</th>
 		<% if @section.rate.nil? %>
-			<th colspan='<%= @sectionPlayers.length -%>'>レート設定がありません</th> 
+			<th colspan='<%= @sectionPlayers.length -%>'>レート設定がありません</th>
 		<% else %>
 			<% @sectionPlayers.each do |sPlayer| %>
-				<% unless sPlayer.total.nil? %>	
+				<% unless sPlayer.total.nil? %>
 					<% rateScore = sPlayer.total * @section.rate %>
-					<th><%= render 'layouts/number', number: rateScore, type: 'currency' %></th>
+					<th><%= minus_number_tag(rateScore, 'currency')  %></th>
 				<% else %>
 					<th></th>
 				<% end %>

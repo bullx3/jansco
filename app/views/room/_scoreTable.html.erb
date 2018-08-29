@@ -36,7 +36,7 @@
 			<% section.section_players.each do |s_player| %>
 				<td>
 					<% unless s_player.total.nil? %>
-						<%= render 'layouts/number', number: s_player.total, type: nil %>
+						<%= minus_number_tag(s_player.total, nil)  %>
 					<% end %>
 				</td>
 			<% end %>

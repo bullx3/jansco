@@ -46,9 +46,9 @@
 		<% unless p_result[:id].nil? %>
 			<tr>
 				<td><%= p_result[:name] %></td>
-				<td><%= render 'layouts/number', number: p_result[:m4_total], type: nil %></td>
-				<td><%= render 'layouts/number', number: p_result[:m4_score], type: nil %></td>
-				<td><%= render 'layouts/number', number: p_result[:m4_chip_score], type: nil %></td>
+				<td><%= minus_number_tag(p_result[:m4_total], nil)  %></td>
+				<td><%= minus_number_tag(p_result[:m4_score], 'currency') %></td>
+				<td><%= minus_number_tag(p_result[:m4_chip_score], nil)  %></td>
 			</tr>
 		<% end %>
 	<% end %>
@@ -96,9 +96,9 @@
 		<% unless p_result[:id].nil? %>
 			<tr>
 				<td><%= p_result[:name] %></td>
-				<td><%= render 'layouts/number', number: p_result[:m3_total], type: nil %></td>
-				<td><%= render 'layouts/number', number: p_result[:m3_score], type: nil %></td>
-				<td><%= render 'layouts/number', number: p_result[:m3_chip_score], type: nil %></td>
+				<td><%= minus_number_tag(p_result[:m3_total], nil)  %></td>
+				<td><%= minus_number_tag(p_result[:m3_score], 'currency') %></td>
+				<td><%= minus_number_tag(p_result[:m3_chip_score], nil)  %></td>
 			</tr>
 		<% end %>
 	<% end %>
