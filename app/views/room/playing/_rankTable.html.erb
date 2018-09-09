@@ -1,0 +1,20 @@
+<p>順位数</p>
+<table class='sectionTable'>
+	<%# プレイヤー名行  %>
+	<tr class='scoreLineNames'>
+		<th class='tableTitle'>種類</th>
+		<% @sectionPlayers.each do |splayer| %>
+		<th><%= splayer.player.name %></th>
+		<% end %>
+	</tr>
+	<% @player_rank_counts.length.times do |rank| %>
+		<tr>
+			<td><%= rank + 1 %>位</td>
+			<% @player_rank_counts[rank].each do |rank_count|%>
+				<td>
+				<%= rank_count > 0 ? rank_count : nil %>
+				</td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>

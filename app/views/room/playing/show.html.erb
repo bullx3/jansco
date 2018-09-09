@@ -27,6 +27,9 @@
 
 <%= render 'comments'  %>
 <br>
+
+<%= render 'rankTable'  %>
+
 <p>
 <% if @show_destroy %>
 	<%= form_tag({action: :destroy},method: :get) do %>

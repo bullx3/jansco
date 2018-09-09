@@ -7,6 +7,7 @@
 			<th class='tableTime'>終了時刻</th>
 		<% end %>
 		<th class='tableNum'>種類</th>
+		<th class='tableNum'>レート</th>
 		<th class='tableNum'>対局数</th>
 		<th colspan="<%= player_cnt -%>">メンバー／得点</th>
 	</tr>
@@ -22,6 +23,7 @@
 				<% end %>
 			</td>
 			<td rowspan="2"><%= Section::GameKindString[section.gamekind] -%></td>
+			<td rowspan="2"><%= section.rate -%></td>
 			<td rowspan="2"><%= section.games_count -%></td>
 			<% section.section_players.each do |s_player| %>
 				<td><%= s_player.player.name -%></td>

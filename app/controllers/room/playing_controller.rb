@@ -97,11 +97,39 @@ class Room::PlayingController < RoomController
       @show_destroy = true
     end
 
+    # 順位取得数を計算
+    games = Game.includes(scores: [:player])
+    games = games.where(section_id: @section_id, scorekind: Game::Scorekind::GAME)
+    games = games.order("scores.score desc")
+
+    rank_length = 4
+    if @section.gamekind == Section::Gamekind::M3
+      rank_length = 3
+    end
+
+    p_count = @sectionPlayers.length
+    players = @sectionPlayers.pluck(:player_id)
+
+    @player_rank_counts = Array.new(rank_length).map{Array.new(p_count, 0)}
+
+    games.each {|game|
+      rank = 0
+
+      game.scores.each {|score|
+        idx = players.index(score.player_id)
+        @player_rank_counts[rank][idx] += 1
+        rank += 1
+      }
+    }
+
+    logger.debug("player_rank_counts")
+    logger.debug(@player_rank_counts)
+
 
   	# 既に終了している場合は終了済みのスコアビューを表示
-  	section = Section.find(@section_id)
+#  	section = Section.find(@section_id)
 
-  	if section.status == Section::Status::FINISHED
+  	if @section.status == Section::Status::FINISHED
       @show_active = false
   		render 'showFinished'
   		return

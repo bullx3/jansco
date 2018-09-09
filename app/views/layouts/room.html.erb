@@ -15,9 +15,14 @@
   <body>
 
     <header class='room_header'>
+      <%= link_to room_path do  %>
+        <i class='fas fa-home room_header_icon'></i>
+      <% end %>
+      <i class='fas fa-arrow-left room_header_icon' onclick="history.back()"></i>
+      <i class='fas fa-arrow-right room_header_icon' onclick="history.forward()"></i>
       <a href="#top"><i class="fas fa-arrow-up room_header_icon"></i></a>
       <a href="#page_end"><i class="fas fa-arrow-down room_header_icon"></i></a>
-      <i class="fas fa-sync-alt room_header_icon" onclick="onReload()"></i>
+      <i class="fas fa-sync-alt room_header_icon" onclick="location.reload()"></i>
     </header>
 
     <div class="room_navi">
@@ -40,13 +45,5 @@
       <%= link_to '[ルームアウト]', top_path %>
       </div>
     </div>
-
-    <script>
-      function onReload(){
-        location.reload()
-      }
-
-    </script>
-
   </body>
 </html>
