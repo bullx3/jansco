@@ -96,6 +96,13 @@
 		</tr>
 
 	<% end %>
+	<%# プレイヤー名行  %>
+	<tr class='scoreLineNames'>
+		<th class='tableTitle'>種類</th>
+		<% @sectionPlayers.each do |splayer| %>
+		<th><%= splayer.player.name %></th>
+		<% end %>
+	</tr>
 
 </table>
 
