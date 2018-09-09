@@ -7,11 +7,29 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <%# Font Awesome Link %>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
   </head>
 
   <body>
+
+    <header class='room_header'>
+      <a href="#top"><i class="fas fa-arrow-up room_header_icon"></i></a>
+      <a href="#page_end"><i class="fas fa-arrow-down room_header_icon"></i></a>
+      <i class="fas fa-sync-alt room_header_icon" onclick="onReload()"></i>
+    </header>
+
+    <div class="room_navi">
+    <ul class="nav">
+      <li><%= link_to('ルームトップ', room_path) %></li>
+      <li><%= link_to('ランキング', room_ranking_path) %></li>
+      <li><%= link_to('個人成績', room_playerscored_path) %></a></li>
+    </ul><!--nav-->
+    </div><!--gnav-->
+
     <%= yield %>
-    <hr>
+    <hr id="page_end">
 
     <div class="room_footer">
       <div>
@@ -22,5 +40,13 @@
       <%= link_to '[ルームアウト]', top_path %>
       </div>
     </div>
+
+    <script>
+      function onReload(){
+        location.reload()
+      }
+
+    </script>
+
   </body>
 </html>
