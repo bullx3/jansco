@@ -12,7 +12,7 @@
 
 <p>
 <%= form_tag({action: :editPlayer},method: :post) do %>
-	<%= button_tag 'メンバー or レート変更', {class: 'sqr_button'} %>
+	<%= button_tag 'プレイヤー or レート変更', {class: 'sqr_button'} %>
 <% end %>
 
 <%= render 'scoreTable' %>
@@ -23,12 +23,14 @@
 	<%= button_tag 'ゲーム終了', {class: 'sqr_button',data: {confirm: "本当に終了しますか？"}} %>
 <% end %>
 </p>
+<hr>
+<%= render 'rankTable'  %>
 <br>
 
+<hr>
 <%= render 'comments'  %>
 <br>
 
-<%= render 'rankTable'  %>
 
 <p>
 <% if @show_destroy %>
