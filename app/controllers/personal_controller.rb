@@ -28,17 +28,10 @@ class PersonalController < ApplicationController
 
 	# 月ごとの集計 実際は 12時間後(例 2018/8分は 8/1 12:00 ～ 9/1 11:59までに終了した対局)
 	# JST での時間で集計する為 +9Hで判定する（MySQLはUTCで保存）
-	@profit_months = profits.select("DATE_FORMAT((finished_at - INTERVAL 12 HOUR + INTERVAL 9 HOUR), '%Y/%m') as monthly").group("monthly", :group_id).order("monthly asc")
+	@profit_months = profits.select(Section::Sql_select_monthly).group("monthly", :group_id).order("monthly asc")
 	logger.debug("@profit_months.length:#{@profit_months.length}")
 
-	@profit_dailys = profits.select("DATE_FORMAT((finished_at - INTERVAL 12 HOUR + INTERVAL 9 HOUR), '%Y/%m/%d') as daily").group("daily", :group_id).order("daily asc")
-
-	current = Time.current
-	logger.debug("current:#{current}")
-	month = current.strftime("%Y/%m")
-	logger.debug("month:#{month}")
-
-	@profit_dailys = @profit_dailys.select("DATE_FORMAT((finished_at - INTERVAL 12 HOUR + INTERVAL 9 HOUR), '%Y/%m') as month").having("month = ?", month)
+	@profit_dailys = profits.select(Section::Sql_select_daily).group("daily", :group_id).order("daily asc")
 	logger.debug("@profit_dailys.length:#{@profit_dailys.length}")
 
 

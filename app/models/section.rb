@@ -29,6 +29,7 @@ class Section < ApplicationRecord
 	scope :chip_by_includes, -> {where(games: {scorekind: Game::Scorekind::CHIP})}
 
 
-	Sql_select_daily = "DATE_FORMAT((finished_at - INTERVAL 12 HOUR + INTERVAL 9 HOUR), '%Y-%m-%d') as daily"
+	Sql_select_daily = "DATE_FORMAT((finished_at - INTERVAL 12 HOUR + INTERVAL 9 HOUR), '%Y/%m/%d') as daily"
+	Sql_select_monthly = "DATE_FORMAT((finished_at - INTERVAL 12 HOUR + INTERVAL 9 HOUR), '%Y/%m') as monthly"
 
 end
