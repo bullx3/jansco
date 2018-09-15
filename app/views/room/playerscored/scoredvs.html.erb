@@ -72,7 +72,7 @@
 		<% unless p_result[:id].nil? %>
 			<tr>
 				<td><%= p_result[:name] %></td>
-				<td><%= @m4_games.length %></td>
+				<td><%= p_result[:m4_ranks].sum %></td>
 				<% p_result[:m4_ranks].each do |count| %>
 					<td><%= count %></td>
 				<% end %>
@@ -119,7 +119,7 @@
 		<% unless p_result[:id].nil? %>
 			<tr>
 				<td><%= p_result[:name] %></td>
-				<td><%= @m3_games.length %></td>
+				<td><%= p_result[:m3_ranks].sum %></td>
 				<% p_result[:m3_ranks].each do |count| %>
 					<td><%= count %></td>
 				<% end %>
@@ -137,9 +137,8 @@
 <% @player_results.each {|p_result| player_ids.push(p_result[:id]) } %>
 
 <h4>四麻の戦績</h4>
-<% if @m4_games.length > 0 %>
-	<%#= render 'scoredTable' , rank_count: 4, games: @m4_games ,player_id1: @player_results[0][:id], player_id2: @player_results[1][:id] %>
-	<%= render 'scoredTable' , rank_count: 4, games: @m4_games ,player_ids: player_ids %>
+<% if @m4_sections.length > 0 %>
+	<%= render 'scoredTable' , rank_count: 4, sections: @m4_sections ,player_ids: player_ids %>
 <% else %>
 	四麻の戦績はありません
 <% end %>
@@ -149,8 +148,8 @@
 
 
 <h4>三麻の戦績</h4>
-<% if @m3_games.length > 0 %>
-	<%= render 'scoredTable' , rank_count: 3, games: @m3_games ,player_ids: player_ids %>
+<% if @m3_sections.length > 0 %>
+	<%= render 'scoredTable' , rank_count: 3, sections: @m3_sections ,player_ids: player_ids %>
 <% else %>
 	三麻の戦績はありません
 <% end %>

@@ -77,7 +77,7 @@
 
 .scoredTable2 tr{
 	border: 1px solid gray;
-	height: 6vmin;
+	height: 9vmin;
 }
 
 .scoredTable2 th{
@@ -90,6 +90,7 @@
 .scoredTable2 td{
 	font-size: 3vmin;
 	width: 4em;
+	height: 6vmin;
 	border: 1px solid gray;
 }
 
@@ -98,7 +99,7 @@
 }
 
 
-.scoredTable2 td:nth-child(2n) {
+.scoredTable2 .scored2Name {
 	background-color: #dcdcdc;
 	font-size: 3vmin;
 }

@@ -42,9 +42,7 @@ class Room::PlayerscoredController < RoomController
 		player = Player.find(@player_id)
 		@player_name = player.name
 
-#		sections = Section.includes(games: [scores: [:player]]).where(status: Section::Status::FINISHED,  group_id: session[:grp].to_i)
-		sections = Section.includes(games: [:scores]).where(status: Section::Status::FINISHED,  group_id: session[:grp].to_i)
-		sections = sections.where(games:  {scores: {player_id: @player_id}})
+		sections = Section.finished.where(group_id: session[:grp].to_i)
 
 		if @checkedStart && !(@date_start.nil?)
 			start_time_widh_zone = @date_start.in_time_zone
@@ -59,64 +57,82 @@ class Room::PlayerscoredController < RoomController
 		end
 
 
-#		sections.each {|section|
-#			section.games.each { |game|
-#				@txt = "game:#{game.id} "
-#				game.scores.each{|score|
-#					@txt += "#{score.player.name}:#{score.score} "
-#				}
-#				logger.debug(@txt)
-#			}
-#		}
+		where_sections = sections
 
-		game_ids = sections.pluck("games.id")
-		m4_games = sections.where(gamekind: Section::Gamekind::M4)
-		m4_game_ids = m4_games.where(games: {scorekind: Game::Scorekind::GAME}).pluck("games.id")
-		m4_chip_ids = m4_games.where(games: {scorekind: Game::Scorekind::CHIP}).pluck("games.id")
+		# sectionの絞り込みはここまで
 
-		m3_games = sections.where(gamekind: Section::Gamekind::M3)
-		m3_game_ids = m3_games.where(games: {scorekind: Game::Scorekind::GAME}).pluck("games.id")
-		m3_chip_ids = m3_games.where(games: {scorekind: Game::Scorekind::CHIP}).pluck("games.id")
+		@results = [{gamekind: Section::Gamekind::M4},{gamekind: Section::Gamekind::M3}]
+		@results.each {|result|
 
-		logger.debug(game_ids)
-		logger.debug(m4_game_ids)
-		logger.debug(m4_chip_ids)
-		logger.debug(m3_game_ids)
-		logger.debug(m3_chip_ids)
+			p_sections = where_sections.includes(games: [scores: [:player]])
+			p_sections = p_sections.where(games: {scores: {player_id: @player_id}})
 
+			if result[:gamekind] == Section::Gamekind::M4
+				result[:ranks] = [0,0,0,0]
+				p_game_sections = p_sections.m4.game_by_includes
+				p_chip_sections = p_sections.m4.chip_by_includes
+			else
+				result[:ranks] = [0,0,0]
+				p_game_sections = p_sections.m3.game_by_includes
+				p_chip_sections = p_sections.m3.chip_by_includes
+			end
 
-		@m4_score = Score.where(game_id: m4_game_ids, player_id: @player_id).sum(:score)
-		@m3_score = Score.where(game_id: m3_game_ids, player_id: @player_id).sum(:score)
-		@m4_chip_score = Score.where(game_id: m4_chip_ids, player_id: @player_id).sum(:score)
-		@m3_chip_score = Score.where(game_id: m3_chip_ids, player_id: @player_id).sum(:score)
-		@m4_total = @m4_score + @m4_chip_score
-		@m3_total = @m3_score + @m3_chip_score
+			result[:game_score] = p_game_sections.sum("scores.score")
+			result[:chip_score] = p_chip_sections.sum("scores.score")
+			result[:total_score] = result[:game_score] + result[:chip_score]
 
 
-		@m4_games = Game.includes(scores: [:player]).where(id: m4_game_ids).order(created_at: :desc).order("scores.score desc")
-#		@m4_games.each { |game|
-#			@txt = "game:#{game.id} "
-#			game.scores.each{|score|
-#				@txt += "#{score.player.name}:#{score.score} "
-#			}
-#			logger.debug(@txt)
-#		}
 
-		@m4_ranks = [0,0,0,0]
-		setRankCount(@m4_ranks, @m4_games, @player_id)
+			p_game_ids = p_game_sections.pluck("games.id")
 
-		@m3_games = Game.includes(scores: [:player]).where(id: m3_game_ids).order(created_at: :desc).order("scores.score desc")
-#		@m3_games.each { |game|
-#			@txt = "game:#{game.id} "
-#			game.scores.each{|score|
-#				@txt += "#{score.player.name}:#{score.score} "
-#			}
-#			logger.debug(@txt)
-#		}
+			play_sections = Section.includes(games: [scores: [:player]]).where("games.id IN(?)", p_game_ids)
+			result[:game_sections] = play_sections.order(:id).order("scores.score desc")
 
-		@m3_ranks = [0,0,0]
-		setRankCount(@m3_ranks, @m3_games, @player_id)
-		
+			result[:game_sections].each {|section|
+				setRankCount(result[:ranks], section.games, @player_id)
+			}
+
+
+			# chart用
+			chart_sections = where_sections
+			chart_sections = chart_sections.joins(games: [:scores])
+			chart_sections = chart_sections.where("scores.player_id = ?", @player_id)
+
+			if result[:gamekind] == Section::Gamekind::M4
+				daily_sections = chart_sections.m4
+			else
+				daily_sections = chart_sections.m3
+			end
+
+			daily_sections = daily_sections.select("games.scorekind")
+			daily_sections = daily_sections.select(Section::Sql_select_daily)
+			daily_sections = daily_sections.select("sum(scores.score) as sum_score")
+			daily_sections = daily_sections.group(:daily, "games.scorekind")
+			daily_sections = daily_sections.order("daily asc")
+
+			result[:total_charts] = []
+			result[:game_charts] = []
+			result[:chip_charts] =[]
+
+			total = 0
+			game = 0
+			chip = 0
+			daily_sections.each {|section|
+#				logger.debug(section.attributes)
+				if section.scorekind == Game::Scorekind::GAME
+					game += section.sum_score
+					result[:game_charts].push([section.daily, game])
+				else
+					chip += section.sum_score
+					result[:chip_charts].push([section.daily, chip])
+				end
+
+				total += section.sum_score
+				result[:total_charts].push([section.daily, total])
+			}
+		}
+
+
 
 	end
 
@@ -255,8 +271,8 @@ class Room::PlayerscoredController < RoomController
 		}
 
 
-		@m4_games = Game.includes(scores: [:player]).where(id: m4_game_ids).order(created_at: :desc).order("scores.score desc")
-		@m3_games = Game.includes(scores: [:player]).where(id: m3_game_ids).order(created_at: :desc).order("scores.score desc")
+		@m4_sections = Section.includes(games: [scores: [:player]]).where("games.id IN(?)", m4_game_ids).order(:id).order("scores.score desc")
+		@m3_sections = Section.includes(games: [scores: [:player]]).where("games.id IN(?)", m3_game_ids).order(:id).order("scores.score desc")
 
 		@player_results.each { |p_result|
 			if p_result[:id].nil?
@@ -264,9 +280,13 @@ class Room::PlayerscoredController < RoomController
 			end
 
 			p_result[:m4_ranks] = [0,0,0,0]
-			setRankCount(p_result[:m4_ranks], @m4_games, p_result[:id])
+			@m4_sections.each {|section|
+				setRankCount(p_result[:m4_ranks], section.games, p_result[:id])
+			}
 			p_result[:m3_ranks] = [0,0,0]
-			setRankCount(p_result[:m3_ranks], @m3_games, p_result[:id])
+			@m3_sections.each {|section|
+				setRankCount(p_result[:m3_ranks], section.games, p_result[:id])
+			}
 		}
 
 =begin
@@ -301,7 +321,7 @@ private
 				rank += 1
 			}
 		}
-		logger.debug(rank_counts)
+#		logger.debug(rank_counts)
 
 	end
 

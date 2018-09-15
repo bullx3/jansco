@@ -32,6 +32,9 @@
 
 <% unless @player_id.nil? %>
 
+
+<hr>
+
 <h3><%= @player_name %>成績</h3>
 
 <table class='scoredTable1'>
@@ -42,11 +45,17 @@
 		<th>チップ</th>
 	</tr>
 	<tr>
-		<td><%= minus_number_tag(@m4_total, nil)  %></td>
-		<td><%= minus_number_tag(@m4_score, nil)  %></td>
-		<td><%= minus_number_tag(@m4_chip_score, nil)  %></td>
+		<td><%= minus_number_tag(@results[0][:total_score], nil)  %></td>
+		<td><%= minus_number_tag(@results[0][:game_score], nil)  %></td>
+		<td><%= minus_number_tag(@results[0][:chip_score], nil)  %></td>
 	</tr>
 </table>
+<br>
+<%= line_chart([
+	{name: "合計", data: @results[0][:total_charts]},
+	{name: "四麻", data: @results[0][:game_charts]},
+	{name: "チップ", data: @results[0][:chip_charts]}
+], curve: false, defer: true) %>
 
 <br>
 
@@ -60,8 +69,8 @@
 		<th>４位</th>
 	</tr>
 	<tr>
-		<td><%= @m4_games.length %></td>
-		<% @m4_ranks.each do |count| %>
+		<td><%= @results[0][:ranks].sum %></td>
+		<% @results[0][:ranks].each do |count| %>
 			<td><%= count %></td>
 		<% end %>
 	</tr>
@@ -78,12 +87,18 @@
 		<th>チップ</th>
 	</tr>
 	<tr>
-		<td><%= minus_number_tag(@m3_total, nil)  %></td>
-		<td><%= minus_number_tag(@m3_score, nil)  %></td>
-		<td><%= minus_number_tag(@m3_chip_score, nil)  %></td>
+		<td><%= minus_number_tag(@results[1][:total_score], nil)  %></td>
+		<td><%= minus_number_tag(@results[1][:game_score], nil)  %></td>
+		<td><%= minus_number_tag(@results[1][:chip_score], nil)  %></td>
 	</tr>
 </table>
 
+<br>
+<%= line_chart([
+	{name: "合計", data: @results[1][:total_charts]},
+	{name: "三麻", data: @results[1][:game_charts]},
+	{name: "チップ", data: @results[1][:chip_charts]}
+], curve: false, defer: true) %>
 <br>
 
 
@@ -96,8 +111,8 @@
 		<th>３位</th>
 	</tr>
 	<tr>
-		<td><%= @m3_games.length %></td>
-		<% @m3_ranks.each do |count| %>
+		<td><%= @results[1][:ranks].sum %></td>
+		<% @results[1][:ranks].each do |count| %>
 			<td><%= count %></td>
 		<% end %>
 	</tr>
@@ -110,8 +125,8 @@
 <hr>
 
 <h4>四麻の戦績</h4>
-<% if @m4_games.length > 0 %>
-	<%= render 'scoredTable' , rank_count: 4, games: @m4_games , player_ids: [@player_id] %>
+<% if @results[0][:game_sections].length > 0 %>
+	<%= render 'scoredTable' , rank_count: 4, sections: @results[0][:game_sections] , player_ids: [@player_id] %>
 
 <% else %>
 	四麻の戦績はありません
@@ -120,8 +135,8 @@
 <hr>
 
 <h4>三麻の戦績</h4>
-<% if @m3_games.length > 0 %>
-	<%= render 'scoredTable' , rank_count: 3, games: @m3_games , player_ids: [@player_id] %>
+<% if @results[1][:game_sections].length > 0 %>
+	<%= render 'scoredTable' , rank_count: 3, sections: @results[1][:game_sections] , player_ids: [@player_id] %>
 <% else %>
 	三麻の戦績はありません
 <% end %>
@@ -129,6 +144,7 @@
 
 <% end %>
 
+<hr>
 
 <h2>
 	<%= link_to '個人成績トップに戻る', action: :index %>

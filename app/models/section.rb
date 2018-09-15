@@ -17,4 +17,18 @@ class Section < ApplicationRecord
 	end
 
 	GameKindString = ['四麻', '三麻']
+
+	# 終了状態
+	scope :finished, -> {where(status: Section::Status::FINISHED)}
+	# 四麻
+	scope :m4, -> {where(gamekind: Section::Gamekind::M4)}
+	# 三麻
+	scope :m3, -> {where(gamekind: Section::Gamekind::M3)}
+	# Game(includes)
+	scope :game_by_includes, -> {where(games: {scorekind: Game::Scorekind::GAME})}
+	scope :chip_by_includes, -> {where(games: {scorekind: Game::Scorekind::CHIP})}
+
+
+	Sql_select_daily = "DATE_FORMAT((finished_at - INTERVAL 12 HOUR + INTERVAL 9 HOUR), '%Y-%m-%d') as daily"
+
 end

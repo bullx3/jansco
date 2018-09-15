@@ -6,24 +6,31 @@
 			<th colspan=2><%= (rank+1).to_s %>位</th>
 		<% end %>
 	</tr>
-	<% games.each do |game|%>
+	<% sections.each do |section|%>
+	<% view_at_flag = true %>
+	<% section.games.each do |game| %>
 		<tr>
-			<td>
-				<%= link_to room_playing_path(@g_idname, game.section_id) do %>
-					<%= game.created_at.strftime("%m/%d") %><br><%= game.created_at.strftime("%H:%M") %>
+			<% if view_at_flag %>
+			<td rowspan=<%= section.games.length %>>
+				<%= link_to room_playing_path(@g_idname, section.id) do %>
+					<%= section.finished_at.strftime("%m/%d") %><br><%= section.finished_at.strftime("%H:%M") %>
 				<% end %>
 			</td>
+			<% view_at_flag = false %>
+			<% end %>
+
 			<% game.scores.each do |score| %>
 				<% setting_class = '' %>
 				<% player_ids.length.times do |p_num| %>
 					<% setting_class = score.player_id == player_ids[p_num] ? "scored_set_player#{p_num}" : setting_class %>
 				<% end %>
-				<td class=<%= setting_class %>><%= score.player.name %></td>
+				<td class="scored2Name"><%= score.player.name %></td>
 				<td class=<%= setting_class %>>
 					<%= minus_number_tag(score.score, nil)  %>
 
 				</td>
 			<% end %>
 		</tr>
+	<% end %>
 	<% end %>
 </table>
