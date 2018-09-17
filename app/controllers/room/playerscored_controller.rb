@@ -5,6 +5,9 @@ class Room::PlayerscoredController < RoomController
 
 	def scored
 		@players = Player.where(group_id: session[:grp], provisional: false)
+	end
+
+	def result_scored
 		@player_id = nil
 		@checkedStart = false
 		@checkedEnd = false
@@ -35,8 +38,11 @@ class Room::PlayerscoredController < RoomController
 		p_id = params[:player][:id]
 
 		if p_id.blank?
+			raise "no parameter player_id"
 			return
 		end
+
+		logger.debug("complete check params")
 
 		@player_id = p_id.to_i
 		player = Player.find(@player_id)
@@ -132,12 +138,14 @@ class Room::PlayerscoredController < RoomController
 			}
 		}
 
-
-
 	end
 
 	def scoredvs
+		@players_num = 4
 		@players = Player.where(group_id: session[:grp], provisional: false)
+	end
+
+	def result_scoredvs
 		@player_results = [{id: nil}, {id: nil},{id: nil},{id: nil}]
 		@checkedStart = false
 		@checkedEnd = false

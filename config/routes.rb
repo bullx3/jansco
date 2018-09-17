@@ -65,7 +65,9 @@ Rails.application.routes.draw do
 
   get 'r/:g_idname/playerscored' => 'room/playerscored#index', as: :room_playerscored
   get 'r/:g_idname/playerscored/scored' => 'room/playerscored#scored'
+  post 'r/:g_idname/playerscored/result_scored' => 'room/playerscored#result_scored'
   get 'r/:g_idname/playerscored/scoredvs' => 'room/playerscored#scoredvs'
+  post 'r/:g_idname/playerscored/result_scoredvs' => 'room/playerscored#result_scoredvs'
 
 
   get 'p/index' => 'personal#index', as: :user_top

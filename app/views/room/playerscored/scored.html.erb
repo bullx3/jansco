@@ -2,21 +2,21 @@
 
 <h1>プレイヤー個人成績</h1>
 
-<%= form_tag({action: :scored}, method: :get, id: 'form_select_player') do %>
+<%= form_tag({action: :result_scored}, id: 'form_select_player') do %>
 <p>
 	<%= label_tag :player_id, 'プレイヤー選択' %>
-	<%= collection_select(:player, :id, @players, :id, :name, {include_blank: '選択してください', selected: @player_id}, onchange: 'changeSelectPlayer(this)') %>
+	<%= collection_select(:player, :id, @players, :id, :name, {include_blank: '選択してください'}) %>
 </p>
 
 <p>
 	<%= label_tag :date_check_start, '集計開始日時' %>
-	<%= check_box :date_check, :start, {checked: @checkedStart, id: :date_check_start ,onchange: "onchangeCheckbox(this,'start')"} %>
-	<%= date_field(:date, :start, {disabled: !(@checkedStart), value: @date_start,onblur: "changeDate(this, 'start')"})  %>
+	<%= check_box :date_check, :start %>
+	<%= date_field(:date, :start, {disabled: true}) %>
 </p>
 <p>
 	<%= label_tag :date_check_end, '集計終了日時' %>
-	<%= check_box :date_check, :end, {checked: @checkedEnd, id: :date_check_end ,onchange: "onchangeCheckbox(this,'end')"} %>
-	<%= date_field(:date, :end, {disabled: !(@checkedEnd), value: @date_end, onblur: "changeDate(this, 'end')"})  %>
+	<%= check_box :date_check, :end %>
+	<%= date_field(:date, :end, {disabled: true})  %>
 </p>
 
 <div class='comments'>
@@ -27,214 +27,117 @@
 </div>
 <% end %>
 
-<hr>
-
-
-<% unless @player_id.nil? %>
-
-
-<hr>
-
-<h3><%= @player_name %>成績</h3>
-
-<table class='scoredTable1'>
-	<captain>四麻の合計スコア</captain>
-	<tr>
-		<th>合計</th>
-		<th>四麻</th>
-		<th>チップ</th>
-	</tr>
-	<tr>
-		<td><%= minus_number_tag(@results[0][:total_score], nil)  %></td>
-		<td><%= minus_number_tag(@results[0][:game_score], nil)  %></td>
-		<td><%= minus_number_tag(@results[0][:chip_score], nil)  %></td>
-	</tr>
-</table>
-<br>
-<%= line_chart([
-	{name: "合計", data: @results[0][:total_charts]},
-	{name: "四麻", data: @results[0][:game_charts]},
-	{name: "チップ", data: @results[0][:chip_charts]}
-], curve: false, defer: true) %>
-
-<br>
-
-<table class='scoredTable1'>
-	<captain>四麻の順位数</captain>
-	<tr>
-		<th>対局数</th>
-		<th>１位</th>
-		<th>２位</th>
-		<th>３位</th>
-		<th>４位</th>
-	</tr>
-	<tr>
-		<td><%= @results[0][:ranks].sum %></td>
-		<% @results[0][:ranks].each do |count| %>
-			<td><%= count %></td>
-		<% end %>
-	</tr>
-
-</table>
-
-<br>
-
-<table class='scoredTable1'>
-	<captain>三麻の合計スコア</captain>
-	<tr>
-		<th>合計</th>
-		<th>三麻</th>
-		<th>チップ</th>
-	</tr>
-	<tr>
-		<td><%= minus_number_tag(@results[1][:total_score], nil)  %></td>
-		<td><%= minus_number_tag(@results[1][:game_score], nil)  %></td>
-		<td><%= minus_number_tag(@results[1][:chip_score], nil)  %></td>
-	</tr>
-</table>
-
-<br>
-<%= line_chart([
-	{name: "合計", data: @results[1][:total_charts]},
-	{name: "三麻", data: @results[1][:game_charts]},
-	{name: "チップ", data: @results[1][:chip_charts]}
-], curve: false, defer: true) %>
-<br>
-
-
-<table class='scoredTable1'>
-	<captain>三麻の順位数</captain>
-	<tr>
-		<th>対局数</th>
-		<th>１位</th>
-		<th>２位</th>
-		<th>３位</th>
-	</tr>
-	<tr>
-		<td><%= @results[1][:ranks].sum %></td>
-		<% @results[1][:ranks].each do |count| %>
-			<td><%= count %></td>
-		<% end %>
-	</tr>
-
-</table>
-
-<br>
-
-
-<hr>
-
-<h4>四麻の戦績</h4>
-<% if @results[0][:game_sections].length > 0 %>
-	<%= render 'scoredTable' , rank_count: 4, sections: @results[0][:game_sections] , player_ids: [@player_id] %>
-
-<% else %>
-	四麻の戦績はありません
-<% end %>
-
-<hr>
-
-<h4>三麻の戦績</h4>
-<% if @results[1][:game_sections].length > 0 %>
-	<%= render 'scoredTable' , rank_count: 3, sections: @results[1][:game_sections] , player_ids: [@player_id] %>
-<% else %>
-	三麻の戦績はありません
-<% end %>
-
-
-<% end %>
-
-<hr>
-
-<h2>
-	<%= link_to '個人成績トップに戻る', action: :index %>
-</h2>
+<%# 非同期通知でデータを取得 %>
+<div id='result'></div>
 
 </div>
 
 <script>
-	var formElement = document.getElementById('form_select_player')
-	var selectPlayerElement = document.getElementById('player_id')
-	var checkStartElement = document.getElementById('date_check_start')
-	var checkEndElement = document.getElementById('date_check_end')
-	var dateStartElement = document.getElementById('date_start')
-	var dateEndElement = document.getElementById('date_end')
-
-	var bak_date_start = dateStartElement.value
-	var bak_date_end = dateEndElement.value
-
-	function changeSelectPlayer(obj){
-		var idx = obj.selectedIndex;
-		var value = obj.options[idx].value;
-		console.log(value);
-		changeDateSubmit()
-	}
 
 
+function init(){
 
-	function onchangeCheckbox(obj, kind){
-		console.log(kind);
-		console.log(obj.checked);
-		if(kind == 'start'){
-			if(obj.checked){
-				dateStartElement.disabled = false
-			}else{
-				dateStartElement.disabled = true
-				startDate = dateStartElement.value
-				if (startDate){
-					// チェック状態が外れた時間が入力されていたら解除ということでsubmitする
-					changeDateSubmit()
-				}
-			}
-		}else if(kind == 'end'){
-			if(obj.checked){
-				dateEndElement.disabled = false
-			}else{
-				dateEndElement.disabled = true
-				endDate = dateEndElement.value
-				if (endDate){
-					// チェック状態が外れた時間が入力されていたら解除ということでsubmitする
-					changeDateSubmit()
-				}
-			}
+	console.log("init")
+	var bak_date_start = $('#date_start').val()
+	var bak_date_end = $('#date_end').val()
+
+	$('select').change(function(){
+		console.log($(this).attr('id'))
+		console.log($(this).val())
+
+		ajax_submit()
+	})
+
+	$('#date_check_start').change(function(){
+		console.log($(this).attr('id'))
+		console.log($(this).prop('checked'))
+
+		// チェックボックスと日付入力を合わせる
+		$('#date_start').prop('disabled', !($(this).prop('checked')))
+
+		if($('#date_start').val()){
+			ajax_submit()
 		}
-	}
+	})
 
-	function changeDate(obj, kind){
-		console.log(kind);
-		console.log(obj.value);
+	$('#date_check_end').change(function(){
+		console.log($(this).attr('id'))
+		console.log($(this).prop('checked'))
 
-		if (kind == 'start'){
-			if (bak_date_start == obj.value){
+		// チェックボックスと日付入力を合わせる
+		$('#date_end').prop('disabled', !($(this).prop('checked')))
+
+		if($('#date_end').val()){
+			ajax_submit()
+		}
+	})
+
+	$('#date_start').blur(function(){
+		console.log($(this).val())
+		console.log($(this).attr('id'))
+		if(bak_date_start != $(this).val()){
+			// 日付変更があった場合のみ
+			bak_date_start = $(this).val()
+			ajax_submit()
+		}
+	})
+
+	$('#date_end').blur(function(){
+		console.log($(this).val())
+		console.log($(this).attr('id'))
+		if(bak_date_end != $(this).val()){
+			// 日付変更があった場合のみ
+			bak_date_end = $(this).val()
+			ajax_submit()
+		}
+	})
+
+	function ajax_submit(){
+		console.log("ajax_submit")
+
+		if(!($('#player_id').val())){
+			return
+		}
+
+		var date_start = $('#date_start').val()
+		var date_end = $('#date_end').val()
+
+		if($('#date_check_start').prop('checked') && date_start
+			&& $('#date_check_end').prop('checked') && date_end){
+			console.log('check date')
+			if (date_start > date_end){
+				alert('集計終了日時は集計開始日時より遅くしてください')
 				return
 			}
-			bak_date_start = obj.value
-
-		}else{
-			if (bak_date_start == obj.value){
-				return
-			}
-			bak_date_end = obj.value
 		}
 
+		console.log("go ajax_submit")
 
-		changeDateSubmit()
-	}
-
-	function changeDateSubmit(){
-		startDate = dateStartElement.value
-		endDate = dateEndElement.value
-
-		if (checkStartElement.checked && startDate
-			&& checkEndElement.checked && endDate){
-				if (startDate > endDate){
-					alert('集計終了日時は集計開始日時より遅くしてください')
-					return
+		$.ajax(
+			{
+				url: $('form').attr('action'),
+				type: $('form').attr('method'),
+				data: $('form').serialize(),
+				dataType: 'script',
+				timeout: 15000,	// 15秒
+				beforeSend: function(){
+					console.log("通信中...")
+					$('#result').html("<hr> <i class='fas fa-spinner fa-spin'></i> Now Loading.....")
 				}
-		}
-		console.log('submitします');
-		formElement.submit()
-
+			}
+		)
+		.done(function(data){
+			console.log("ajax success!!!");
+		})
+		.fail(function(data){
+			console.log("ajax fail!!!");
+			$('#result').html("エラーが発生しました")
+		})
 	}
+}
+
+$(document).ready(init)
+$(document).on('page:change', init)
+
 
 </script>

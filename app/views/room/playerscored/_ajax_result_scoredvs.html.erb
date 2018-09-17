@@ -1,0 +1,121 @@
+<hr>
+
+<table class='scoredvsTable1'>
+	<captain>四麻合計スコア</captain>
+	<tr>
+		<th>プレイヤー</th>
+		<th>合計</th>
+		<th>四麻</th>
+		<th>チップ</th>
+	</tr>
+	<% @player_results.each do |p_result| %>
+		<% unless p_result[:id].nil? %>
+			<tr>
+				<td><%= p_result[:name] %></td>
+				<td><%= minus_number_tag(p_result[:m4_total], nil)  %></td>
+				<td><%= minus_number_tag(p_result[:m4_score], 'currency') %></td>
+				<td><%= minus_number_tag(p_result[:m4_chip_score], nil)  %></td>
+			</tr>
+		<% end %>
+	<% end %>
+</table>
+
+<br>
+
+
+
+<table class='scoredvsTable1'>
+	<captain>四麻の順位数</captain>
+	<tr>
+		<th>プレイヤー</th>
+		<th>対局数</th>
+		<th>１位</th>
+		<th>２位</th>
+		<th>３位</th>
+		<th>４位</th>
+	</tr>
+	<% @player_results.each do |p_result| %>
+		<% unless p_result[:id].nil? %>
+			<tr>
+				<td><%= p_result[:name] %></td>
+				<td><%= p_result[:m4_ranks].sum %></td>
+				<% p_result[:m4_ranks].each do |count| %>
+					<td><%= count %></td>
+				<% end %>
+			</tr>
+		<% end %>
+	<% end %>
+
+</table>
+
+<br>
+
+<table class='scoredvsTable1'>
+	<captain>三麻合計スコア</captain>
+	<tr>
+		<th>プレイヤー</th>
+		<th>合計</th>
+		<th>三麻</th>
+		<th>チップ</th>
+	</tr>
+	<% @player_results.each do |p_result| %>
+		<% unless p_result[:id].nil? %>
+			<tr>
+				<td><%= p_result[:name] %></td>
+				<td><%= minus_number_tag(p_result[:m3_total], nil)  %></td>
+				<td><%= minus_number_tag(p_result[:m3_score], 'currency') %></td>
+				<td><%= minus_number_tag(p_result[:m3_chip_score], nil)  %></td>
+			</tr>
+		<% end %>
+	<% end %>
+</table>
+
+<br>
+
+<table class='scoredvsTable1'>
+	<captain>三麻の順位数</captain>
+	<tr>
+		<th>プレイヤー</th>
+		<th>対局数</th>
+		<th>１位</th>
+		<th>２位</th>
+		<th>３位</th>
+	</tr>
+	<% @player_results.each do |p_result| %>
+		<% unless p_result[:id].nil? %>
+			<tr>
+				<td><%= p_result[:name] %></td>
+				<td><%= p_result[:m3_ranks].sum %></td>
+				<% p_result[:m3_ranks].each do |count| %>
+					<td><%= count %></td>
+				<% end %>
+			</tr>
+		<% end %>
+	<% end %>
+</table>
+
+
+<br>
+
+<hr>
+
+<% player_ids = [] %>
+<% @player_results.each {|p_result| player_ids.push(p_result[:id]) } %>
+
+<h4>四麻の戦績</h4>
+<% if @m4_sections.length > 0 %>
+	<%= render 'scoredTable' , rank_count: 4, sections: @m4_sections ,player_ids: player_ids %>
+<% else %>
+	四麻の戦績はありません
+<% end %>
+
+<hr>
+
+
+
+<h4>三麻の戦績</h4>
+<% if @m3_sections.length > 0 %>
+	<%= render 'scoredTable' , rank_count: 3, sections: @m3_sections ,player_ids: player_ids %>
+<% else %>
+	三麻の戦績はありません
+<% end %>

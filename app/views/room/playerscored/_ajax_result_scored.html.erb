@@ -1,0 +1,109 @@
+<hr>
+
+<h3><%= @player_name %>成績</h3>
+
+<table class='scoredTable1'>
+	<captain>四麻の合計スコア</captain>
+	<tr>
+		<th>合計</th>
+		<th>四麻</th>
+		<th>チップ</th>
+	</tr>
+	<tr>
+		<td><%= minus_number_tag(@results[0][:total_score], nil)  %></td>
+		<td><%= minus_number_tag(@results[0][:game_score], nil)  %></td>
+		<td><%= minus_number_tag(@results[0][:chip_score], nil)  %></td>
+	</tr>
+</table>
+<br>
+<%= line_chart([
+	{name: "合計", data: @results[0][:total_charts]},
+	{name: "四麻", data: @results[0][:game_charts]},
+	{name: "チップ", data: @results[0][:chip_charts]}
+], curve: false) %>
+
+<br>
+
+<table class='scoredTable1'>
+	<captain>四麻の順位数</captain>
+	<tr>
+		<th>対局数</th>
+		<th>１位</th>
+		<th>２位</th>
+		<th>３位</th>
+		<th>４位</th>
+	</tr>
+	<tr>
+		<td><%= @results[0][:ranks].sum %></td>
+		<% @results[0][:ranks].each do |count| %>
+			<td><%= count %></td>
+		<% end %>
+	</tr>
+
+</table>
+
+<br>
+
+<table class='scoredTable1'>
+	<captain>三麻の合計スコア</captain>
+	<tr>
+		<th>合計</th>
+		<th>三麻</th>
+		<th>チップ</th>
+	</tr>
+	<tr>
+		<td><%= minus_number_tag(@results[1][:total_score], nil)  %></td>
+		<td><%= minus_number_tag(@results[1][:game_score], nil)  %></td>
+		<td><%= minus_number_tag(@results[1][:chip_score], nil)  %></td>
+	</tr>
+</table>
+
+<br>
+<%= line_chart([
+	{name: "合計", data: @results[1][:total_charts]},
+	{name: "三麻", data: @results[1][:game_charts]},
+	{name: "チップ", data: @results[1][:chip_charts]}
+], curve: false) %>
+<br>
+
+
+<table class='scoredTable1'>
+	<captain>三麻の順位数</captain>
+	<tr>
+		<th>対局数</th>
+		<th>１位</th>
+		<th>２位</th>
+		<th>３位</th>
+	</tr>
+	<tr>
+		<td><%= @results[1][:ranks].sum %></td>
+		<% @results[1][:ranks].each do |count| %>
+			<td><%= count %></td>
+		<% end %>
+	</tr>
+
+</table>
+
+<br>
+
+
+<hr>
+
+<h4>四麻の戦績</h4>
+<% if @results[0][:game_sections].length > 0 %>
+	<%= render 'scoredTable' , rank_count: 4, sections: @results[0][:game_sections] , player_ids: [@player_id] %>
+
+<% else %>
+	四麻の戦績はありません
+<% end %>
+
+<hr>
+
+<h4>三麻の戦績</h4>
+<% if @results[1][:game_sections].length > 0 %>
+	<%= render 'scoredTable' , rank_count: 3, sections: @results[1][:game_sections] , player_ids: [@player_id] %>
+<% else %>
+	三麻の戦績はありません
+<% end %>
+
+<hr>
