@@ -1,12 +1,16 @@
 <div class='userTop'>
 <p>こんにちは<span class='userTopName'><%= @user.username %></span>さん</p>
 
+<% if session[:usr_per] == User::Permission::ADMIN  %>
+	<%= link_to '管理者用ページへ', {controller: :admin, action: :index} %>
+<% else %>
 <p>どのルームに入りますか？</p>
 <ul>
 <% @user.groups.each do |group| %>
 	<li><%= link_to group.name, room_path(group.idname) %></li>
 <% end %>
 </ul>
+<% end %>
 
 <% if session[:usr_per] != User::Permission::GUEST  %>
 <p>

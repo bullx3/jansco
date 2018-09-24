@@ -19,8 +19,20 @@
 <p>
 <%= link_to 'プレイヤー情報の変更', action: :editPlayer %>
 </p>
+<hr>
+<ul>DB管理へ
+<li><%= link_to 'Sections', sections_path %></li>
+<li><%= link_to 'Games', games_path %></li>
+<li><%= link_to 'Scores', scores_path %></li>
+<li><%= link_to 'SectionPlayers', section_players_path %></li>
+<li><%= link_to 'users', users_path %></li>
+<li><%= link_to 'groups', groups_path %></li>
+<li><%= link_to 'players', players_path %></li>
+<li><%= link_to 'logs', logs_path %></li>
+<li><%= link_to 'comments', comments_path %></li>
+</ul>
 
-
+<hr>
 <p>
 <%= link_to 'トップに戻る', top_path %>
 </p>
