@@ -1,5 +1,6 @@
 class RoomController < ApplicationController
   before_action :check_group, except: [:notice]
+  before_action :preset
 
   def show
   	logger.debug('[START] RoomController::index')
@@ -131,6 +132,13 @@ private
     end
 
   	logger.debug('[FINISH] RoomController::check_group')
+  end
+
+  def preset
+    # 一定期間を過ぎたらNewアイコンを消すように計算する
+    now  = Time.current
+    last_update = Room::HistoryController::HISTORIES.last[:date].in_time_zone
+    @show_new_icon = now - last_update - 3.days < 0 ? true : false
   end
 
 end

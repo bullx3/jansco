@@ -1,0 +1,18 @@
+<div class='room_history'>
+
+<h1>更新履歴</h1>
+
+<p>
+	<% Room::HistoryController::HISTORIES.reverse_each do |history| %>
+		<hr>
+ 		<% if (Time.current - history[:date].in_time_zone - 3.days) < 0 %>
+	 		<div class='history_date_new'><%= history[:date] %></div>
+	 	<% else %>
+	 		<div class='history_date'><%= history[:date] %></div>
+	 	<% end %>
+		<div class='history_title'><%= history[:title] %></div>
+		<div class='history_body'><%= history[:body].html_safe %></div>
+
+	<% end %>
+</p>
+</div>

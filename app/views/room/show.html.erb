@@ -43,6 +43,14 @@
 <hr>
 
 <h2>
+    <% if @show_new_icon %>
+      <%= link_to('更新履歴', room_history_path, {class: "new_icon_after"}) %>
+    <% else %>
+      <%= link_to('更新履歴', room_history_path) %>
+    <% end %>
+</h2>
+
+<h2>
 	<%= link_to 'ランキング', room_ranking_path(params[:g_idname]) %>
 </h2>
 

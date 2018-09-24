@@ -1,0 +1,31 @@
+// Place all the styles related to the room::history controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.room_history {
+	h1 {
+		font-size: 8vmin;
+	}
+	.history_date_new{
+		font-size: 6vmin;
+		&:after{
+			content: 'New';
+			color: red;
+			display: inline-block;
+			animation: Flash 2s infinite;
+		}
+	}
+	.history_date{
+		font-size: 6vmin;
+	}
+	.history_title{
+		font-size: 6.5vmin;
+		font-weight: bold
+	}
+	.history_body{
+		font-size: 4vmin;
+		margin: 1vmin 3vmin; 
+
+	}
+}

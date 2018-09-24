@@ -244,3 +244,30 @@
   background: #afc6e2;
 }
 
+.room_navi .new_icon::before{
+  content: 'New';
+  font-size: 4vmin;
+  color: red;
+  position: absolute;
+  top: 0px;
+  left: 0vw;
+
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  animation: Flash 2s infinite;
+}
+
+@keyframes Flash{
+  50%{
+    opacity: 0;
+  }
+}
+
+.new_icon_after::after{
+  content: 'New';
+  color: red;
+
+  display: inline-block;
+  animation: Flash 2s infinite;
+}

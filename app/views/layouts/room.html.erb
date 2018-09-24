@@ -29,8 +29,16 @@
     <div class="room_navi">
     <ul class="nav">
       <li><%= link_to('ルームトップ', room_path) %></li>
+      <li>
+        <% interval =  %>
+        <% if @show_new_icon %>
+          <%= link_to('更新履歴', room_history_path, {class: "new_icon"}) %>
+        <% else %>
+          <%= link_to('更新履歴', room_history_path) %>
+        <% end %>
+      </li>
       <li><%= link_to('ランキング', room_ranking_path) %></li>
-      <li><%= link_to('個人成績', room_playerscored_path) %></a></li>
+      <li><%= link_to('個人成績', room_playerscored_path) %></li>
     </ul><!--nav-->
     </div><!--gnav-->
 
