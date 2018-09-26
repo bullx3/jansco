@@ -62,6 +62,7 @@ Rails.application.routes.draw do
   get 'r/:g_idname/ranking/past' => 'room/ranking#past', as: :room_ranking_past
   get 'r/:g_idname/ranking/thisMonth' => 'room/ranking#thisMonth'
   get 'r/:g_idname/ranking/lastMonth' => 'room/ranking#lastMonth'
+  post 'r/:g_idname/ranking/result_ranks_ranking' => 'room/ranking#result_ranks_ranking'
 
   get 'r/:g_idname/playerscored' => 'room/playerscored#index', as: :room_playerscored
   get 'r/:g_idname/playerscored/scored' => 'room/playerscored#scored'

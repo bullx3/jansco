@@ -1,4 +1,12 @@
-<% rankings.each do |ranking| %>
+<div id='ranks_triger'>
+<%= form_tag({action: :result_ranks_ranking}, remote: true) do %>
+	<%= hidden_field_tag 'date', @time_jst  %>
+	<%= button_tag "拡張ランキングを表示する" , data: {disable_with: '計算中......' } , class: "sqr_button" %>
+	<p style="font-size:50%;">表示には時間がかかる可能性があります</p>
+<% end %>
+</div>
+
+<% rankings.each_with_index do |ranking, idx| %>
 
 <hr>
 
@@ -7,10 +15,34 @@
 <table class='total_ranking'>
 	<tr>
 		<th rowspan='2'>順位</th>
-		<th colspan='2'>総合得点<br>(チップあり)</th>
-		<th colspan='2'>総合得点<br>(チップなし)</th>
-		<th colspan='2'>チップ合計<br>(総チップ)</th>
-		<th colspan='2'>総対局数<br>(チップなし)</th>
+		<th colspan='2'>
+			<span class="help">総合得点<br>(チップ有)</span>
+			<p class="help_popup">
+				総合得点(チップ有)<br><br>
+				チップを含めたすべてのスコアの合計のランキングです
+			</p>
+		</th>
+		<th colspan='2'>
+			<span class="help">総合得点<br>(チップ無)</span>
+			<p class="help_popup">
+				総合得点(チップ無)<br><br>
+				チップを含めないすべてのスコアの合計のランキングです
+			</p>
+		</th>
+		<th colspan='2'>
+			<span class="help">チップ合計<br>(総チップ)</span>
+			<span class="help_popup">
+				チップ合計(総チップ)<br><br>
+				チップのみの合計のランキングです
+			</span>
+		</th>
+		<th colspan='2'>
+			<span class="help">総対局数<br>(チップ無)</span>
+			<span class="help_popup">
+				総対局数(チップ無)<br><br>
+				対局数の合計のランキングです(チップの入力は含みません)
+			</span>
+		</th>
 	</tr>
 	<tr>
 		<th>名前</th><th>スコア</th>
@@ -57,10 +89,35 @@
 <table class='total_ranking'>
 	<tr>
 		<th rowspan='2'>順位</th>
-		<th colspan='2'>最高スコア<br>(チップなし)</th>
-		<th colspan='2'>最高スコア<br>(集計内合計)</th>
-		<th colspan='2'>平均スコア<br>(チップなし)</th>
-		<th colspan='2'>最高チップ<br>(集計内合計)</th>
+		<th colspan='2'>
+			<span class="help">最高スコア<br>(チップ無)</span>
+			<p class="help_popup">
+				最高スコア(チップ無)<br><br>
+				一度の対局（半荘）の最高のスコアのランキングです
+			</p>
+		</th>
+		<th colspan='2'>
+			<span class="help">最高スコア<br>(集計内合計)</span>
+			<p class="help_popup">
+				最高スコア(集計内合計)<br><br>
+				ゲーム集計（複数半荘）の合計最高スコアのランキングです
+			</p>
+		</th>
+
+		<th colspan='2'>
+			<span class="help">平均スコア<br>(チップ無)</span>
+			<p class="help_popup">
+				平均スコア(チップ無)<br><br>
+				チップを含めないすべてのスコアの合計を対局数で割った値のランキングです
+			</p>
+		</th>
+		<th colspan='2'>
+			<span class="help">最高チップ<br>(集計内合計)</span>
+			<p class="help_popup">
+				最高スコア(チップ無)<br><br>
+				ゲーム集計（複数半荘）の合計最高チップのランキングです
+			</p>
+		</th>
 	</tr>
 	<tr>
 		<th>名前</th><th>スコア</th>
@@ -103,4 +160,9 @@
 
 
 </table>
+
+<% idname = "ranks_ranking_#{idx}" %>
+<% aname = "name_ranks_ranking_#{idx}" %>
+<div id = <%= idname %>></div>
+
 <% end %><%# rankings.each %>

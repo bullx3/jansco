@@ -12,6 +12,11 @@
 	 	<% end %>
 		<div class='history_title'><%= history[:title] %></div>
 		<div class='history_body'><%= history[:body].html_safe %></div>
+		<% if history[:images] != nil %>
+			<% history[:images].each do |image_path| %>
+				<%= image_tag "histories/#{image_path}", class: "history_image" %>
+			<% end %>
+		<% end %>
 
 	<% end %>
 </p>

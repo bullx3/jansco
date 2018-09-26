@@ -1,0 +1,71 @@
+<h3><%= gamekind == 0 ? '四麻': '三麻' %>の成績３</h3>
+<table class='total_ranking'>
+	<tr>
+		<th rowspan='2'>順位</th>
+		<th colspan='2'>
+			<span class="help">総合ポイント</span>
+			<p class="help_popup">
+				総合ポイント<br><br>
+				以下の式で求めた値のランキングです。<br><br>
+				総合ポイント = １位の取得数 × １ + ２位の取得数 × ２ + ３位の取得数 × ３  + ４位の取得数 × ４<br>
+				１に近づくほど優秀な成績です<br>
+				全て１位を取るとポイントは１になります。
+			</p>
+		</th>
+		<th colspan='2'>
+			<span class="help">一位の順位率</span>
+			<p class="help_popup">
+				一位の順位率<br><br>
+				一位を取った回数を対局数で割った確率のランキングです
+			</p>
+		</th>
+		<th colspan='2'>
+			<span class="help">二位の順位率</span>
+			<p class="help_popup">
+				二位の順位率<br><br>
+				二位を取った回数を対局数で割った確率のランキングです
+			</p>
+		</th>
+	</tr>
+	<tr>
+		<th>名前</th><th>ポイント(対局数)</th>
+		<th>名前</th><th>％(対局数)</th>
+		<th>名前</th><th>％(対局数)</th>
+	</tr>
+
+	<% @ranking_count.times do |rank| %>
+		<tr>
+			<td><%= (rank+1) -%>位</td>
+			<% if @ranksRankings[gamekind][:overall_point][rank] != nil %>
+				<td><%= @ranksRankings[gamekind][:overall_point][rank][:name] %></td>
+				<td>
+					<%= @ranksRankings[gamekind][:overall_point][rank][:point] %>
+					(<%= @ranksRankings[gamekind][:overall_point][rank][:count] %>)
+				</td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+			<% if @ranksRankings[gamekind][:rank_pers][0][rank] != nil %>
+				<td><%= @ranksRankings[gamekind][:rank_pers][0][rank][:name] %></td>
+				<td>
+					<%= @ranksRankings[gamekind][:rank_pers][0][rank][:percent] %>
+					(<%= @ranksRankings[gamekind][:rank_pers][0][rank][:count] %>)
+				</td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+			<% if @ranksRankings[gamekind][:rank_pers][1][rank] != nil %>
+				<td><%= @ranksRankings[gamekind][:rank_pers][1][rank][:name] %></td>
+				<td>
+					<%= @ranksRankings[gamekind][:rank_pers][1][rank][:percent] %>
+					(<%= @ranksRankings[gamekind][:rank_pers][1][rank][:count] %>)
+				</td>
+			<% else %>
+				<td></td><td></td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>
+<script>
+	
+</script>
