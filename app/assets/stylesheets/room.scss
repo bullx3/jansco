@@ -307,3 +307,18 @@
     display: block;
   }
 }
+
+.no_paid_cell{
+  background-color: wheat;
+}
+
+.table_legend{
+  margin: 0.5em 0;
+  > p {
+    margin: 0.1em 0;
+    > span {
+      border:1px solid gray;
+      margin-right: 0.5em;
+    }
+  }
+}

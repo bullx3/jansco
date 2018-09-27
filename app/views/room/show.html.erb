@@ -11,7 +11,7 @@
 	<hr>
 	<h2>対局中のゲーム</h2>
 	<% if @now_count > 0 %>
-		<%= render 'scoreTable', playing_sections: @playing_sections, player_cnt: @player_cnt, time_kind: 'created' %>
+		<%= render 'scoreTable', playing_sections: @playing_sections, player_cnt: @player_cnt, time_kind: 'created', show_kind: 'now' %>
 	<% else %>
 		<p>現在対局中のゲームはありません</p>
 	<% end %>
@@ -20,18 +20,21 @@
 	<hr>
 	<h2>未清算のある対局</h2>
 	<% if @no_paid_count > 0 %>
-		<%= render 'scoreTable', playing_sections: @no_paid_sections, player_cnt: @no_paid_player_cnt, time_kind: 'finished' %>
+		<%= render 'scoreTable', playing_sections: @no_paid_sections, player_cnt: @no_paid_player_cnt, time_kind: 'finished', show_kind: 'no_paid' %>
 	<% else %>
 		<p>未清算のゲームはありません</p>
 	<% end %>
 
+	<div class="table_legend">
+		<p><span class='no_paid_cell'>&emsp;&emsp;&emsp;</span>未清算のプレイヤー</p>
+	</div>
 
 
 	<hr>
 	<h2>最近終了した対局</h2>
 
 	<% if @past_count > 0 	%>
-		<%= render 'scoreTable', playing_sections: @past_sections, player_cnt: @past_player_cnt, time_kind: 'finished' %>
+		<%= render 'scoreTable', playing_sections: @past_sections, player_cnt: @past_player_cnt, time_kind: 'finished', show_kind: 'finished' %>
 		<%= link_to '終了した対局の続きを見る' ,action: :past %>
 	<% else %>
 		<p>最近終了したゲームはありません</p>

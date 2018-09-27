@@ -36,7 +36,8 @@
 		</tr>
 		<tr>
 			<% section.section_players.each do |s_player| %>
-				<td>
+				<% class_name = (show_kind == 'no_paid' && s_player.paid == false) ? "no_paid_cell" : "" %>
+				<td class=<%= class_name %>>
 					<% unless s_player.total.nil? %>
 						<%= minus_number_tag(s_player.total, nil)  %>
 					<% end %>

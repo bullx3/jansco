@@ -3,7 +3,7 @@
 	<h2>終了した対局</h2>
 
 	<% if @past_count > 0 %>
-		<%= render 'scoreTable', playing_sections: @past_sections, player_cnt: @past_player_cnt, time_kind: 'finished' %>
+		<%= render 'scoreTable', playing_sections: @past_sections, player_cnt: @past_player_cnt, time_kind: 'finished', show_kind: 'past' %>
 		<%= will_paginate @past_sections %>
 	<% else %>
 		<p>終了したゲームはありません</p>
