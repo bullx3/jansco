@@ -3,6 +3,8 @@ class Room::RankingController < RoomController
 
   M4 = 0
   M3 = 1
+  RankingMinCount = 10
+
 
   def index
 	@simple_ranking_count = 3
@@ -239,6 +241,8 @@ private
 
 #	players_ranks.each{|player_rank| logger.debug(player_rank)}
 
+	@minGameCount = RankingMinCount
+
 	ranks_rankings = [{kind: M4},{kind: M3}]
 	ranks_rankings.each {|ranks_ranking|
 
@@ -246,7 +250,7 @@ private
 		players_ranks.each{|player_rank|
 			overall = player_rank[:ranks_kinds][ranks_ranking[:kind]][:overall_point]
 			count = player_rank[:ranks_kinds][ranks_ranking[:kind]][:game_count]
-			unless overall.nil?
+			if overall != nil && count >= @minGameCount
 				overall_rank = {name: player_rank[:name], point: overall, count: count}
 				overall_ranks.push(overall_rank)
 			end
@@ -267,7 +271,7 @@ private
 			players_ranks.each{|player_rank|
 				per = player_rank[:ranks_kinds][ranks_ranking[:kind]][:ranks_per][rank]
 				count = player_rank[:ranks_kinds][ranks_ranking[:kind]][:game_count]
-				if per != 0
+				if per != 0 && count >= @minGameCount
 					rank_per = {name: player_rank[:name], percent: per, count: count}
 					rank_pers.push(rank_per)
 				end

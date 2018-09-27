@@ -18,7 +18,8 @@ class Room::HistoryController < RoomController
 				   総合ポイントは以下の式で得られる値です<br><br>
 				   総合ポイント = １位の取得数 × １ + ２位の取得数 × ２ + ３位の取得数 × ３  + ４位の取得数 × ４<br><br>
 				   １に近づくほど優秀な成績です<br>
-				   全て１位を取るとポイントは１になります。",
+				   全て１位を取るとポイントは１になります。<br>
+				   追加したランキングは#{Room::RankingController::RankingMinCount}件以上の対局数を持つプレイヤーのみです",
 			images: ["2-1.png",'2-2.png'],
 			link: nil
 		},
