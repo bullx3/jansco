@@ -21,14 +21,13 @@
 	<h2>未清算のある対局</h2>
 	<% if @no_paid_count > 0 %>
 		<%= render 'scoreTable', playing_sections: @no_paid_sections, player_cnt: @no_paid_player_cnt, time_kind: 'finished', show_kind: 'no_paid' %>
+		<div class="table_legend">
+			<p><span class='no_paid_cell'>&emsp;&emsp;&emsp;</span>未清算のプレイヤー</p>
+		</div>
+
 	<% else %>
 		<p>未清算のゲームはありません</p>
 	<% end %>
-
-	<div class="table_legend">
-		<p><span class='no_paid_cell'>&emsp;&emsp;&emsp;</span>未清算のプレイヤー</p>
-	</div>
-
 
 	<hr>
 	<h2>最近終了した対局</h2>
