@@ -147,6 +147,12 @@ class Room::PlayingController < RoomController
     stm = ScoreTableManager.new(section_id)
     @gamekind = stm.getSection.gamekind
 
+    if stm.getSection.status == Section::Status::FINISHED
+      # 既に終了済みの為エラー表示にする
+      redirect_to action: :notice, alert: 'このゲームは既に終了しています'
+      return
+    end
+
     if @mode == 'add'
       sectionPlayers = stm.getSectionPlayersWithPlayerName
 
@@ -188,6 +194,13 @@ class Room::PlayingController < RoomController
 
     section_id = params[:id]
     scorekind = params[:scorekind].to_i
+
+    section = Section.find(section_id)
+    if section.status == Section::Status::FINISHED
+      # 既に終了済みの為エラー表示にする
+      redirect_to action: :notice, alert: 'このゲームは既に終了しています'
+      return
+    end
 
     # game_noを決める為game_noの大きい順で取り出し
     games = Game.where(section_id: section_id).order(game_no: :desc).limit(1)
@@ -243,6 +256,13 @@ class Room::PlayingController < RoomController
     updateGameNo = params[:gameNo].to_i
     selectKind = params[:scorekind].to_i
 
+    section = Section.find(section_id)
+    if section.status == Section::Status::FINISHED
+      # 既に終了済みの為エラー表示にする
+      redirect_to action: :notice, alert: 'このゲームは既に終了しています'
+      return
+    end
+
     #トランザクション開始
     ActiveRecord::Base.transaction do
 
@@ -290,6 +310,13 @@ class Room::PlayingController < RoomController
     section_id = params[:id].to_i
     deleteGameNo = params[:gameNo].to_i
 
+    section = Section.find(section_id)
+    if section.status == Section::Status::FINISHED
+      # 既に終了済みの為エラー表示にする
+      redirect_to action: :notice, alert: 'このゲームは既に終了しています'
+      return
+    end
+
     #トランザクション開始
     ActiveRecord::Base.transaction do
 
@@ -313,6 +340,13 @@ class Room::PlayingController < RoomController
 
   def editPlayer
     section_id = params[:id].to_i
+
+    section = Section.find(section_id)
+    if section.status == Section::Status::FINISHED
+      # 既に終了済みの為エラー表示にする
+      redirect_to action: :notice, alert: 'このゲームは既に終了しています'
+      return
+    end
 
     @players_all = Player.where(group_id: session[:grp], provisional: false)
     @rateStrings = RateStrings.deep_dup
@@ -346,6 +380,13 @@ class Room::PlayingController < RoomController
   def changePlayer
     section_id = params[:id].to_i
     playersArray = params[:players].map {|id| id.to_i}
+
+    section = Section.find(section_id)
+    if section.status == Section::Status::FINISHED
+      # 既に終了済みの為エラー表示にする
+      redirect_to action: :notice, alert: 'このゲームは既に終了しています'
+      return
+    end
 
     if params[:rate] != nil
       set_rate = params[:rate].to_i
@@ -450,9 +491,10 @@ class Room::PlayingController < RoomController
     section_id = params[:id]
     section = Section.find(section_id)
 
-    if section.status != Section::Status::PLAYING
-      #現在対局中でなければエラー
-      raise 'already finished'
+    if section.status == Section::Status::FINISHED
+      # 既に終了済みの為エラー表示にする
+      redirect_to action: :notice, alert: 'このゲームは既に終了しています'
+      return
     end
 
     if(section.games_count == 0)
