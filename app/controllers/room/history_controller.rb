@@ -23,6 +23,14 @@ class Room::HistoryController < RoomController
 			images: ["2-1.png",'2-2.png'],
 			link: nil
 		},
+		{
+			no: 3,
+			date: "2019-12-25",
+			title: "個人成績の対戦スコアを新しい順に変更",
+			body: "プレイヤー個人成績で対戦戦績の日付が新しい順になるように変更しました",
+			images: nil,
+			link: nil
+		},
 
 	]
 

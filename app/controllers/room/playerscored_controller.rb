@@ -92,7 +92,7 @@ class Room::PlayerscoredController < RoomController
 			p_game_ids = p_game_sections.pluck("games.id")
 
 			play_sections = Section.includes(games: [scores: [:player]]).where("games.id IN(?)", p_game_ids)
-			result[:game_sections] = play_sections.order(:id).order("scores.score desc")
+			result[:game_sections] = play_sections.order(id: :desc).order("games.id asc").order("scores.score desc")
 
 			result[:game_sections].each {|section|
 				setRankCount(result[:ranks], section.games, @player_id)
@@ -279,8 +279,10 @@ class Room::PlayerscoredController < RoomController
 		}
 
 
-		@m4_sections = Section.includes(games: [scores: [:player]]).where("games.id IN(?)", m4_game_ids).order(:id).order("scores.score desc")
-		@m3_sections = Section.includes(games: [scores: [:player]]).where("games.id IN(?)", m3_game_ids).order(:id).order("scores.score desc")
+		@m4_sections = Section.includes(games: [scores: [:player]]).where("games.id IN(?)", m4_game_ids) \
+								.order(id: :desc).order("games.id asc").order("scores.score desc")
+		@m3_sections = Section.includes(games: [scores: [:player]]).where("games.id IN(?)", m3_game_ids) \
+								.order(id: :desc).order("games.id asc").order("scores.score desc")
 
 		@player_results.each { |p_result|
 			if p_result[:id].nil?
