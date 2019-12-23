@@ -13,6 +13,7 @@
 			<% if view_at_flag %>
 			<td rowspan=<%= section.games.length %>>
 				<%= link_to room_playing_path(@g_idname, section.id) do %>
+					<%= section.finished_at.strftime("%Y") %><br>
 					<%= section.finished_at.strftime("%m/%d") %><br><%= section.finished_at.strftime("%H:%M") %>
 				<% end %>
 			</td>
