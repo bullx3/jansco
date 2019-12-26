@@ -69,6 +69,7 @@ Rails.application.routes.draw do
   post 'r/:g_idname/playerscored/result_scored' => 'room/playerscored#result_scored'
   get 'r/:g_idname/playerscored/scoredvs' => 'room/playerscored#scoredvs'
   post 'r/:g_idname/playerscored/result_scoredvs' => 'room/playerscored#result_scoredvs'
+  get 'r/:g_idname/playerscored/vs_scored' => 'room/playerscored#vs_scored', as: :room_player_vs_scored
 
   get 'r/:g_idname/history' => 'room/history#index', as: :room_history
 

@@ -55,25 +55,25 @@
 		<tr>
 			<td><%= (rank+1) -%>位</td>
 			<% if ranking[:rank_totalscores][rank] != nil %>
-				<td><%= ranking[:rank_totalscores][rank].name %></td>
+				<td><%= link_to_vsscored(ranking[:rank_totalscores][rank].name, ranking[:rank_totalscores][rank].player_id) %></td>
 				<td><%= ranking[:rank_totalscores][rank].sum_total %></td>
 			<% else %>
 				<td></td><td></td>
 			<% end %>
 			<% if ranking[:rank_no_chip_scores][rank] != nil %>
-				<td><%= ranking[:rank_no_chip_scores][rank].name %></td>
+				<td><%= link_to_vsscored(ranking[:rank_no_chip_scores][rank].name, ranking[:rank_no_chip_scores][rank].player_id) %></td>
 				<td><%= ranking[:rank_no_chip_scores][rank].sum_total %></td>
 			<% else %>
 				<td></td><td></td>
 			<% end %>
 			<% if ranking[:total_chips][rank] != nil %>
-				<td><%= ranking[:total_chips][rank].name %></td>
+				<td><%= link_to_vsscored(ranking[:total_chips][rank].name, ranking[:total_chips][rank].player_id) %></td>
 				<td><%= ranking[:total_chips][rank].sum_chip %></td>
 			<% else %>
 				<td></td><td></td>
 			<% end %>
 			<% if ranking[:rank_counts][rank] != nil %>
-				<td><%= ranking[:rank_counts][rank].name %></td>
+				<td><%= link_to_vsscored(ranking[:rank_counts][rank].name, ranking[:rank_counts][rank].player_id) %></td>
 				<td><%= ranking[:rank_counts][rank].count_score %></td>
 			<% else %>
 				<td></td><td></td>
@@ -129,27 +129,27 @@
 		<tr>
 			<td><%= (rank+1) -%>位</td>
 			<% if ranking[:max_scores][rank] != nil %>
-				<td><%= ranking[:max_scores][rank].name %></td>
+				<td><%= link_to_vsscored(ranking[:max_scores][rank].name, ranking[:max_scores][rank].player_id) %></td>
 				<% url = room_playing_path(params[:g_idname], ranking[:max_scores][rank].section_id) %>
 				<td><%= link_to(ranking[:max_scores][rank].score, url) %></td>
 			<% else %>
 				<td></td><td></td>
 			<% end %>
 			<% if ranking[:max_total_scores][rank] != nil %>
-				<td><%= ranking[:max_total_scores][rank].name %></td>
+				<td><%= link_to_vsscored(ranking[:max_total_scores][rank].name, ranking[:max_total_scores][rank].player_id) %></td>
 				<% url = room_playing_path(params[:g_idname], ranking[:max_total_scores][rank].section_id) %>
 				<td><%= link_to(ranking[:max_total_scores][rank].sum_score, url) %></td>
 			<% else %>
 				<td></td><td></td>
 			<% end %>
 			<% if ranking[:rank_avgs][rank] != nil %>
-				<td><%= ranking[:rank_avgs][rank].name %></td>
+				<td><%= link_to_vsscored(ranking[:rank_avgs][rank].name, ranking[:rank_avgs][rank].player_id) %></td>
 				<td><%= ranking[:rank_avgs][rank].avg_score.truncate(2) %></td>
 			<% else %>
 				<td></td><td></td>
 			<% end %>
 			<% if ranking[:max_chips][rank] != nil %>
-				<td><%= ranking[:max_chips][rank].name %></td>
+				<td><%= link_to_vsscored(ranking[:max_chips][rank].name, ranking[:max_chips][rank].player_id) %></td>
 				<% url = room_playing_path(params[:g_idname], ranking[:max_chips][rank].section_id) %>
 				<td><%= link_to(ranking[:max_chips][rank].sum_chip, url) %></td>
 			<% else %>

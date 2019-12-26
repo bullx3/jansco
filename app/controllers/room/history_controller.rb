@@ -32,6 +32,16 @@ class Room::HistoryController < RoomController
 			images: nil,
 			link: nil
 		},
+		{
+			no: 4,
+			date: "2019-12-27",
+			title: "一部のプレイヤー名前表示から直接個人成績を見に行けるようにした。
+			        成績の日付指定を月単位にしました",
+			body: "トップページや過去の対局一覧、ランキングなどの名前表示にリンクをつけて、個人成績に直接飛べるようにしました<br>
+				  また、旧個人成績、対戦成績とは別の対人成績を用意しました（旧版は廃止予定）",
+			images: nil,
+			link: nil
+		},
 
 	]
 

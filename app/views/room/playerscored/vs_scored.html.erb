@@ -1,0 +1,104 @@
+<div class='playersocred'>
+
+<h1>プレイヤー対戦成績</h1>
+
+<%= form_tag({action: :vs_scored}, method: :get, id: 'form_select_player') do %>
+		<% @players_num.times do |p_num| %>
+			<p>
+			<% selected = @show_params[:player_ids][p_num].nil? ? {} : {selected: @show_params[:player_ids][p_num]} %>
+			<%= label_tag "player_id#{p_num}", "プレイヤー#{(p_num + 1)}選択" %>
+			<%= collection_select(:player, "id#{p_num}", @players, :id, :name, {include_blank: '指定なし'}.merge(selected)) %>
+			</p>
+		<% end %>
+	<p>
+		<%= label_tag :date_start, '集計開始月' %>
+		<%= select_tag(:date_start, options_for_select(@enable_start_months, @select_start_month)) %>
+	</p>
+	<p>
+		<%= label_tag :date_end, '集計終了月' %>
+		<%= select_tag(:date_end, options_for_select(@enable_end_months, @select_end_month)) %>
+
+	</p>
+
+	<div class='comments'>
+		※ 複数のプレイヤーを選択すると、同時にプレイした対局のみ表示・集計されます<br>
+		※ 集計開始日時は指定した月の１日12:00(正午)から、集計終了日時は指定した日付の次の日の１日の12:00(正午)までに'ゲーム終了'を行ったゲームのみを集計します。
+		(半荘のデータを入力していても'ゲーム終了'を行っていない限り集計されません)
+		<br>
+		例) 開始を2018年6、 終了を2019年3月にした場合、2018/8/1 12:00 ～ 2019/4/1 12:00を集計します
+	</div>
+
+<% end %>
+<hr>
+<% if @show_params[:show_result] %>
+	<h4>四麻のスコア・順位数</h4>
+	<% if @show_params[:exist_results][0] %>
+		<%= render 'vs_result' , rank_count: 4, kind_str: "四麻", result_players: @result_players_kinds[0] , player_count: @show_params[:player_count] %>
+	<% else %>
+		四麻の戦績はありません
+	<% end %>
+
+	<hr>
+
+	<h4>三麻のスコア・順位数</h4>
+	<% if @show_params[:exist_results][1] %>
+		<%= render 'vs_result' , rank_count: 3, kind_str: "三麻", result_players: @result_players_kinds[1], player_count: @show_params[:player_count]%>
+	<% else %>
+		三麻の戦績はありません
+	<% end %>
+
+	<hr>
+
+	<h4>四麻の戦績</h4>
+	<% if @show_params[:exist_results][0] %>
+		<%= render 'scoredTable' , rank_count: 4, sections: @show_params[:and_game_sections][0] ,player_ids: @show_params[:player_ids] %>
+	<% else %>
+		四麻の戦績はありません
+	<% end %>
+	<hr>
+
+	<h4>三麻の戦績</h4>
+	<% if@show_params[:exist_results][1] %>
+		<%= render 'scoredTable' , rank_count: 3, sections: @show_params[:and_game_sections][1] ,player_ids: @show_params[:player_ids] %>
+	<% else %>
+		三麻の戦績はありません
+	<% end %>
+
+<% end %><%# if @show_params[:show_result] %>
+
+<h2>
+	<%= link_to '個人成績トップに戻る', action: :index %>
+</h2>
+
+</div>
+
+<script>
+
+
+function init(){
+	console.log("init")
+
+	$('select').change(function(){
+		console.log("change select")
+		ex_submit()
+	})
+
+	function ex_submit(){
+
+		var start = $('#date_start').val()
+		var end = $('#date_end').val()
+
+		if(start != -1 && end != -1 && start > end){
+			alert('終了月は開始月以降にしてください')
+			return
+		}
+		$('#form_select_player').submit()
+	}
+
+}
+
+$(document).ready(init)
+$(document).on('page:change', init)
+
+
+</script>

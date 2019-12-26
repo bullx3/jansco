@@ -1,0 +1,71 @@
+<table class='scoredvsTable1'>
+	<captain><%= kind_str %>合計スコア</captain>
+	<tr>
+		<th>プレイヤー</th>
+		<th>合計</th>
+		<th><%= kind_str %></th>
+		<th>チップ</th>
+	</tr>
+	<% result_players.each do |result_player| %>
+		<% unless result_player.nil? %>
+			<tr>
+				<td><%= result_player.player_name %></td>
+				<td><%= minus_number_tag(result_player.total_sum, nil)  %></td>
+				<td><%= minus_number_tag(result_player.game_sum, 'currency') %></td>
+				<td><%= minus_number_tag(result_player.chip_sum, nil)  %></td>
+			</tr>
+		<% end %>
+	<% end %>
+</table>
+
+<% chart_datas = [] %>
+<% result_players.each do |result_player| %>
+
+	<% if player_count <= 1 %>
+		<% unless result_player.nil? %>
+			<% chart_datas = [
+					{name: "合計", data: result_player.total_charts},
+					{name: "四麻", data: result_player.game_charts},
+					{name: "チップ", data: result_player.chip_charts}
+				] %>
+		<% end %>
+	<% else %>
+		<% unless result_player.nil? %>
+			<% chart_datas.push({name: result_player.player_name, data: result_player.game_charts}) %>
+		<% end %>		
+	<% end %>
+<% end %>
+<%= line_chart(chart_datas, curve: false) %>
+<% if player_count > 1 %>
+	<div class='comments'>
+		※ プレイヤー複数指定の場合チップを含まないゲームのスコアのチャートのみ表示
+	</div>
+<% end %>
+
+<br>
+
+<table class='scoredvsTable1'>
+	<captain><%= kind_str %>の順位数</captain>
+	<tr>
+		<th>プレイヤー</th>
+		<th>対局数</th>
+		<% rank_count.times do |rank| %>
+			<th><%= (rank+1).to_s %>位</th>
+		<% end %>
+	</tr>
+	<% result_players.each do |result_player| %>
+
+		<% unless result_player.nil? %>
+			<tr>
+				<td><%= result_player.player_name %></td>
+				<td><%= result_player.ranks.sum %></td>
+				<% result_player.ranks.each do |count| %>
+					<td><%= count %></td>
+				<% end %>
+			</tr>
+		<% end %>
+	<% end %>
+
+</table>
+
+<br>

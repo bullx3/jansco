@@ -3,11 +3,19 @@
 <h1>プレイヤー個人成績</h1>
 
 <h2>
-	<%= link_to '個別成績', action: :scored %>
+	<%= link_to '対戦成績(New)', action: :vs_scored %>
+</h2>
+
+
+↓↓↓以下の内容は廃止予定です。基本的に上記の<b>'対戦成績(New)'</b>を使ってください<br>
+(個別成績の内容も上記に含まれます)
+
+<h2>
+	<%= link_to '個別成績（旧）', action: :scored %>
 </h2>
 
 <h2>
-	<%= link_to '対戦成績', action: :scoredvs %>
+	<%= link_to '対戦成績（旧）', action: :scoredvs %>
 </h2>
 
 
