@@ -93,15 +93,4 @@ ActiveRecord::Schema.define(version: 2019_12_26_142048) do
     t.integer "permission", default: 0
   end
 
-  create_table "yakumanreports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "player_id"
-    t.integer "section_id"
-    t.integer "group_id"
-    t.integer "yakuman_kind"
-    t.binary "photo"
-    t.string "comment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
 end
