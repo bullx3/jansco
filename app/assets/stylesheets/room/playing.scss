@@ -27,6 +27,15 @@
 	border-radius: 10px;
 }
 
+.kind_button_chip {
+	@extend .kind_button;
+	background: #2e8b57	;/*ボタン色*/
+}
+
+.kind_text_chip {
+	font-weight: bold;
+	color: #006400;
+}
 
 .tableTitle th{
 	width: 15%;

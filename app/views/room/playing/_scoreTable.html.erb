@@ -18,10 +18,19 @@
 					<%= form_tag({action: :edit},method: :post) do %>
 						<%= hidden_field_tag 'mode', 'update' %>
 						<%= hidden_field_tag 'gameNo', gameNo %>
-						<%= button_tag @scoreKindString[gameHash[:scorekind].to_s], {class: 'kind_button'} %>
+						<% if gameHash[:scorekind] == Game::Scorekind::CHIP %>
+							<%= button_tag @scoreKindString[gameHash[:scorekind].to_s], {class: 'kind_button_chip'} %>
+						<% else %>
+							<%= button_tag @scoreKindString[gameHash[:scorekind].to_s], {class: 'kind_button'} %>
+						<% end %>
+
 					<% end %>
 				<% else %>
-					<%= @scoreKindString[gameHash[:scorekind].to_s] %>
+					<% if gameHash[:scorekind] == Game::Scorekind::CHIP %>
+						<span class='kind_text_chip'><%=  @scoreKindString[gameHash[:scorekind].to_s] %></span>
+					<% else %>
+						<%= @scoreKindString[gameHash[:scorekind].to_s] %>
+					<% end %>
 				<% end %>
 			</td>
 
