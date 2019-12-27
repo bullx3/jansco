@@ -225,6 +225,11 @@ class Room::PlayingController < RoomController
 
       game_id = game.id  # Gameテーブルに追加した後しかidを取得できない
 
+      # gameが追加された可能性があるのでsectionsのカウントを更新
+      games_only_count = Game.where(section_id: section_id, scorekind: Game::Scorekind::GAME).count
+      logger.debug(games_only_count)
+      Section.find(section_id).update(games_only_count: games_only_count)
+
       # scoreテーブルの書き込み
       params[:input].each {|p_id, s|
         if(s != "")
@@ -277,6 +282,12 @@ class Room::PlayingController < RoomController
         updateGame.update(updateParams)
       end
 
+      # gameが変更(チップ<->ゲーム間で)された可能性があるのでsectionsのカウントを更新
+      games_only_count = Game.where(section_id: section_id, scorekind: Game::Scorekind::GAME).count
+      logger.debug(games_only_count)
+      Section.find(section_id).update(games_only_count: games_only_count)
+
+
       #現在scoreテーブルの内容は削除して新たに追加
       Score.where('game_id = ?', updateGame.id.to_s).delete_all
 
@@ -323,6 +334,11 @@ class Room::PlayingController < RoomController
       # ここでは関連づけたScoreテーブルの要素を削除する為にdestroy_allを使用する。
       # アソシエーションの関連づけに"dependent: :destroy"追加済み
       Game.where('section_id = ? AND game_no = ?',section_id, deleteGameNo).destroy_all
+
+      # gameが削除された可能性があるのでsectionsのカウントを更新
+      games_only_count = Game.where(section_id: section_id, scorekind: Game::Scorekind::GAME).count
+      logger.debug(games_only_count)
+      Section.find(section_id).update(games_only_count: games_only_count)
 
       # この処理はscore書き込み後でないとだめ
       stm = ScoreTableManager.new(section_id)

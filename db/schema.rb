@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_24_121643) do
+ActiveRecord::Schema.define(version: 2019_12_26_142048) do
 
   create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.text "comment"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 2018_09_24_121643) do
     t.datetime "updated_at", null: false
     t.datetime "finished_at"
     t.integer "gamekind"
+    t.integer "games_only_count", default: 0
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -90,6 +91,17 @@ ActiveRecord::Schema.define(version: 2018_09_24_121643) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "permission", default: 0
+  end
+
+  create_table "yakumanreports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "player_id"
+    t.integer "section_id"
+    t.integer "group_id"
+    t.integer "yakuman_kind"
+    t.binary "photo"
+    t.string "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

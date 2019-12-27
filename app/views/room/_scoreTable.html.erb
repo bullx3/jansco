@@ -24,7 +24,7 @@
 			</td>
 			<td rowspan="2"><%= Section::GameKindString[section.gamekind] -%></td>
 			<td rowspan="2"><%= section.rate -%></td>
-			<td rowspan="2"><%= section.games_count -%></td>
+			<td rowspan="2"><%= section.games_only_count -%></td>
 			<% section.section_players.each do |s_player| %>
 				<td><%= link_to_vsscored(s_player.player.name, s_player.player.id) -%></td>
 			<% end %>

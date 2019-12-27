@@ -105,4 +105,38 @@ namespace :myupdate do
 
 	end
 
+	desc "migration add finished_at "
+	task :calcgamecount => :environment do
+		sections = Section.all
+		puts "before"
+		sections.each {|section|
+			puts "id:#{section.id} games_count:#{section.games_count} games_only_count:#{section.games_only_count} "
+		}
+
+		sections = Section.all
+		sections.each {|section|
+			games_only_count = 
+			games_chip_count = Game.where(section_id: section.id, scorekind: Game::Scorekind::CHIP).count
+			puts "s_id:#{section.id} count:#{section.games_count} , g_count:#{games_only_count} , c_count:#{games_chip_count}"
+			if section.games_count != games_only_count + games_chip_count
+				puts "Error id:#{section.id}"
+			end
+			Section.where(id: section.id).update({games_only_count: games_only_count})
+		}
+
+
+
+		sections = Section.all
+		puts "after"
+		sections.each {|section|
+			games_only_count = Game.where(section_id: section.id, scorekind: Game::Scorekind::GAME).count
+			puts "s_id:#{section.id} count:#{section.games_count} , g_count:#{section.games_only_count}"
+			if section.games_only_count != games_only_count
+				puts "verify check error section_id:#{section.id}"
+			end
+		}
+
+	end
+
+
 end
