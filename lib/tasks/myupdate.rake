@@ -115,7 +115,7 @@ namespace :myupdate do
 
 		sections = Section.all
 		sections.each {|section|
-			games_only_count = 
+			games_only_count = Game.where(section_id: section.id, scorekind: Game::Scorekind::GAME).count
 			games_chip_count = Game.where(section_id: section.id, scorekind: Game::Scorekind::CHIP).count
 			puts "s_id:#{section.id} count:#{section.games_count} , g_count:#{games_only_count} , c_count:#{games_chip_count}"
 			if section.games_count != games_only_count + games_chip_count
